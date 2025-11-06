@@ -11,8 +11,8 @@ import { addressSchema } from "../ZodSchema";
 type TAddressInfo = z.infer<typeof addressSchema>;
 
 type Props = {
-  onNext: (data: TAddressInfo) => void; // Next function
-  onPrev: () => void; // Prev function
+  onNext: (data: TAddressInfo) => void;
+  onPrev: () => void;
 };
 
 const ApplicantAddressForm = ({ onNext, onPrev }: Props) => {
@@ -39,13 +39,13 @@ const ApplicantAddressForm = ({ onNext, onPrev }: Props) => {
 
   const onSubmit: SubmitHandler<TAddressInfo> = (data) => {
     console.log("✅ Submitted Address Info:", data);
-    onNext(data); // সাবমিট করার পর পরবর্তী ধাপে যাবে
+    onNext(data);
   };
 
   return (
-    <div className="card p-6 lg:w-3/4 mx-auto shadow-md rounded-xl bg-white">
-      <h2 className="text-center text-xl sm:text-2xl font-serif text-[#01327a] mb-6">
-        <b>আবেদনকারীর ঠিকানা / Applicant&#39;s Addresses</b>
+    <div className="max-w-4xl mx-auto p-6">
+      <h2 className="text-center text-2xl font-semibold text-[#01327a] mb-6">
+        আবেদনকারীর ঠিকানা / Applicant&#39;s Addresses
       </h2>
 
       <FormProvider {...methods}>
@@ -56,41 +56,42 @@ const ApplicantAddressForm = ({ onNext, onPrev }: Props) => {
             placeholder="Enter Village / House number / Road number"
             control={control}
           />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Cinput
+              name="PostOffice"
+              label="পোস্ট অফিস / Post office*"
+              placeholder="Enter Post office"
+              control={control}
+            />
 
-          <Cinput
-            name="PostOffice"
-            label="পোস্ট অফিস / Post office*"
-            placeholder="Enter Post office"
-            control={control}
-          />
+            <Cinput
+              name="PostCode"
+              label="পোস্ট কোড / Post code*"
+              placeholder="Enter Post code"
+              control={control}
+            />
 
-          <Cinput
-            name="PostCode"
-            label="পোস্ট কোড / Post code*"
-            placeholder="Enter Post code"
-            control={control}
-          />
+            <Cinput
+              name="Thana"
+              label="থানা / Thana*"
+              placeholder="Enter Thana"
+              control={control}
+            />
 
-          <Cinput
-            name="Thana"
-            label="থানা / Thana*"
-            placeholder="Enter Thana"
-            control={control}
-          />
+            <Cinput
+              name="District"
+              label="জেলা / District*"
+              placeholder="Enter District"
+              control={control}
+            />
 
-          <Cinput
-            name="District"
-            label="জেলা / District*"
-            placeholder="Enter District"
-            control={control}
-          />
-
-          <Cinput
-            name="Country"
-            label="দেশ / Country*"
-            placeholder="Enter Country"
-            control={control}
-          />
+            <Cinput
+              name="Country"
+              label="দেশ / Country*"
+              placeholder="Enter Country"
+              control={control}
+            />
+          </div>
 
           <Cinput
             name="NID"
@@ -106,18 +107,17 @@ const ApplicantAddressForm = ({ onNext, onPrev }: Props) => {
             control={control}
           />
 
-          {/* Prev & Next বাটন */}
           <div className="flex justify-between pt-6">
             <Button
               type="button"
-              onClick={onPrev} // Previous step
+              onClick={onPrev}
               className="px-6 py-2 rounded-xl bg-gray-400 hover:bg-gray-500 text-white shadow-sm"
             >
               Prev
             </Button>
 
             <Button
-              type="submit" // Next step on submit
+              type="submit"
               className="px-6 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white shadow-sm"
             >
               Save & Next

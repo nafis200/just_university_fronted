@@ -40,7 +40,7 @@ export const OthersInfoForm = ({ onNext, onPrev }: Props) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <FormProvider {...methods}>
         <div className="w-full max-w-3xl">
           <div className="card text-[#01327a] font-serif mb-4 text-center p-2">

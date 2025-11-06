@@ -49,7 +49,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
   };
 
   return (
-    <div className="card p-6 lg:w-3/4 mx-auto shadow-md rounded-xl bg-white">
+    <div className="card p-6 lg:w-3/4 mx-auto rounded-xl">
       <h2 className="text-center text-xl sm:text-2xl font-serif text-[#01327a] mb-6">
         <b>শিক্ষাগত তথ্য / Educational Information</b>
       </h2>

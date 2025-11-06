@@ -9,7 +9,7 @@ type Props = {
 
 export const PdfButton = ({ onPrev }: Props) => {
   return (
-    <div className="flex justify-center gap-4 mt-6">
+    <div className="min-h-screen flex justify-center gap-4 mt-6">
       <Button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm">
         Download PDF
       </Button>
