@@ -1,11 +1,10 @@
-import ComplexForm from "./_components/ComplexForm";
-import SimpleForm from "./_components/SimpleForm";
+import React from 'react';
+import SidebarForm from './_components/ProfileSidebars/SidebarForm';
 
 const Profile = () => {
   return (
     <div>
-      <SimpleForm />
-      <ComplexForm/>
+       <SidebarForm/>
     </div>
   );
 };
