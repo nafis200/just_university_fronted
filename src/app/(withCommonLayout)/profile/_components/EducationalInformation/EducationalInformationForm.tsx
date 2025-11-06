@@ -22,18 +22,18 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
     resolver: zodResolver(educationalSchema),
     mode: "all",
     defaultValues: {
-      SSCBoard: "",
-      SSCInstitution: "",
-      SSCYear: "",
-      SSCRoll: "",
-      SSCGpa: "",
-      SSCSubject: "",
-      HSCBoard: "",
-      HSCInstitution: "",
-      HSCYear: "",
-      HSCRoll: "",
-      HSCGpa: "",
-      HSCSubject: "",
+      SSCBoard: "Dhaka",
+      SSCInstitution: "ABC High School",
+      SSCYear: "2018",
+      SSCRoll: "123456",
+      SSCGpa: "5.00",
+      SSCSubject: "Science",
+      HSCBoard: "Dhaka",
+      HSCInstitution: "XYZ College",
+      HSCYear: "2020",
+      HSCRoll: "654321",
+      HSCGpa: "4.80",
+      HSCSubject: "Science",
     },
   });
 
@@ -146,14 +146,14 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
           <div className="flex justify-between pt-6">
             <Button
               type="button"
-              onClick={onPrev} 
+              onClick={onPrev}
               className="px-6 py-2 rounded-xl bg-gray-400 hover:bg-gray-500 text-white shadow-sm"
             >
               Prev
             </Button>
 
             <Button
-              type="submit" 
+              type="submit"
               className="px-6 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white shadow-sm"
             >
               Save & Next

@@ -22,13 +22,13 @@ export const OthersInfoForm = ({ onNext, onPrev }: Props) => {
   const methods = useForm<OthersInfoFormValues>({
     resolver: zodResolver(othersInfoSchema),
     defaultValues: {
-      Department: "",
-      Pogram: "",
-      HallName: "",
-      StudyBreakCause: "",
-      AlreadyAdmittedInstitutio: "",
-      ApplicantEmployment: "",
-      Scholarships: "",
+      Department: "Computer Science and Engineering",
+      Pogram: "BSc in CSE",
+      HallName: "Shahid Minar Hall",
+      StudyBreakCause: "Health Issues",
+      AlreadyAdmittedInstitutio: "None",
+      ApplicantEmployment: "Part-time Tutor",
+      Scholarships: "Merit-based Scholarship",
     },
   });
 
@@ -36,7 +36,7 @@ export const OthersInfoForm = ({ onNext, onPrev }: Props) => {
 
   const onSubmit: SubmitHandler<OthersInfoFormValues> = (data) => {
     console.log("Form Data:", data);
-    onNext(data); // Next step
+    onNext(data); 
   };
 
   return (

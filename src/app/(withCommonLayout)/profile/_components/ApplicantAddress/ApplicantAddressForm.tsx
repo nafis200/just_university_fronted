@@ -12,7 +12,7 @@ type TAddressInfo = z.infer<typeof addressSchema>;
 
 type Props = {
   onNext: (data: TAddressInfo) => void; // Next function
-  onPrev: () => void;                   // Prev function
+  onPrev: () => void; // Prev function
 };
 
 const ApplicantAddressForm = ({ onNext, onPrev }: Props) => {
@@ -20,14 +20,14 @@ const ApplicantAddressForm = ({ onNext, onPrev }: Props) => {
     resolver: zodResolver(addressSchema),
     mode: "all",
     defaultValues: {
-      Village: "",
-      PostOffice: "",
-      PostCode: "",
-      Thana: "",
-      District: "",
+      Village: "Mohammadpur",
+      PostOffice: "Mohammadpur PO",
+      PostCode: "1207",
+      Thana: "Mohammadpur",
+      District: "Dhaka",
       Country: "Bangladesh",
-      NID: "",
-      PresentAddress: "",
+      NID: "19901234567890",
+      PresentAddress: "House #123, Road #45, Mohammadpur, Dhaka",
     },
   });
 
