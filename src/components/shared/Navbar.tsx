@@ -21,7 +21,7 @@ export default function Navbar() {
     //  router.push("/")
   };
 
-  const user = true;
+  const user = "admin";
 
   return (
     <header className="bg-black text-white w-full sticky top-0 z-10 p-3 shadow-md">
@@ -58,7 +58,7 @@ export default function Navbar() {
 
           {user && (
             <>
-              <Link href="/dashboard">
+              <Link href={`/${user}/dashboard`}>
                 <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
                   <Grid size={16} /> Dashboard
                 </Button>
