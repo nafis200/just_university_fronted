@@ -50,7 +50,7 @@ export const Sidebars = ({ currentStep, completedSteps }: any) => {
         className={`
           fixed inset-y-0 left-0 z-40
           w-80 bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 
-          p-8 flex flex-col
+          p-8 flex flex-col mt-16
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full xl:translate-x-0"}
           shadow-2xl xl:shadow-none

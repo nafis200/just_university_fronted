@@ -44,15 +44,11 @@ export default function Navbar() {
             </Button>
           </Link>
 
-          <Link href="/about">
-            <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
-              <Info size={16} /> About
-            </Button>
-          </Link>
+      
 
-          <Link href="/contact">
+          <Link href="/contract">
             <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
-              <Phone size={16} /> Contact
+              <Phone size={16} /> Contract
             </Button>
           </Link>
 

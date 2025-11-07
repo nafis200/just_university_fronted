@@ -19,7 +19,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <AppSidebar />
       <SidebarInset>
         <Navbar1 />
-        <main className="p-4 pt-0 min-h-screen bg-gray-100 dark:bg-gray-900">
+        <main className="p-4 pt-0 min-h-screen dark:bg-gray-900">
           {children}
         </main>
       </SidebarInset>

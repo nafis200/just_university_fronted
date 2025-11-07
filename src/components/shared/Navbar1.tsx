@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SidebarTrigger } from "../ui/sidebar";
 import { Button } from "../ui/button";
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
 
 export default function Navbar1() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,15 +33,10 @@ export default function Navbar1() {
           <Link href="/" className="hover:text-gray-400">
             Home
           </Link>
-          <Link href="/about" className="hover:text-gray-400">
-            About
-          </Link>
-          <Link href="/mealcard" className="hover:text-gray-400">
-            All Products
-          </Link>
-          <Link href="/contact" className="hover:text-gray-400">
+          <Link href="/contract" className="hover:text-gray-400">
             Contact
           </Link>
+         
         </div>
       </div>
 
@@ -50,13 +45,7 @@ export default function Navbar1() {
           <Link href="/" className="hover:text-gray-400" onClick={toggleMenu}>
             Home
           </Link>
-          <Link href="/about" className="hover:text-gray-400" onClick={toggleMenu}>
-            About
-          </Link>
-          <Link href="/mealcard" className="hover:text-gray-400" onClick={toggleMenu}>
-            All Products
-          </Link>
-          <Link href="/contact" className="hover:text-gray-400" onClick={toggleMenu}>
+          <Link href="/contract" className="hover:text-gray-400" onClick={toggleMenu}>
             Contact
           </Link>
         </nav>
