@@ -28,8 +28,8 @@ export default function Navbar() {
       <div className="container mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="https://i.postimg.cc/0y77JqPJ/Pngtree-a-chef-holding-hamburger-and-20111871.png"
-            alt="Food Logo"
+            src="https://i.postimg.cc/Y9cT4b11/JUSTLogo.png"
+            alt="Just Logo"
             width={45}
             height={45}
             className="object-contain"
