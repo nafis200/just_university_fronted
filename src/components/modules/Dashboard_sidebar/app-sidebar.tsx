@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Home, Coffee, ClipboardList, Tag } from "lucide-react";
+import { Home, Coffee, ClipboardList, Upload, User } from "lucide-react";
 
 import {
   Sidebar,
@@ -15,47 +15,35 @@ import {
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
-
-
 const data = {
   navMain: [
     {
       title: "Dashboard Home",
       url: "#",
       icon: Home,
-      items: [
-        { title: "Home page", url: "/admin/dashboard" },
-        { title: "ProfilePage", url: "/admin/dashboard/home" },
-      ],
+      items: [{ title: "Admin Dashboard", url: "/admin/dashboard" }],
       isActive: true,
     },
     {
-      title: "Meal Options",
+      title: "Upload pdf",
       url: "#",
-      icon: Coffee,
+      icon: Upload,
       isActive: true,
-      items: [
-        { title: "Make Meal", url: "/admin/dashboard/createmeal" },
-        { title: "Update Meal", url: "/admin/dashboard/updatemeal" },
-      ],
+      items: [{ title: "Upload file", url: "/admin/dashboard/Pdfupload" }],
     },
     {
-      title: "Order Options",
+      title: "Credentails",
       url: "#",
       icon: ClipboardList,
       items: [
-        { title: "View Order", url: "/admin/dashboard/vieworder" },
-        { title: "Payment Order", url: "/admin/dashboard/paymentorder" },
+        { title: "Create Credentials", url: "/admin/dashboard/credential" },
       ],
     },
     {
-      title: "Cupon Options",
+      title: "User managament",
       url: "#",
-      icon: Tag,
-      items: [
-        { title: "Create Cupon", url: "/admin/dashboard/cupon/create" },
-        { title: "Delete Cupon", url: "/admin/dashboard/cupon/viewcoupon" },
-      ],
+      icon: User,
+      items: [{ title: "Manage All user", url: "/admin/dashboard/handleUser" }],
     },
   ],
   navMainuser: [
@@ -84,7 +72,10 @@ const data = {
       url: "#",
       icon: ClipboardList,
       items: [
-        { title: "Payment Order Details", url: "/user/dashboard/preferpaymentorder" },
+        {
+          title: "Payment Order Details",
+          url: "/user/dashboard/preferpaymentorder",
+        },
         { title: "View Order Details", url: "/user/dashboard/prefervieworder" },
       ],
     },
@@ -92,7 +83,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const user = "student"; 
+  const user = "admin";
 
   const navMap: Record<string, typeof data.navMain> = {
     admin: data.navMain,

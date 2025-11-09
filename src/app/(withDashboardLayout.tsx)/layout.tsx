@@ -6,7 +6,7 @@ import Navbar1 from "@/components/shared/Navbar1";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/modules/Dashboard_sidebar/app-sidebar";
 export const metadata: Metadata = {
-  title: "Taste_box_Dashboard",
+  title: "Just Dashboard",
   description: "Meal Shop restaurant",
   icons: {
     icon: "/faviconz.ico",
