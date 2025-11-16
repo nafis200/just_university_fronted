@@ -6,11 +6,11 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import TablePagination from "@/components/Resuable_Table/core/NMTable/TablePagination";
 import { useForm } from "react-hook-form";
-import * as XLSX from "xlsx";
 import { Cselect } from "@/components/reusable_form/form/Cselect";
 
-import { FiSearch, FiFileText } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import { NMTable } from "@/components/Resuable_Table/core/NMTable";
+import ReusableExcel from "@/components/ResuableExcel/ResubaleExcel";
 
 const departmentOptions = [
   { value: "all", label: "All Departments" },
@@ -34,14 +34,6 @@ const AllApplications = ({ applications }: any) => {
     return deptMatch && searchMatch;
   });
 
-  const handleExportExcel = () => {
-    if (!filteredData.length) return;
-
-    const ws = XLSX.utils.json_to_sheet(filteredData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Applications");
-    XLSX.writeFile(wb, "Applications.xlsx");
-  };
 
   const columns: ColumnDef<any>[] = [
     { accessorKey: "gstApplicationId", header: "GST Application ID" },
@@ -73,13 +65,8 @@ const AllApplications = ({ applications }: any) => {
           />
         </div>
 
-        <button
-          onClick={handleExportExcel}
-          className="flex items-center justify-center gap-2 bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 w-full xl:w-auto transition"
-        >
-          <FiFileText size={18} />
-          Export Excel
-        </button>
+        <ReusableExcel data={filteredData} fileName="FilteredApplications.xlsx" />
+
       </div>
 
       <NMTable data={filteredData} columns={columns} />
