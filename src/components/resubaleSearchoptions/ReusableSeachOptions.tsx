@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useForm, Control } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { Cselect } from "@/components/reusable_form/form/Cselect";
 import ReusableExcel from "../ResuableExcel/ResubaleExcel";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface FormValues {
   subject?: string;
@@ -15,7 +17,7 @@ interface FormValues {
 interface Props {
   applications: any[];
   units: string;
-  fileName:string;
+  fileName: string;
   onFilterChange?: (filteredData: any[]) => void;
 }
 
@@ -23,11 +25,14 @@ const ReusableSearchOptions: React.FC<Props> = ({
   applications,
   units,
   onFilterChange,
-  fileName
+  fileName,
 }) => {
   const { control, watch } = useForm<FormValues>({
     defaultValues: { subject: "all", unit: "all" },
   });
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [search, setSearch] = useState<string>("");
 
@@ -96,6 +101,16 @@ const ReusableSearchOptions: React.FC<Props> = ({
     if (onFilterChange) onFilterChange(filteredData);
   }, [filteredData, onFilterChange]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (search) {
+      params.set("searchTerm", search);
+    } else {
+      params.delete("searchTerm");
+    }
+    router.push(`${window.location.pathname}?${params.toString()}`);
+  }, [search]);
+
   return (
     <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-between mb-6">
       {currentUnits === "all" && (
@@ -134,7 +149,7 @@ const ReusableSearchOptions: React.FC<Props> = ({
       </div>
 
       <div>
-        <ReusableExcel data={filteredData} fileName={fileName}/>
+        <ReusableExcel data={filteredData} fileName={fileName} />
       </div>
     </div>
   );
