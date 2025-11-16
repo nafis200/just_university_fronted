@@ -34,7 +34,6 @@ const AllApplications = ({ applications }: any) => {
     return deptMatch && searchMatch;
   });
 
-
   const columns: ColumnDef<any>[] = [
     { accessorKey: "gstApplicationId", header: "GST Application ID" },
     { accessorKey: "subject", header: "Subject" },
@@ -44,7 +43,8 @@ const AllApplications = ({ applications }: any) => {
 
   return (
     <div className="mt-5">
-      <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-between mb-5">
+      <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-between mb-6">
+        {/* Department Filter */}
         <div className="w-full xl:w-60">
           <Cselect
             name="department"
@@ -55,18 +55,25 @@ const AllApplications = ({ applications }: any) => {
         </div>
 
         <div className="relative w-full xl:w-80">
-          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
           <input
             type="text"
             placeholder="Search GST Application..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border pl-10 pr-3 py-2 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                 transition-all duration-200 placeholder:text-gray-400"
           />
         </div>
 
-        <ReusableExcel data={filteredData} fileName="FilteredApplications.xlsx" />
-
+        {/* Export Button */}
+        <div className="xl:shrink-0">
+          <ReusableExcel
+            data={filteredData}
+            fileName="FilteredApplications.xlsx"
+          />
+        </div>
       </div>
 
       <NMTable data={filteredData} columns={columns} />
