@@ -20,6 +20,9 @@ const departmentOptions = [
 ];
 
 const AllApplications = ({ applications }: any) => {
+
+  const units = "A";
+
   const { control, watch } = useForm({
     defaultValues: { department: "all" },
   });
