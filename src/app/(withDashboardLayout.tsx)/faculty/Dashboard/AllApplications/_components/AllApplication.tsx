@@ -27,27 +27,31 @@ interface Props {
 }
 
 const AllApplications: React.FC<Props> = ({ applications }) => {
-  const units = "B";
-  const { control, watch } = useForm<FormValues>({ defaultValues: {} });
+  const units = "A";
+  const { control, watch } = useForm<FormValues>({ defaultValues: { subject: "all" } });
   const selectedSubject = watch("subject");
   const [search, setSearch] = useState<string>("");
 
   const subjectOptions: any[] = useMemo(() => {
     const filtered = applications.filter((app) => app.unit === units);
     const uniqueSubjects = Array.from(new Set(filtered.map((app) => app.subject)));
-    return uniqueSubjects.map((subj) => ({
-      value: subj.toLowerCase().replace(/\s+/g, "_"),
-      label: subj,
-    }));
+    return [
+      { value: "all", label: "All" },
+      ...uniqueSubjects.map((subj) => ({
+        value: subj.toLowerCase().replace(/\s+/g, "_"),
+        label: subj,
+      })),
+    ];
   }, [applications, units]);
 
   const filteredData: Applicant[] = useMemo(() => {
     return applications.filter((item) => {
       const unitMatch = item.unit === units;
       const searchMatch = item.gstApplicationId.toLowerCase().includes(search.toLowerCase());
-      const subjectMatch = selectedSubject
-        ? item.subject.toLowerCase().replace(/\s+/g, "_") === selectedSubject
-        : true;
+      const subjectMatch =
+        !selectedSubject || selectedSubject === "all"
+          ? true
+          : item.subject.toLowerCase().replace(/\s+/g, "_") === selectedSubject;
       return unitMatch && searchMatch && subjectMatch;
     });
   }, [applications, units, search, selectedSubject]);
