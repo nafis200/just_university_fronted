@@ -25,7 +25,7 @@ interface FormValues {
 
 interface Props {
   applications: Applicant[];
-  units?: string; // optional
+  units?: string;
 }
 
 const AllApplications: React.FC<Props> = ({ applications }) => {
@@ -35,13 +35,11 @@ const AllApplications: React.FC<Props> = ({ applications }) => {
 
   const [search, setSearch] = useState<string>("");
 
-  // default units value
   const currentUnits = "all";
 
   const selectedUnit = watch("unit");
   const selectedSubject = watch("subject");
 
-  // Unit dropdown options (All + unique units)
   const unitOptions = useMemo(() => {
     return [
       { value: "all", label: "All" },
@@ -52,10 +50,11 @@ const AllApplications: React.FC<Props> = ({ applications }) => {
     ];
   }, [applications]);
 
-  // Subject dropdown options (only when units != "all")
   const subjectOptions = useMemo(() => {
     if (currentUnits === "all") return [];
-    const filtered = applications.filter((app) => app.unit.toLowerCase() === currentUnits);
+    const filtered = applications.filter(
+      (app) => app.unit.toLowerCase() === currentUnits
+    );
     const uniqueSubjects = Array.from(new Set(filtered.map((app) => app.subject)));
     return [
       { value: "all", label: "All" },
@@ -66,7 +65,6 @@ const AllApplications: React.FC<Props> = ({ applications }) => {
     ];
   }, [applications, currentUnits]);
 
-  // Filter data
   const filteredData: Applicant[] = useMemo(() => {
     return applications.filter((item) => {
       const unitMatch =
@@ -83,7 +81,9 @@ const AllApplications: React.FC<Props> = ({ applications }) => {
           ? true
           : item.subject.toLowerCase().replace(/\s+/g, "_") === selectedSubject;
 
-      const searchMatch = item.gstApplicationId.toLowerCase().includes(search.toLowerCase());
+      const searchMatch = item.gstApplicationId
+        .toLowerCase()
+        .includes(search.toLowerCase());
 
       return unitMatch && subjectMatch && searchMatch;
     });
