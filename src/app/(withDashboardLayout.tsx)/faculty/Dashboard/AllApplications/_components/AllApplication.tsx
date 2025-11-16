@@ -1,15 +1,48 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { NMTable } from "@/components/Resuable_Table/core/NMTable";
+
 import TablePagination from "@/components/Resuable_Table/core/NMTable/TablePagination";
+import { useForm } from "react-hook-form";
+import * as XLSX from "xlsx";
+import { Cselect } from "@/components/reusable_form/form/Cselect";
 
+import { FiSearch, FiFileText } from "react-icons/fi";
+import { NMTable } from "@/components/Resuable_Table/core/NMTable";
 
+const departmentOptions = [
+  { value: "all", label: "All Departments" },
+  { value: "A", label: "Unit A" },
+  { value: "B", label: "Unit B" },
+  { value: "C", label: "Unit C" },
+];
 
+const AllApplications = ({ applications }: any) => {
+  const { control, watch } = useForm({
+    defaultValues: { department: "all" },
+  });
+  const department = watch("department");
+  const [search, setSearch] = useState("");
 
-const AllApplications = ({ applications }: { applications:any }) => {
+  const filteredData = applications.filter((item: any) => {
+    const deptMatch = department === "all" ? true : item.unit === department;
+    const searchMatch = item.gstApplicationId
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    return deptMatch && searchMatch;
+  });
+
+  const handleExportExcel = () => {
+    if (!filteredData.length) return;
+
+    const ws = XLSX.utils.json_to_sheet(filteredData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Applications");
+    XLSX.writeFile(wb, "Applications.xlsx");
+  };
+
   const columns: ColumnDef<any>[] = [
     { accessorKey: "gstApplicationId", header: "GST Application ID" },
     { accessorKey: "subject", header: "Subject" },
@@ -19,7 +52,37 @@ const AllApplications = ({ applications }: { applications:any }) => {
 
   return (
     <div className="mt-5">
-      <NMTable data={applications} columns={columns} />
+      <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-between mb-5">
+        <div className="w-full xl:w-60">
+          <Cselect
+            name="department"
+            control={control}
+            placeholder="Select Department"
+            options={departmentOptions}
+          />
+        </div>
+
+        <div className="relative w-full xl:w-80">
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search GST Application..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border pl-10 pr-3 py-2 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          />
+        </div>
+
+        <button
+          onClick={handleExportExcel}
+          className="flex items-center justify-center gap-2 bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 w-full xl:w-auto transition"
+        >
+          <FiFileText size={18} />
+          Export Excel
+        </button>
+      </div>
+
+      <NMTable data={filteredData} columns={columns} />
       <TablePagination totalPage={2} />
     </div>
   );
