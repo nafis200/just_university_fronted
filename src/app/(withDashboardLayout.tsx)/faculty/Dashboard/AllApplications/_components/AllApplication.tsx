@@ -20,20 +20,42 @@ interface Applicant {
 
 interface FormValues {
   subject?: string;
+  unit?: string;
 }
 
 interface Props {
   applications: Applicant[];
+  units?: string; // optional
 }
 
 const AllApplications: React.FC<Props> = ({ applications }) => {
-  const units = "A";
-  const { control, watch } = useForm<FormValues>({ defaultValues: { subject: "all" } });
-  const selectedSubject = watch("subject");
+  const { control, watch } = useForm<FormValues>({
+    defaultValues: { subject: "all", unit: "all" },
+  });
+
   const [search, setSearch] = useState<string>("");
 
-  const subjectOptions: any[] = useMemo(() => {
-    const filtered = applications.filter((app) => app.unit === units);
+  // default units value
+  const currentUnits = "all";
+
+  const selectedUnit = watch("unit");
+  const selectedSubject = watch("subject");
+
+  // Unit dropdown options (All + unique units)
+  const unitOptions = useMemo(() => {
+    return [
+      { value: "all", label: "All" },
+      ...Array.from(new Set(applications.map((app) => app.unit))).map((u) => ({
+        value: u,
+        label: u,
+      })),
+    ];
+  }, [applications]);
+
+  // Subject dropdown options (only when units != "all")
+  const subjectOptions = useMemo(() => {
+    if (currentUnits === "all") return [];
+    const filtered = applications.filter((app) => app.unit.toLowerCase() === currentUnits);
     const uniqueSubjects = Array.from(new Set(filtered.map((app) => app.subject)));
     return [
       { value: "all", label: "All" },
@@ -42,19 +64,30 @@ const AllApplications: React.FC<Props> = ({ applications }) => {
         label: subj,
       })),
     ];
-  }, [applications, units]);
+  }, [applications, currentUnits]);
 
+  // Filter data
   const filteredData: Applicant[] = useMemo(() => {
     return applications.filter((item) => {
-      const unitMatch = item.unit === units;
-      const searchMatch = item.gstApplicationId.toLowerCase().includes(search.toLowerCase());
+      const unitMatch =
+        currentUnits === "all"
+          ? selectedUnit === "all" || !selectedUnit
+            ? true
+            : item.unit === selectedUnit
+          : item.unit.toLowerCase() === currentUnits;
+
       const subjectMatch =
-        !selectedSubject || selectedSubject === "all"
+        currentUnits === "all"
+          ? true
+          : selectedSubject === "all" || !selectedSubject
           ? true
           : item.subject.toLowerCase().replace(/\s+/g, "_") === selectedSubject;
-      return unitMatch && searchMatch && subjectMatch;
+
+      const searchMatch = item.gstApplicationId.toLowerCase().includes(search.toLowerCase());
+
+      return unitMatch && subjectMatch && searchMatch;
     });
-  }, [applications, units, search, selectedSubject]);
+  }, [applications, currentUnits, selectedUnit, selectedSubject, search]);
 
   const columns: ColumnDef<Applicant>[] = [
     { accessorKey: "gstApplicationId", header: "GST Application ID" },
@@ -66,14 +99,25 @@ const AllApplications: React.FC<Props> = ({ applications }) => {
   return (
     <div className="mt-5">
       <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-between mb-6">
-        <div className="w-full xl:w-60">
-          <Cselect
-            name="subject"
-            control={control as unknown as Control<FormValues>}
-            placeholder="Select Subject"
-            options={subjectOptions}
-          />
-        </div>
+        {currentUnits === "all" ? (
+          <div className="w-full xl:w-40">
+            <Cselect
+              name="unit"
+              control={control as unknown as Control<FormValues>}
+              placeholder="Select Unit"
+              options={unitOptions}
+            />
+          </div>
+        ) : (
+          <div className="w-full xl:w-60">
+            <Cselect
+              name="subject"
+              control={control as unknown as Control<FormValues>}
+              placeholder="Select Subject"
+              options={subjectOptions}
+            />
+          </div>
+        )}
 
         <div className="relative w-full xl:w-80">
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
