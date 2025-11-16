@@ -11,6 +11,7 @@ export const Sidebars = ({ currentStep, completedSteps }: any) => {
     "Educational Information",
     "Guardian Information",
     "Others InfoForm",
+    "Image uploader",
     "Pdf Download",
   ];
 

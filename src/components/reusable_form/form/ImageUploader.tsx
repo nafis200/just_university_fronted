@@ -23,14 +23,13 @@ const ImageField = ({ field, label }: { field: any; label: string }) => {
       const url = URL.createObjectURL(field.value);
       setPreview(url);
       return () => URL.revokeObjectURL(url);
-    } else if (typeof field.value === "string" && field.value) {
+    }
+    if (typeof field.value === "string" && field.value) {
       setPreview(field.value);
-    } else {
-      setPreview(null);
     }
   }, [field.value]);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -44,29 +43,19 @@ const ImageField = ({ field, label }: { field: any; label: string }) => {
       return;
     }
 
-    // try {
-    //   const updatedProfile = await profileAPI.uploadAvatar(file);
-    //   queryClient.invalidateQueries({ queryKey: ["security"] });
-    //   field.onChange(updatedProfile.avatar_url);
-    //   await refreshProfile();
-    //   showToast("Avatar uploaded successfully!", "success");
-    // } catch (error: any) {
-    //   showToast(
-    //     `Failed to upload avatar: ${
-    //       error instanceof Error ? error.message : "Unknown error"
-    //     }`,
-    //     "error"
-    //   );
-    // } finally {
-    //   setUploading(false);
-    // }
+    field.onChange(file);
+
+    setUploading(true);
+    setTimeout(() => {
+      setUploading(false);
+    }, 600);
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-4">
       <div
         className={cn(
-          "w-16 h-16 sm:w-20 sm:h-20 flex items-start justify-start text-white text-2xl font-bold overflow-hidden bg-gray-200"
+          "w-20 h-20 flex items-center justify-center rounded-full bg-gray-200 overflow-hidden border"
         )}
       >
         {preview ? (
@@ -77,47 +66,45 @@ const ImageField = ({ field, label }: { field: any; label: string }) => {
             height={80}
             className="object-cover w-full h-full"
           />
-        ) : null}
+        ) : (
+          <span className="text-xs text-gray-500">No Image</span>
+        )}
       </div>
 
-      <div>
-        <span className="relative top-1">
-          <input
-            type="file"
-            accept="image/png, image/jpeg, image/gif, image/jpg"
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            onChange={handleFileChange}
-            disabled={uploading}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            className="rounded-full px-4 py-1 text-sm"
-            disabled={uploading}
-          >
-            {uploading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Uploading...
-              </>
-            ) : (
-              label
-            )}
-          </Button>
-          <p className="text-xs text-gray-500 mt-1 text-center">
-            JPG, PNG, or GIF. Max 5MB.
-          </p>
-        </span>
+      <div className="relative">
+        <input
+          type="file"
+          accept="image/png, image/jpeg, image/gif, image/jpg"
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          onChange={handleFileChange}
+          disabled={uploading}
+        />
+
+        <Button
+          type="button"
+          variant="outline"
+          className="rounded-full px-4 py-1 text-sm"
+          disabled={uploading}
+        >
+          {uploading ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Uploading...
+            </>
+          ) : (
+            label
+          )}
+        </Button>
+
+        <p className="text-xs text-gray-500 mt-1 text-center">
+          JPG, PNG, GIF — Max 5MB
+        </p>
       </div>
     </div>
   );
 };
 
-const ImageUploader = ({
-  name,
-  control,
-  label = "Change avatar",
-}: ImageUploaderProps) => {
+const ImageUploader = ({ name, control, label = "Upload Image" }: ImageUploaderProps) => {
   return (
     <Controller
       name={name}

@@ -9,11 +9,12 @@ import EducationalInformationForm from "../EducationalInformation/EducationalInf
 import GuardianForm from "../GuardianInformation/GuardianForm";
 import { OthersInfoForm } from "../OthersInfoformation/OthersInfoForm";
 import { PdfButton } from "../pdfDownload/PdfButton";
+import StudentImage from "../StudentImage/StudentImage";
 
 const SidebarForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const [, setFormData] = useState<any>({});
+  const [FormData,setFormData] = useState<any>({});
 
   const handleNext = (data: any) => {
     setFormData((prev: any) => ({ ...prev, ...data }));
@@ -26,6 +27,11 @@ const SidebarForm = () => {
     const remainArray = completedSteps.filter((x) => x !== currentStep - 1);
     setCompletedSteps(remainArray);
   };
+
+  const submitData = ()=>{
+     console.log("Submit Data after form")
+     console.log(FormData)
+  }
 
   return (
     <div className="flex min-h-screen">
@@ -49,7 +55,10 @@ const SidebarForm = () => {
             <OthersInfoForm onNext={handleNext} onPrev={handlePrev} />
           )}
           {currentStep === 5 && (
-            <PdfButton onPrev={handlePrev} />
+            <StudentImage onNext={handleNext} onPrev={handlePrev} />
+          )}
+          {currentStep === 6 && (
+            <PdfButton onPrev={handlePrev} submitData={submitData}/>
           )}
         </div>
       </main>
