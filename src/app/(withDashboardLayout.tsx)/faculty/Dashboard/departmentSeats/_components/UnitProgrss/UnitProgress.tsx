@@ -5,9 +5,9 @@
 import React, { useMemo } from "react";
 import { useForm, Control } from "react-hook-form";
 import { Cselect } from "@/components/reusable_form/form/Cselect";
-import { Progress } from "@/components/ui/progress";
 import { UserCheck, UserMinus } from "lucide-react";
 import { totalSeat } from "../../../AllApplications/_components/TotalSeat";
+import { ProgressBar } from "./ProgressBar";
 
 interface FormValues {
   subject?: string;
@@ -92,7 +92,7 @@ const UnitProgress: React.FC<Props> = ({
                 <span>{subject}</span>
                 <span>{seats} total</span>
               </div>
-              <Progress value={percentage} className="h-4 rounded-lg" />
+              <ProgressBar value={percentage} className="h-4 rounded-lg" />
               <div className="flex gap-4 text-gray-700 text-sm mt-1">
                 <div className="flex items-center gap-1">
                   <UserCheck className="w-4 h-4 text-green-500" />
