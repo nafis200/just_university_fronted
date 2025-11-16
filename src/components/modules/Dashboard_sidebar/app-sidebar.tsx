@@ -1,7 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { Home, Coffee, ClipboardList, Upload, User } from "lucide-react";
+import {
+  Home,
+  Coffee,
+  ClipboardList,
+  Upload,
+  User,
+  Users,
+  CheckCircle,
+  Database,
+  FileWarning,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -80,15 +90,72 @@ const data = {
       ],
     },
   ],
+  navMainFaculty: [
+    {
+      title: "Applicant List",
+      url: "#",
+      icon: Users,
+      isActive: true,
+      items: [
+        {
+          title: "All Applications",
+          url: "/faculty/dashboard/AllApplications",
+        },
+      ],
+    },
+
+    {
+      title: "Approved Applicants",
+      url: "#",
+      icon: CheckCircle,
+      isActive: true,
+      items: [
+        {
+          title: "Clearance Complete",
+          url: "/faculty/dashboard/clearanceComplete",
+        },
+        {
+          title: "Pending Applications",
+          url: "/faculty/dashboard/pendingApplications",
+        },
+      ],
+    },
+
+    {
+      title: "Department Seats Status",
+      url: "#",
+      icon: Database,
+      isActive: true,
+      items: [
+        {
+          title: "Seats Status",
+          url: "/faculty/dashboard/departmentSeats",
+        },
+      ],
+    },
+
+    {
+      title: "Pending Documents Status",
+      url: "#",
+      icon: FileWarning,
+      isActive: true,
+      items: [
+        {
+          title: "Documents Status",
+          url: "/faculty/dashboard/pending-documents",
+        },
+      ],
+    },
+  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const user = "admin";
+  const user = "faculty";
 
   const navMap: Record<string, typeof data.navMain> = {
     admin: data.navMain,
     dean: data.navMain,
-    faculty: data.navMain,
+    faculty: data.navMainFaculty,
     hall: data.navMain,
     student: data.navMainuser,
   };
