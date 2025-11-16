@@ -9,11 +9,12 @@ interface Props {
 const AllApplicationPage: React.FC<Props> = ({ searchParams }) => {
   const searchTerm = searchParams?.searchTerm || "";
 
-  console.log(searchTerm)
+  console.log(searchTerm);
 
   return (
-    <div>
-      <AllApplications applications={applicantsData}/>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4 text-center">All Applicants</h1>
+      <AllApplications applications={applicantsData} />
     </div>
   );
 };

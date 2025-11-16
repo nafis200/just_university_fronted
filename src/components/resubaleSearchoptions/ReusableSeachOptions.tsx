@@ -112,7 +112,7 @@ const ReusableSearchOptions: React.FC<Props> = ({
   }, [search]);
 
   return (
-    <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-between mb-6">
+    <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-end mb-6">
       {currentUnits === "all" && (
         <div className="w-full xl:w-40">
           <Cselect
@@ -135,7 +135,7 @@ const ReusableSearchOptions: React.FC<Props> = ({
         </div>
       )}
 
-      <div className="relative w-full xl:w-80">
+      <div className="relative flex-1">
         <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
         <input
           type="text"
