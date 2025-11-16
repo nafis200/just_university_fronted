@@ -1,5 +1,5 @@
 export const applicantsData = [
-  // ----------- Unit A (7 Students) -----------
+
   {
     gstApplicationId: "GST-A-001",
     subject: "Physics",
@@ -43,7 +43,6 @@ export const applicantsData = [
     email: "tech007@example.com",
   },
 
-  // ----------- Unit B (7 Students) -----------
   {
     gstApplicationId: "GST-B-001",
     subject: "Accounting",
@@ -87,7 +86,7 @@ export const applicantsData = [
     email: "ib007@example.com",
   },
 
-  // ----------- Unit C (7 Students) -----------
+
   {
     gstApplicationId: "GST-C-001",
     subject: "Bangla",
