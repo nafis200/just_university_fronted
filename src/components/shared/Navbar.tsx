@@ -9,14 +9,13 @@ import { logout } from "@/services/AuthServices";
 import { useUser } from "@/context/UserContext";
 import { showToast } from "../resuble_toast/toast";
 
-
 export default function Navbar() {
   const router = useRouter();
-  const { user, isLoading, setUser,setIsLoading } = useUser();
+  const { user, isLoading, setUser, setIsLoading } = useUser();
 
   const handleLogOut = async () => {
     const res = await logout();
-     setIsLoading(true);
+    setIsLoading(true);
     if (res) {
       showToast("Logout successful!", "success");
       setUser(null);
@@ -39,7 +38,10 @@ export default function Navbar() {
             height={45}
             className="object-contain"
           />
-          <span className="font-bold text-xl tracking-wide">JUST</span>
+          <span className="font-bold text-xl tracking-wide">
+            JUST ADMISSION {new Date().getFullYear() - 1}-
+            {new Date().getFullYear()}
+          </span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-4 text-sm font-medium">
@@ -61,7 +63,6 @@ export default function Navbar() {
             </Button>
           </Link>
 
-     
           {user && user.role !== "STUDENTS" && (
             <Link href={`/${user.role.toLowerCase()}/dashboard`}>
               <Button
@@ -73,7 +74,7 @@ export default function Navbar() {
             </Link>
           )}
 
-          {user && user.role == "STUDENTS"&& (
+          {user && user.role == "STUDENTS" && (
             <Link href="/profile">
               <Button
                 variant="ghost"
@@ -85,7 +86,6 @@ export default function Navbar() {
           )}
         </nav>
 
-   
         <div className="flex items-center">
           {user ? (
             <Button
