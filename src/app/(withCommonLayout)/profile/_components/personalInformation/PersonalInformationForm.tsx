@@ -21,7 +21,7 @@ const PersonalInformationForm = ({ onNext }: Props) => {
     resolver: zodResolver(personalInfoSchema),
     mode: "all",
     defaultValues: {
-      Name: "Abrar Nabil",
+      Name: "",
       NAME_BN: "আব্রার নাবিল",
       Father: "Md. Rahim",
       Mother: "Mrs. Fatema",

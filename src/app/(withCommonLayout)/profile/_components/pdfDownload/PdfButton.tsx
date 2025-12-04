@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import React from "react";
@@ -6,9 +8,15 @@ import { Button } from "@/components/ui/button";
 type Props = {
   onPrev: () => void;
   submitData: () => void;
+  FormData:any;
 };
 
-export const PdfButton = ({ onPrev, submitData }: Props) => {
+export const PdfButton = ({ onPrev, submitData,FormData }: Props) => {
+   console.log(typeof FormData);
+
+   
+
+
   return (
     <div className="min-h-screen flex justify-center gap-4 mt-6">
       <Button

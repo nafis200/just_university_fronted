@@ -58,7 +58,7 @@ const SidebarForm = () => {
             <StudentImage onNext={handleNext} onPrev={handlePrev} />
           )}
           {currentStep === 6 && (
-            <PdfButton onPrev={handlePrev} submitData={submitData}/>
+            <PdfButton onPrev={handlePrev} submitData={submitData} FormData={FormData}/>
           )}
         </div>
       </main>

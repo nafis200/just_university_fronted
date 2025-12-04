@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const HandleUser = () => {
+const page = () => {
     return (
         <div>
             
@@ -9,4 +9,4 @@ const HandleUser = () => {
     );
 };
 
-export default HandleUser;
+export default page;

@@ -1,17 +1,10 @@
-
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import AllApplications from "../AllApplications/_components/AllApplication";
 import { applicantsData } from "../AllApplications/_components/AllApplicantsdata";
 
-interface Props {
-  searchParams?: { searchTerm?: string };
-}
-
-const PendingApplicationPage: React.FC<Props> = ({ searchParams }) => {
+export default function PendingApplicationPage({searchParams}:any) {
   const searchTerm = searchParams?.searchTerm || "";
-
-  console.log(searchTerm);
 
   return (
     <div className="p-4">
@@ -19,6 +12,4 @@ const PendingApplicationPage: React.FC<Props> = ({ searchParams }) => {
       <AllApplications applications={applicantsData} />
     </div>
   );
-};
-
-export default PendingApplicationPage;
+}

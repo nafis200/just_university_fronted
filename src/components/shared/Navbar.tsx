@@ -4,24 +4,29 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import {
-  Home,
-  Info,
-  Phone,
-  Grid,
-  User,
-  LogIn,
-  LogOut,
-} from "lucide-react";
+import { Home, Phone, Grid, User, LogIn, LogOut } from "lucide-react";
+import { logout } from "@/services/AuthServices";
+import { useUser } from "@/context/UserContext";
+import { showToast } from "../resuble_toast/toast";
+
 
 export default function Navbar() {
   const router = useRouter();
-  const handleLogOut = () => {
-    console.log("hellow logout")
-    //  router.push("/")
+  const { user, isLoading, setUser,setIsLoading } = useUser();
+
+  const handleLogOut = async () => {
+    const res = await logout();
+     setIsLoading(true);
+    if (res) {
+      showToast("Logout successful!", "success");
+      setUser(null);
+      router.push("/login");
+    } else {
+      showToast("Logout failed!", "error");
+    }
   };
 
-  const user = "admin";
+  // if (isLoading) return <p>loading..........</p>
 
   return (
     <header className="bg-black text-white w-full sticky top-0 z-10 p-3 shadow-md">
@@ -34,41 +39,53 @@ export default function Navbar() {
             height={45}
             className="object-contain"
           />
-          <span className="font-bold text-xl tracking-wide"></span>
+          <span className="font-bold text-xl tracking-wide">JUST</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-4 text-sm font-medium">
           <Link href="/">
-            <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
+            <Button
+              variant="ghost"
+              className="text-white flex items-center gap-1 hover:text-yellow-400"
+            >
               <Home size={16} /> Home
             </Button>
           </Link>
 
-      
-
           <Link href="/contract">
-            <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
+            <Button
+              variant="ghost"
+              className="text-white flex items-center gap-1 hover:text-yellow-400"
+            >
               <Phone size={16} /> Contract
             </Button>
           </Link>
 
-          {user && (
-            <>
-              <Link href={`/${user}/dashboard`}>
-                <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
-                  <Grid size={16} /> Dashboard
-                </Button>
-              </Link>
+     
+          {user && user.role !== "STUDENTS" && (
+            <Link href={`/${user.role.toLowerCase()}/dashboard`}>
+              <Button
+                variant="ghost"
+                className="text-white flex items-center gap-1 hover:text-yellow-400"
+              >
+                <Grid size={16} /> Dashboard
+              </Button>
+            </Link>
+          )}
 
-              <Link href="/profile">
-                <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
-                  <User size={16} /> Profile
-                </Button>
-              </Link>
-            </>
+          {user && user.role == "STUDENTS"&& (
+            <Link href="/profile">
+              <Button
+                variant="ghost"
+                className="text-white flex items-center gap-1 hover:text-yellow-400"
+              >
+                <User size={16} /> Profile
+              </Button>
+            </Link>
           )}
         </nav>
 
+   
         <div className="flex items-center">
           {user ? (
             <Button

@@ -96,10 +96,10 @@ export const othersInfoSchema = z.object({
 
 
 export const personalInfoSchema = z.object({
-  Name: z.string().min(1, "Student's name is required"),
-  NAME_BN: z.string().min(1, "বাংলা নাম লিখুন"),
-  Father: z.string().min(1, "Father's name is required"),
-  Mother: z.string().min(1, "Mother's name is required"),
+  Name: z.string().min(3, "Student's name is required"),
+  NAME_BN: z.string().min(3, "বাংলা নাম লিখুন"),
+  Father: z.string().min(3, "Father's name is required"),
+  Mother: z.string().min(3, "Mother's name is required"),
   Dob: z.string().min(1, "Date of birth is required"),
   Gender: z.string().min(1, "Gender is required"),
   BloodGroup: z.string().min(1, "Blood group is required"),

@@ -2,14 +2,33 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { SidebarTrigger } from "../ui/sidebar";
 import { Button } from "../ui/button";
-import { Menu, User } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
+import { logout } from "@/services/AuthServices";
+import { showToast } from "../resuble_toast/toast";
+import { useRouter } from "next/navigation"; // <-- changed
+import { useUser } from "@/context/UserContext";
 
 export default function Navbar1() {
+  const router = useRouter(); // App Router compatible
+  const { user, setUser, setIsLoading } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
+
   const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  const handleLogOut = async () => {
+    setIsLoading(true);
+    const res = await logout();
+    if (res) {
+      setUser(null);
+      showToast("Logout successful!", "success");
+      router.push("/login"); // works in App Router
+    } else {
+      showToast("Logout failed!", "error");
+    }
+    setIsLoading(false);
+  };
 
   return (
     <header className="bg-black text-white w-full sticky top-0 z-10 p-3">
@@ -25,18 +44,21 @@ export default function Navbar1() {
               <Menu className="w-6 h-6" />
             </Button>
           </SidebarTrigger>
-
-          <div className="h-[10]"></div>
         </div>
 
-        <div className="flex gap-6 justify-center flex-1 text-sm sm:text-base">
-          <Link href="/" className="hover:text-gray-400">
+        <div className="flex mt-2 gap-6 justify-end flex-1 text-sm sm:text-base">
+          <Link href="/" className="hover:text-gray-400 mt-1">
             Home
           </Link>
-          <Link href="/contract" className="hover:text-gray-400">
+          <Link href="/contract" className="hover:text-gray-400 mt-1">
             Contact
           </Link>
-         
+          <Button
+            onClick={handleLogOut}
+            className="bg-black text-white border border-white hover:bg-gray-200 flex items-center gap-1 font-semibold"
+          >
+            <LogOut size={16} /> Logout
+          </Button>
         </div>
       </div>
 
@@ -45,9 +67,22 @@ export default function Navbar1() {
           <Link href="/" className="hover:text-gray-400" onClick={toggleMenu}>
             Home
           </Link>
-          <Link href="/contract" className="hover:text-gray-400" onClick={toggleMenu}>
+          <Link
+            href="/contract"
+            className="hover:text-gray-400"
+            onClick={toggleMenu}
+          >
             Contact
           </Link>
+          <Button
+            onClick={() => {
+              handleLogOut();
+              toggleMenu();
+            }}
+            className="bg-black text-white border border-white hover:bg-gray-200 flex items-center gap-1 font-semibold"
+          >
+            <LogOut size={16} /> Logout
+          </Button>
         </nav>
       )}
     </header>

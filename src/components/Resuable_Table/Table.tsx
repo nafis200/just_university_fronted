@@ -26,10 +26,10 @@ const Table = ({ payments }: { payments: Payment[] }) => {
     }
   };
   const columns: ColumnDef<any>[] = [
-    { accessorKey: "status", header: "Status" },
+    { accessorKey: "status", header: "GSTAdmissonId" },
     { accessorKey: "name", header: "Name" },
     { accessorKey: "email", header: "Email" },
-    { accessorKey: "amount", header: "Amount" },
+    { accessorKey: "amount", header: "Subject" },
     {
       header: "Action",
       cell: ({ row }) => {
