@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
+import { useUser } from "@/context/UserContext";
+import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 
 const data = {
   navMain: [
@@ -150,7 +152,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const user = "faculty";
+  const { user } = useUser();
 
   const navMap: Record<string, typeof data.navMain> = {
     admin: data.navMain,
@@ -159,6 +161,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     hall: data.navMain,
     student: data.navMainuser,
   };
+
+  if (!user) {
+    return (
+      <Sidebar collapsible="icon" {...props}>
+        <SidebarContent>
+          <LoadingSpinner size="lg" />
+        </SidebarContent>
+      </Sidebar>
+    );
+  }
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -173,7 +185,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
 
       <SidebarContent>
-        <NavMain items={navMap[user] || data.navMainuser} />
+        <NavMain
+          items={navMap[user?.role?.toLowerCase()] || data.navMainuser}
+        />
       </SidebarContent>
 
       <SidebarFooter>

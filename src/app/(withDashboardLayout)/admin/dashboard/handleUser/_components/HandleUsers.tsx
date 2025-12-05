@@ -1,11 +1,14 @@
-"use client"
-import Table from "@/components/Resuable_Table/Table";
-import React from "react";
 
-const HandleUsers = () => {
+import { fetchUsersExcludingStudents } from "@/services/AdminServices";
+import HandleUserTable from "./HandleUserTable";
+
+const HandleUsers = async () => {
+  const res = await fetchUsersExcludingStudents();
+  const users = res.data || [];
+
   return (
     <div>
-      <Table payments={[]} />
+      <HandleUserTable users={users} />
     </div>
   );
 };

@@ -25,3 +25,52 @@ export const showDeleteAlert = async (itemName: string) => {
     return false;
   }
 };
+
+
+
+
+interface DynamicAlertOptions {
+  confirmTitle?: string;
+  confirmText?: string;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
+  successTitle?: string;
+  successText?: string;
+  icon?: "warning" | "info" | "success" | "error" | "question";
+  itemName?: string;
+}
+
+export const showDynamicAlert = async ({
+  confirmTitle = "Are you sure?",
+  confirmText = "You won't be able to revert this!",
+  confirmButtonText = "Yes",
+  cancelButtonText = "Cancel",
+  successTitle = "Deleted!",
+  successText,
+  icon = "warning",
+  itemName,
+}: DynamicAlertOptions) => {
+  const result = await Swal.fire({
+    title: confirmTitle,
+    text: confirmText,
+    icon,
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText,
+    cancelButtonText,
+  });
+
+  if (result.isConfirmed) {
+    await Swal.fire({
+      title: successTitle,
+      text: successText || `${itemName || "Item"} has been deleted.`,
+      icon: "success",
+    });
+    console.log("✅ Confirmed:", itemName);
+    return true;
+  } else {
+    console.log("❌ Cancelled");
+    return false;
+  }
+};
