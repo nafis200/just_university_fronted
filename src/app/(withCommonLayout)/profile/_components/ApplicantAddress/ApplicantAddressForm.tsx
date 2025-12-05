@@ -1,12 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Cinput } from "@/components/reusable_form/form/Cinput";
 import { addressSchema } from "../ZodSchema";
+import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
+import { showToast } from "@/components/resuble_toast/toast";
+import {
+  createAddressInfo,
+  fetchPersonalInfo,
+} from "@/services/StudentsServices";
+import { useUser } from "@/context/UserContext";
 
 type TAddressInfo = z.infer<typeof addressSchema>;
 
@@ -20,27 +28,84 @@ const ApplicantAddressForm = ({ onNext, onPrev }: Props) => {
     resolver: zodResolver(addressSchema),
     mode: "all",
     defaultValues: {
-      Village: "Mohammadpur",
-      PostOffice: "Mohammadpur PO",
-      PostCode: "1207",
-      Thana: "Mohammadpur",
-      District: "Dhaka",
-      Country: "Bangladesh",
-      NID: "19901234567890",
-      PresentAddress: "House #123, Road #45, Mohammadpur, Dhaka",
+      Village: "",
+      PostOffice: "",
+      PostCode: "",
+      Thana: "",
+      District: "",
+      Country: "",
+      NID: "",
+      PresentAddress: "",
     },
   });
 
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    reset,
+    getValues,
+    formState: { isSubmitting },
   } = methods;
+  const { user } = useUser();
+  const [loading, setLoading] = useState(true);
 
-  const onSubmit: SubmitHandler<TAddressInfo> = (data) => {
-    console.log("✅ Submitted Address Info:", data);
-    onNext(data);
+  useEffect(() => {
+    const loadPersonalInfo = async () => {
+      if (!user?.gstApplicationId) return;
+
+      const currentValues = getValues();
+      if (currentValues.Country) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const res = await fetchPersonalInfo(user.gstApplicationId);
+
+        if (res && res.data && res.data.length > 0) {
+          reset(res.data[0].Address);
+        }
+      } catch (err) {
+        console.error("Error fetching personal info:", err);
+        showToast("Error fetching personal info!", "error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPersonalInfo();
+  }, [user, reset, getValues]);
+
+  const onSubmit: SubmitHandler<TAddressInfo> = async (data) => {
+    try {
+      const personalInfoPayload = {
+        gstApplicationId: user?.gstApplicationId || "",
+        ...data,
+      };
+
+      onNext(data);
+
+      const res = await createAddressInfo(personalInfoPayload);
+
+      if (res.success) {
+        showToast("Submitted successfully!", "success");
+      } else {
+        showToast(res.message || "Submission failed!", "error");
+      }
+    } catch (err: any) {
+      console.error(err);
+      showToast("Something went wrong!", "error");
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -119,8 +184,9 @@ const ApplicantAddressForm = ({ onNext, onPrev }: Props) => {
             <Button
               type="submit"
               className="px-6 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white shadow-sm"
+              disabled={isSubmitting}
             >
-              Save & Next
+              {isSubmitting ? "Loading..." : "Save & Next"}
             </Button>
           </div>
         </form>

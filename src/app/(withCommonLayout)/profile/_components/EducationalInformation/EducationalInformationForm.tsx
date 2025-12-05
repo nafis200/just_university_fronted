@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,13 @@ import { Cselect } from "@/components/reusable_form/form/Cselect";
 import { subjectOptions } from "../ProfileData";
 import { educationalSchema } from "../ZodSchema";
 import type z from "zod";
+import { useUser } from "@/context/UserContext";
+import {
+  createEducationalInfo,
+  fetchPersonalInfo,
+} from "@/services/StudentsServices";
+import { showToast } from "@/components/resuble_toast/toast";
+import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 
 type TEducationalInfo = z.infer<typeof educationalSchema>;
 
@@ -18,35 +26,92 @@ type Props = {
 };
 
 const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
+  const { user } = useUser();
+  const [loading, setLoading] = useState(true);
   const methods = useForm<TEducationalInfo>({
     resolver: zodResolver(educationalSchema),
     mode: "all",
     defaultValues: {
-      SSCBoard: "Dhaka",
-      SSCInstitution: "ABC High School",
-      SSCYear: "2018",
-      SSCRoll: "123456",
-      SSCGpa: "5.00",
-      SSCSubject: "Science",
-      HSCBoard: "Dhaka",
-      HSCInstitution: "XYZ College",
-      HSCYear: "2020",
-      HSCRoll: "654321",
-      HSCGpa: "4.80",
-      HSCSubject: "Science",
+      SSCBoard: "",
+      SSCInstitution: "",
+      SSCYear: "",
+      SSCRoll: "",
+      SSCGpa: "",
+      SSCSubject: "",
+      HSCBoard: "",
+      HSCInstitution: "",
+      HSCYear: "",
+      HSCRoll: "",
+      HSCGpa: "",
+      HSCSubject: "",
     },
   });
 
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    reset,
+    getValues,
+    formState: { isSubmitting },
   } = methods;
 
-  const onSubmit: SubmitHandler<TEducationalInfo> = (data) => {
-    console.log("✅ Submitted Educational Info:", data);
-    onNext(data); // সাবমিটের পর পরবর্তী ধাপে যাবে
+  useEffect(() => {
+    const loadPersonalInfo = async () => {
+      if (!user?.gstApplicationId) return;
+
+      const currentValues = getValues();
+      if (currentValues.SSCBoard) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const res = await fetchPersonalInfo(user.gstApplicationId);
+
+        if (res && res.data && res.data.length > 0) {
+          reset(res.data[0].EducationalInfo);
+        }
+      } catch (err) {
+        console.error("Error fetching personal info:", err);
+        showToast("Error fetching personal info!", "error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPersonalInfo();
+  }, [user, reset, getValues]);
+
+  const onSubmit: SubmitHandler<TEducationalInfo> = async (data) => {
+    try {
+      const personalInfoPayload = {
+        gstApplicationId: user?.gstApplicationId || "",
+        ...data,
+      };
+
+      onNext(data);
+
+      const res = await createEducationalInfo(personalInfoPayload);
+
+      if (res.success) {
+        showToast("Submitted successfully!", "success");
+      } else {
+        showToast(res.message || "Submission failed!", "error");
+      }
+    } catch (err: any) {
+      console.error(err);
+      showToast("Something went wrong!", "error");
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="card p-6 lg:w-3/4 mx-auto rounded-xl">
@@ -155,8 +220,9 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             <Button
               type="submit"
               className="px-6 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white shadow-sm"
+              disabled={isSubmitting}
             >
-              Save & Next
+              {isSubmitting ? "Loading..." : "Save & Next"}
             </Button>
           </div>
         </form>

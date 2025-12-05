@@ -154,3 +154,27 @@ export const createOthersInfo = async (userData: FieldValues) => {
     return Error(error);
   }
 };
+
+export const generatePdf = async (pdfData: FieldValues) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/api/pdf/pdfreader`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pdfData),
+      }
+    );
+
+    if (!res.ok) {
+      return { success: false, message: "Server Error!" };
+    }
+
+   
+    const blob = await res.blob();
+
+    return { success: true, blob };
+  } catch (error:any) {
+    return { success: false, message: error.message };
+  }
+};
