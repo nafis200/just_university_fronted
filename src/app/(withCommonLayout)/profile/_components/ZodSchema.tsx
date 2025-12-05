@@ -105,7 +105,7 @@ export const personalInfoSchema = z.object({
   BloodGroup: z.string().min(1, "Blood group is required"),
   MaritalStatus: z.string().min(1, "Marital status is required"),
   Religion: z.string().min(1, "Religion is required"),
-  Caste: z.string().optional(),
+  Caste: z.string().nullable().optional(),
   Nationality: z.string().min(1, "Nationality is required"),
   PhoneNumber: z.string().min(1, "Mobile number is required"),
   Email: z.string().email("Invalid email format"),
