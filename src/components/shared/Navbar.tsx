@@ -8,31 +8,24 @@ import { Home, Phone, Grid, User, LogIn, LogOut } from "lucide-react";
 import { logout } from "@/services/AuthServices";
 import { useUser } from "@/context/UserContext";
 import { showToast } from "../resuble_toast/toast";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function Navbar() {
   const router = useRouter();
-  const queryClient = useQueryClient();
-  const { user, refetchUser } = useUser();
+  const { user, setIsLoading,setUser} = useUser();
 
   const handleLogOut = async () => {
-    try {
-      const res = await logout();
-      if (res) {
-        // লগআউট হলে ইউজার রিফ্রেশ এবং সমস্ত cache clear
-        refetchUser();
-        queryClient.clear();
-
-        showToast("Logout successful!", "success");
-        router.push("/login");
-      } else {
-        showToast("Logout failed!", "error");
-      }
-    } catch (err) {
-      console.error(err);
-      showToast("Something went wrong!", "error");
+    const res = await logout();
+    setIsLoading(true);
+    if (res) {
+      showToast("Logout successful!", "success");
+      setUser(null);
+      router.push("/login");
+    } else {
+      showToast("Logout failed!", "error");
     }
   };
+
+  // if (isLoading) return <p>loading..........</p>
 
   return (
     <header className="bg-black text-white w-full sticky top-0 z-10 p-3 shadow-md">
@@ -46,34 +39,47 @@ export default function Navbar() {
             className="object-contain"
           />
           <span className="font-bold text-xl tracking-wide">
-            JUST ADMISSION {new Date().getFullYear() - 1}-{new Date().getFullYear()}
+            JUST ADMISSION {new Date().getFullYear() - 1}-
+            {new Date().getFullYear()}
           </span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-4 text-sm font-medium">
           <Link href="/">
-            <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
+            <Button
+              variant="ghost"
+              className="text-white flex items-center gap-1 hover:text-yellow-400"
+            >
               <Home size={16} /> Home
             </Button>
           </Link>
 
           <Link href="/contract">
-            <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
-              <Phone size={16} /> Contact
+            <Button
+              variant="ghost"
+              className="text-white flex items-center gap-1 hover:text-yellow-400"
+            >
+              <Phone size={16} /> Contract
             </Button>
           </Link>
 
           {user && user.role !== "STUDENTS" && (
             <Link href={`/${user.role.toLowerCase()}/dashboard`}>
-              <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
+              <Button
+                variant="ghost"
+                className="text-white flex items-center gap-1 hover:text-yellow-400"
+              >
                 <Grid size={16} /> Dashboard
               </Button>
             </Link>
           )}
 
-          {user && user.role === "STUDENTS" && (
+          {user && user.role == "STUDENTS" && (
             <Link href="/profile">
-              <Button variant="ghost" className="text-white flex items-center gap-1 hover:text-yellow-400">
+              <Button
+                variant="ghost"
+                className="text-white flex items-center gap-1 hover:text-yellow-400"
+              >
                 <User size={16} /> Profile
               </Button>
             </Link>

@@ -103,7 +103,7 @@ const CreateCredentialsPage = () => {
           />
 
           {/* Unit */}
-          {selectedRole === "faculty" && (
+          {(selectedRole === "faculty" || selectedRole === "dean") && (
             <Controller
               name="unit"
               control={control}
