@@ -162,6 +162,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     student: data.navMainuser,
   };
 
+  console.log(user,"user")
+
   if (!user) {
     return (
       <Sidebar collapsible="icon" {...props}>

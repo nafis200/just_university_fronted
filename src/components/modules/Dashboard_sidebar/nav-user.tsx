@@ -30,7 +30,7 @@ import { usePathname, useRouter } from "next/navigation"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
-  const user = "user"
+
 
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

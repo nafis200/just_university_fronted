@@ -1,42 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-
+"use client";
 
 import { getCurrentUser } from "@/services/AuthServices";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-interface anyProviderValues {
+interface UserProviderValues {
   user: any | null;
   isLoading: boolean;
-  setUser: Dispatch<SetStateAction<any | null>>
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  refetchUser: () => void;
 }
 
-const UserContext = createContext<anyProviderValues | undefined>(undefined);
+const UserContext = createContext<UserProviderValues | undefined>(undefined);
 
-const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = useQueryClient();
 
-  const handleUser = async () => {
-    const user = await getCurrentUser();
-    setUser(user);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    handleUser();
-  }, [isLoading]);
+  const { data: user, isFetching, refetch } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: getCurrentUser,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
+    <UserContext.Provider
+      value={{
+        user: user ?? null,
+        isLoading: isFetching,
+        refetchUser: () => {
+          refetch();
+        },
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -44,11 +40,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-
-  if (context == undefined) {
-    throw new Error("useUser must be used within the UserProvider context");
-  }
-
+  if (!context) throw new Error("useUser must be used within UserProvider");
   return context;
 };
 

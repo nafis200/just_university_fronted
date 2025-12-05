@@ -33,6 +33,8 @@ export const fetchUsersExcludingStudents = async (): Promise<any> => {
       `${process.env.NEXT_PUBLIC_BASE_API}/api/info/fetch?excludeRole=STUDENTS`,
       {
         method: "GET",
+        cache: "force-cache",
+        next: { tags: ["students"] }
       }
     );
 
@@ -40,9 +42,11 @@ export const fetchUsersExcludingStudents = async (): Promise<any> => {
 
     return result.data;
   } catch (error: any) {
+    console.error("Error fetching users:", error);
     return Error(error);
   }
 };
+
 
 export const updateUserStatus = async (gstApplicationId: string): Promise<any> => {
   try {
