@@ -11,6 +11,7 @@ import {
   CheckCircle,
   Database,
   FileWarning,
+  PlusCircle
 } from "lucide-react";
 
 import {
@@ -44,12 +45,17 @@ const data = {
       isActive: true,
     },
     {
-      title: "Upload pdf",
+      title: "Upload Documents",
       url: "#",
       icon: Upload,
       isActive: true,
-      items: [{ title: "Upload file", url: "/admin/dashboard/Pdfupload" }],
+      items: [{ title: "Upload Students Information Excel File", url: "/admin/dashboard/Pdfupload" },
+        { title: "Upload Required Documents", url: "/admin/dashboard/uploaddrive"},
+        { title: "Delete Documents", url: "/admin/dashboard/readDrive"},
+      
+      ],
     },
+
     {
       title: "Credentails",
       url: "#",
@@ -63,6 +69,16 @@ const data = {
       url: "#",
       icon: User,
       items: [{ title: "Manage All user", url: "/admin/dashboard/handleUser" }],
+    },
+    {
+      title: "Exam Notice Information",
+      url: "#",
+      icon: PlusCircle,
+      items: [{ title: "Upload application and examDate", url: "/admin/dashboard/examnotice" },
+        { title: "Delete application and examDate", url: "/admin/dashboard/examnoticeread" }
+
+
+      ],
     },
   ],
   navMainuser: [
