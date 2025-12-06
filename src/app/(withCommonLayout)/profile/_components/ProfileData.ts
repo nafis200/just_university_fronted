@@ -74,7 +74,6 @@ export const departmentOptions = [
 export const genderOptions = [
   { value: "MALE", label: "Male / পুরুষ" },
   { value: "FEMALE", label: "Female / মহিলা" },
-  { value: "TRANSGENDER", label: "Transgender / তৃতীয় লিঙ্গ" },
 ];
 
 export const bloodOptions = [

@@ -33,7 +33,7 @@ const AllApplications: React.FC<Props> = ({ applications }) => {
     <div className="mt-5">
       <ReusableSearchOptions
         applications={applications}
-        units="A"
+        units="all"
         onFilterChange={setFilteredData}
         fileName="FilteredApplications.xlsx"
       />

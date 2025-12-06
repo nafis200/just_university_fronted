@@ -34,36 +34,32 @@ const ReusableSearchOptions: React.FC<Props> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>(searchParams.get("searchTerm") || "");
 
-  const selectedUnit = watch("unit");
-  const selectedSubject = watch("subject");
+  const selectedUnit = watch("unit") || searchParams.get("unit") || "all";
+  const selectedSubject = watch("subject") || searchParams.get("subject") || "all";
 
   const currentUnits = units.toLowerCase();
 
+  // Unit options
   const unitOptions = useMemo(() => {
     if (currentUnits === "all") {
       return [
         { value: "all", label: "All" },
-        ...Array.from(new Set(applications.map((app) => app.unit))).map(
-          (u) => ({
-            value: u,
-            label: u,
-          })
-        ),
+        ...Array.from(new Set(applications.map((app) => app.unit))).map((u) => ({
+          value: u,
+          label: u,
+        })),
       ];
     }
     return [];
   }, [applications, currentUnits]);
 
+  // Subject options
   const subjectOptions = useMemo(() => {
     if (currentUnits === "all") return [];
-    const filtered = applications.filter(
-      (app) => app.unit.toLowerCase() === currentUnits
-    );
-    const uniqueSubjects = Array.from(
-      new Set(filtered.map((app) => app.subject))
-    );
+    const filtered = applications.filter((app) => app.unit.toLowerCase() === currentUnits);
+    const uniqueSubjects = Array.from(new Set(filtered.map((app) => app.subject)));
     return [
       { value: "all", label: "All" },
       ...uniqueSubjects.map((subj) => ({
@@ -73,19 +69,14 @@ const ReusableSearchOptions: React.FC<Props> = ({
     ];
   }, [applications, currentUnits]);
 
+  // Filter applications
   const filteredData = useMemo(() => {
     return applications.filter((item) => {
       const unitMatch =
-        currentUnits === "all"
-          ? selectedUnit === "all" || !selectedUnit
-            ? true
-            : item.unit === selectedUnit
-          : item.unit.toLowerCase() === currentUnits;
+        selectedUnit === "all" ? true : item.unit === selectedUnit;
 
       const subjectMatch =
-        currentUnits === "all"
-          ? true
-          : selectedSubject === "all" || !selectedSubject
+        selectedSubject === "all"
           ? true
           : item.subject.toLowerCase().replace(/\s+/g, "_") === selectedSubject;
 
@@ -95,21 +86,28 @@ const ReusableSearchOptions: React.FC<Props> = ({
 
       return unitMatch && subjectMatch && searchMatch;
     });
-  }, [applications, currentUnits, selectedUnit, selectedSubject, search]);
+  }, [applications, selectedUnit, selectedSubject, search]);
 
+  // Send filtered data to parent
   useEffect(() => {
     if (onFilterChange) onFilterChange(filteredData);
   }, [filteredData, onFilterChange]);
 
+  // Update URL query params
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-    if (search) {
-      params.set("searchTerm", search);
-    } else {
-      params.delete("searchTerm");
-    }
-    router.push(`${window.location.pathname}?${params.toString()}`);
-  }, [search]);
+
+    if (search) params.set("searchTerm", search);
+    else params.delete("searchTerm");
+
+    if (selectedUnit && selectedUnit !== "all") params.set("unit", selectedUnit);
+    else params.delete("unit");
+
+    if (selectedSubject && selectedSubject !== "all") params.set("subject", selectedSubject);
+    else params.delete("subject");
+
+    router.replace(`${window.location.pathname}?${params.toString()}`);
+  }, [search, selectedUnit, selectedSubject]);
 
   return (
     <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-end mb-6">
@@ -156,14 +154,3 @@ const ReusableSearchOptions: React.FC<Props> = ({
 };
 
 export default ReusableSearchOptions;
-
-
-
-
-
-
-
-
-
-
-

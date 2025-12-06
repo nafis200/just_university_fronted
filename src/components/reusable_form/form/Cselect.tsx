@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Controller } from "react-hook-form";
+import React from "react";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -16,26 +16,25 @@ type Option = {
   label: string;
 };
 
-type selectProps = {
+type CselectProps = {
   name: string;
   label?: string;
   placeholder?: string;
   options: Option[];
   disabled?: boolean;
-  control:any;
-  value?:string
+  value?: string; // controlled value
+  onChange?: (value: string) => void; // controlled change
 };
 
-export const Cselect = ({
+export const Cselect: React.FC<CselectProps> = ({
   name,
   label,
   placeholder = "Select an option",
   options,
   disabled = false,
-  control,
-}: selectProps) => {
-
-
+  value,
+  onChange,
+}) => {
   return (
     <div className="flex flex-col w-full">
       {label && (
@@ -47,36 +46,22 @@ export const Cselect = ({
         </Label>
       )}
 
-      <Controller
-        name={name}
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <>
-            <Select
-              onValueChange={field.onChange}
-              value={field.value}
-              disabled={disabled}
-            >
-              <SelectTrigger className="w-full h-12 p-[22px] sm:h-12 md:h-32 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 rounded-xl text-sm sm:text-base">
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-              <SelectContent>
-                {options.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {error && (
-              <small className="text-red-500 mt-2 ml-1 text-xs sm:text-sm">
-                {error.message}
-              </small>
-            )}
-          </>
-        )}
-      />
+      <Select
+        value={value}
+        onValueChange={onChange}
+        disabled={disabled}
+      >
+        <SelectTrigger className="w-full h-20 p-[22px] sm:h-12 md:h-12 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 rounded-xl text-sm sm:text-base">
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 };

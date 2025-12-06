@@ -37,6 +37,13 @@ const data = {
       isActive: true,
     },
     {
+      title: "Applicant Page",
+      url: "#",
+       icon: Users,
+      items: [{ title: "All Application", url: "/admin/dashboard/allApplicant" }],
+      isActive: true,
+    },
+    {
       title: "Upload pdf",
       url: "#",
       icon: Upload,
