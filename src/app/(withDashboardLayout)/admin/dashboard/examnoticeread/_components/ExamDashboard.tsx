@@ -28,8 +28,8 @@ interface Props {
 }
 
 export default function ExamDashboardClient({ applications, announcements }: Props) {
-  const [apps, setApps] = useState<ExamApplication[]>(applications);
-  const [anns, setAnns] = useState<ExamAnnouncement[]>(announcements);
+  const [apps, setApps] = useState<ExamApplication[]>(applications || []);
+  const [anns, setAnns] = useState<ExamAnnouncement[]>(announcements || []);
 
   const formatUnit = (unit: string) => {
     switch (unit) {
@@ -74,7 +74,7 @@ export default function ExamDashboardClient({ applications, announcements }: Pro
           <p>No applications found.</p>
         ) : (
           <div className="flex flex-col gap-4">
-            {apps.map(app => (
+            {apps?.map(app => (
               <div
                 key={app.id}
                 className={`flex justify-between items-center p-4 border rounded ${isExpired(app.applyEndDate) ? "line-through text-red-600" : ""}`}
@@ -99,7 +99,7 @@ export default function ExamDashboardClient({ applications, announcements }: Pro
           <p>No announcements found.</p>
         ) : (
           <div className="flex flex-col gap-4">
-            {anns.map(ann => (
+            {anns?.map(ann => (
               <div
                 key={ann.id}
                 className={`flex justify-between items-center p-4 border rounded ${isExpired(ann.examDate) ? "line-through text-red-600" : ""}`}

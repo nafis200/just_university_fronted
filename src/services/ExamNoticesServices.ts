@@ -20,20 +20,35 @@ export const createExamApplication = async (data: { applyStartDate: string; appl
   }
 };
 
-export const getAllExamApplications = async () => {
+export const getAllExamApplications = async (): Promise<any[]> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/exam-notice/exam-application`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      cache: "force-cache",
-      next: { tags: ["ExamApplication"] },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/api/exam-notice/exam-application`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
     const result = await res.json();
-    return result.data;
+
+    if (result && Array.isArray(result.data)) {
+      return result.data;
+    } else {
+      console.warn("API did not return data array", result);
+      return [];
+    }
   } catch (error: any) {
-    return Error(error);
+    console.error("Failed to fetch exam applications:", error);
+    return [];
   }
 };
+
 
 export const deleteExamApplication = async (id: string) => {
   try {
