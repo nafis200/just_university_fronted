@@ -52,6 +52,8 @@ export const OthersInfoForm = ({ onNext, onPrev }: Props) => {
   const { user } = useUser();
   const [loading, setLoading] = useState(true);
 
+  const subjectAchieve = departmentOptions.filter((x)=> x.unit == user.unit)
+
   useEffect(() => {
     const loadPersonalInfo = async () => {
       if (!user?.gstApplicationId) return;
@@ -132,7 +134,7 @@ export const OthersInfoForm = ({ onNext, onPrev }: Props) => {
             <Cselect
               name="Department"
               label="ভর্তিচ্ছু বিভাগ / (Admitting department)"
-              options={departmentOptions}
+              options={subjectAchieve}
               control={control}
             />
             <Cselect

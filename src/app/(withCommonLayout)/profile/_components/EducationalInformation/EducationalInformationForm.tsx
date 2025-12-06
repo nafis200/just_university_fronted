@@ -125,6 +125,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             name="SSCBoard"
             label="এস.এস.সি বোর্ড / SSC Board*"
             placeholder="Enter SSC Board"
+            disabled={true}
             control={control}
           />
 
@@ -140,6 +141,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             label="এস.এস.সি পরীক্ষা পাসের সন / SSC Passing Year*"
             placeholder="Enter SSC Passing Year"
             control={control}
+            disabled={true}
           />
 
           <Cinput
@@ -147,6 +149,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             label="এস.এস.সি পরীক্ষার রোল / SSC Roll No.*"
             placeholder="Enter SSC Roll No"
             control={control}
+            disabled={true}
           />
 
           <Cinput
@@ -154,6 +157,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             label="এস.এস.সি জিপিএ / SSC GPA*"
             placeholder="Enter SSC GPA"
             control={control}
+             disabled={true}
           />
 
           <Cselect
@@ -162,6 +166,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             placeholder="Select SSC Subject"
             options={subjectOptions}
             control={control}
+             disabled={true}
           />
 
           <Cinput
@@ -169,6 +174,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             label="এইচ.এস.সি বোর্ড / HSC Board*"
             placeholder="Enter HSC Board"
             control={control}
+             disabled={true}
           />
 
           <Cinput
@@ -183,6 +189,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             label="এইচ.এস.সি পরীক্ষা পাসের সন / HSC Passing Year*"
             placeholder="Enter HSC Passing Year"
             control={control}
+             disabled={true}
           />
 
           <Cinput
@@ -190,6 +197,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             label="এইচ.এস.সি পরীক্ষার রোল / HSC Roll No.*"
             placeholder="Enter HSC Roll No"
             control={control}
+             disabled={true}
           />
 
           <Cinput
@@ -197,6 +205,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             label="এইচ.এস.সি জিপিএ / HSC GPA*"
             placeholder="Enter HSC GPA"
             control={control}
+             disabled={true}
           />
 
           <Cselect
@@ -205,6 +214,7 @@ const EducationalInformationForm = ({ onNext, onPrev }: Props) => {
             placeholder="Select HSC Subject"
             options={subjectOptions}
             control={control}
+             disabled={true}
           />
 
           {/* Prev & Next বাটন */}

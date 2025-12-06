@@ -63,8 +63,17 @@ const PersonalInformationForm = ({ onNext }: Props) => {
         const res = await fetchPersonalInfo(user.gstApplicationId);
 
         if (res && res.data && res.data.length > 0) {
-          reset(res.data[0].personalInfo);
-        }
+  const personalInfo = res.data[0].personalInfo;
+
+ 
+  if (personalInfo.Dob) {
+    const [day, month, year] = personalInfo.Dob.split("-");
+    personalInfo.Dob = `${year}-${month}-${day}`;
+  }
+
+
+  reset(personalInfo);
+}
       } catch (err) {
         console.error("Error fetching personal info:", err);
         showToast("Error fetching personal info!", "error");
@@ -114,12 +123,20 @@ const PersonalInformationForm = ({ onNext }: Props) => {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Cinput name="Name" label="শিক্ষার্থীর নাম / Student's Name*" placeholder="Enter student's name in English" control={control} />
+            <Cinput name="Name" label="শিক্ষার্থীর নাম / Student's Name*" placeholder="Enter student's name in English" 
+            disabled={true}
+            control={control} />
             <Cinput name="NAME_BN" label="শিক্ষার্থীর নাম (বাংলায়)* / Student's Name in Bengali" placeholder="বাংলায় লিখুন" control={control} />
-            <Cinput name="Father" label="পিতার নাম / Father's Name*" placeholder="Enter father's name" control={control} />
-            <Cinput name="Mother" label="মাতার নাম / Mother's Name*" placeholder="Enter mother's name" control={control} />
-            <Cinput name="Dob" label="জন্ম তারিখ / Date of Birth*" type="date" control={control} />
-            <Cselect name="Gender" label="লিঙ্গ / Gender*" placeholder="Select Gender" options={genderOptions} control={control} />
+            <Cinput name="Father" label="পিতার নাম / Father's Name*" placeholder="Enter father's name" 
+            disabled={true}
+            control={control} />
+            <Cinput name="Mother" label="মাতার নাম / Mother's Name*" placeholder="Enter mother's name" 
+            disabled={true}
+            control={control} />
+            <Cinput name="Dob" label="জন্ম তারিখ / Date of Birth*" type="date"  disabled={true} control={control} 
+            
+            />
+            <Cselect name="Gender" label="লিঙ্গ / Gender*" placeholder="Select Gender" options={genderOptions} control={control} disabled={true} />
             <Cselect name="BloodGroup" label="রক্তের গ্রুপ / Blood Group*" placeholder="Select Blood Group" options={bloodOptions} control={control} />
             <Cselect name="MaritalStatus" label="বৈবাহিক অবস্থা / Marital Status*" placeholder="Select Marital Status" options={maritalOptions} control={control} />
             <Cinput name="Religion" label="ধর্ম / Religion*" placeholder="Enter religion" control={control} />

@@ -3,9 +3,10 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Cselect } from "@/components/reusable_form/form/Cselect";
+
 import ReusableExcel from "../ResuableExcel/ResubaleExcel";
 import { FiSearch } from "react-icons/fi";
+import { CHselect } from "../reusable_form/form/CHselect";
 
 interface Props {
   applications: any[];
@@ -89,7 +90,7 @@ const NewResuableSearchOption: React.FC<Props> = ({
   return (
     <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-end mb-6">
       <div className="w-full  xl:w-40">
-        <Cselect
+        <CHselect
           name="unit"
           placeholder="Select Unit"
           options={unitOptions}
@@ -102,7 +103,7 @@ const NewResuableSearchOption: React.FC<Props> = ({
       </div>
 
       <div className="w-full xl:w-60">
-        <Cselect
+        <CHselect
           name="department"
           placeholder="Select Department"
           options={departmentOptions}

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import { Controller } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -16,25 +16,26 @@ type Option = {
   label: string;
 };
 
-type CselectProps = {
+type selectProps = {
   name: string;
   label?: string;
   placeholder?: string;
   options: Option[];
   disabled?: boolean;
-  value?: string; // controlled value
-  onChange?: (value: string) => void; // controlled change
+  control:any;
+  value?:string
 };
 
-export const Cselect: React.FC<CselectProps> = ({
+export const Cselect = ({
   name,
   label,
   placeholder = "Select an option",
   options,
   disabled = false,
-  value,
-  onChange,
-}) => {
+  control,
+}: selectProps) => {
+
+
   return (
     <div className="flex flex-col w-full">
       {label && (
@@ -46,22 +47,36 @@ export const Cselect: React.FC<CselectProps> = ({
         </Label>
       )}
 
-      <Select
-        value={value}
-        onValueChange={onChange}
-        disabled={disabled}
-      >
-        <SelectTrigger className="w-full h-20 p-[22px] sm:h-12 md:h-12 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 rounded-xl text-sm sm:text-base">
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <>
+            <Select
+              onValueChange={field.onChange}
+              value={field.value}
+              disabled={disabled}
+            >
+              <SelectTrigger className="w-full h-12 p-[22px] sm:h-12 md:h-32 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 rounded-xl text-sm sm:text-base">
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+              <SelectContent>
+                {options.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {error && (
+              <small className="text-red-500 mt-2 ml-1 text-xs sm:text-sm">
+                {error.message}
+              </small>
+            )}
+          </>
+        )}
+      />
     </div>
   );
 };
