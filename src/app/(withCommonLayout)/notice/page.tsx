@@ -32,11 +32,11 @@ export default function Home() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
               <div className="flex items-center justify-center mb-6">
-                <div className="h-1 flex-1 bg-gradient-to-r from-transparent to-blue-500 rounded"></div>
-                <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 px-4">
+                <div className="h-1 flex-1 bg-linear-to-r from-transparent to-blue-500 rounded"></div>
+                <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-indigo-600 px-4">
                   সকল নোটিশ
                 </h2>
-                <div className="h-1 flex-1 bg-gradient-to-l from-transparent to-blue-500 rounded"></div>
+                <div className="h-1 flex-1 bg-linear-to-l from-transparent to-blue-500 rounded"></div>
               </div>
 
               <div className="space-y-3">
@@ -100,32 +100,32 @@ export default function Home() {
             {/* Exam Schedule */}
             <div className="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-indigo-600">
               <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
+                <div className="w-10 h-10 bg-linear-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
                   <span className="text-2xl">📝</span>
                 </div>
                 <h3 className="font-bold text-xl text-gray-800">পরীক্ষার সময়সূচিঃ</h3>
               </div>
 
               <div className="space-y-4">
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border-l-4 border-green-500">
+                <div className="bg-linear-to-r from-green-50 to-emerald-50 p-4 rounded-xl border-l-4 border-green-500">
                   <p className="font-bold text-green-800 mb-1">ইউনিট C (বাণিজ্য)</p>
                   <p className="text-gray-700 text-sm">২৫/০৪/{currentYear} খ্রি. (শুক্রবার)</p>
                   <p className="text-gray-600 text-sm mt-1">⏰ বেলা ১১:০০ টা - দুপুর ১২:০০ টা</p>
                 </div>
 
-                <div className="bg-gradient-to-r from-orange-50 to-amber-50 p-4 rounded-xl border-l-4 border-orange-500">
+                <div className="bg-linear-to-r from-orange-50 to-amber-50 p-4 rounded-xl border-l-4 border-orange-500">
                   <p className="font-bold text-orange-800 mb-1">ইউনিট B (মানবিক)</p>
                   <p className="text-gray-700 text-sm">০২/০৫/{currentYear} খ্রি. (শুক্রবার)</p>
                   <p className="text-gray-600 text-sm mt-1">⏰ বেলা ১১:০০ টা - দুপুর ১২:০০ টা</p>
                 </div>
 
-                <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border-l-4 border-blue-500">
+                <div className="bg-linear-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border-l-4 border-blue-500">
                   <p className="font-bold text-blue-800 mb-1">ইউনিট A (বিজ্ঞান)</p>
                   <p className="text-gray-700 text-sm">০৯/০৫/{currentYear} খ্রি. (শুক্রবার)</p>
                   <p className="text-gray-600 text-sm mt-1">⏰ বেলা ১১:০০ টা - দুপুর ১২:০০ টা</p>
                 </div>
 
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border-l-4 border-purple-500">
+                <div className="bg-linear-to-r from-purple-50 to-pink-50 p-4 rounded-xl border-l-4 border-purple-500">
                   <p className="font-bold text-purple-800 mb-1">আর্কিটেকচার ব্যবহারিক (ড্রয়িং)</p>
                   <p className="text-gray-600 text-sm mt-1">⏰ বিকাল ০৩:০০ টা - বিকাল ০৪:০০ টা</p>
                 </div>
