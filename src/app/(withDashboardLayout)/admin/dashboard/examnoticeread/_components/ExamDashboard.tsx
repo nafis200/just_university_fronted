@@ -7,7 +7,9 @@ import { showToast } from "@/components/resuble_toast/toast";
 import {
   deleteExamApplication,
   deleteExamAnnouncement,
+  deleteOthersAnnouncement 
 } from "@/services/ExamNoticesServices";
+
 
 interface ExamApplication {
   id: string;
@@ -22,14 +24,24 @@ interface ExamAnnouncement {
   examDate: string;
 }
 
+interface OthersAnnouncement {
+  id: string;
+  title: string;
+  date: string; 
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface Props {
   applications: ExamApplication[];
   announcements: ExamAnnouncement[];
+  otherAnnouncements: OthersAnnouncement[];
 }
 
-export default function ExamDashboardClient({ applications, announcements }: Props) {
+export default function ExamDashboardClient({ applications, announcements, otherAnnouncements }: Props) {
   const [apps, setApps] = useState<ExamApplication[]>(applications || []);
   const [anns, setAnns] = useState<ExamAnnouncement[]>(announcements || []);
+  const [others, setOthers] = useState<OthersAnnouncement[]>(otherAnnouncements || []);
 
   const formatUnit = (unit: string) => {
     switch (unit) {
@@ -64,6 +76,17 @@ export default function ExamDashboardClient({ applications, announcements }: Pro
     }
   };
 
+  const handleDeleteOthers = async (id: string) => {
+    if (!confirm("Are you sure to delete this information?")) return;
+    const res = await deleteOthersAnnouncement(id);
+    if (res.success) {
+      showToast("তথ্য মুছে ফেলা হয়েছে!", "success");
+      setOthers(prev => prev.filter(o => o.id !== id));
+    } else {
+      showToast(res.message || "Failed to delete", "error");
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-10 grid gap-10">
 
@@ -74,7 +97,7 @@ export default function ExamDashboardClient({ applications, announcements }: Pro
           <p>No applications found.</p>
         ) : (
           <div className="flex flex-col gap-4">
-            {apps?.map(app => (
+            {apps.map(app => (
               <div
                 key={app.id}
                 className={`flex justify-between items-center p-4 border rounded ${isExpired(app.applyEndDate) ? "line-through text-red-600" : ""}`}
@@ -92,14 +115,14 @@ export default function ExamDashboardClient({ applications, announcements }: Pro
         )}
       </div>
 
-      {/* Announcements */}
+   
       <div className="p-6 bg-white shadow-lg rounded-lg">
         <h2 className="text-xl font-bold mb-4">পরীক্ষার সময়সূচি</h2>
         {anns.length === 0 ? (
           <p>No announcements found.</p>
         ) : (
           <div className="flex flex-col gap-4">
-            {anns?.map(ann => (
+            {anns.map(ann => (
               <div
                 key={ann.id}
                 className={`flex justify-between items-center p-4 border rounded ${isExpired(ann.examDate) ? "line-through text-red-600" : ""}`}
@@ -109,6 +132,31 @@ export default function ExamDashboardClient({ applications, announcements }: Pro
                   <p>{new Date(ann.examDate).toLocaleString("bn-BD", { day:"2-digit", month:"2-digit", year:"numeric", weekday:"long", hour:"2-digit", minute:"2-digit" })}</p>
                 </div>
                 <Button variant="destructive" onClick={() => handleDeleteAnnouncement(ann.id)}>
+                  <Trash2 className="w-4 h-4" /> Delete
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Others Announcements */}
+      <div className="p-6 bg-white shadow-lg rounded-lg">
+        <h2 className="text-xl font-bold mb-4">অন্যান্য তথ্য</h2>
+        {others.length === 0 ? (
+          <p>No information found.</p>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {others.map(o => (
+              <div
+                key={o.id}
+                className={`flex justify-between items-center p-4 border rounded ${isExpired(o.date) ? "line-through text-red-600" : ""}`}
+              >
+                <div>
+                  <p>{o.title}</p>
+                  <p>{new Date(o.date).toLocaleString("bn-BD", { day:"2-digit", month:"2-digit", year:"numeric", weekday:"long", hour:"2-digit", minute:"2-digit" })}</p>
+                </div>
+                <Button variant="destructive" onClick={() => handleDeleteOthers(o.id)}>
                   <Trash2 className="w-4 h-4" /> Delete
                 </Button>
               </div>

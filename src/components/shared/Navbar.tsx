@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Home, Phone, Grid, User, LogIn, LogOut } from "lucide-react";
+import { Home, Phone, Grid, User, LogIn, LogOut,Calendar } from "lucide-react";
 import { logout } from "@/services/AuthServices";
 import { useUser } from "@/context/UserContext";
 import { showToast } from "../resuble_toast/toast";
@@ -51,6 +51,14 @@ export default function Navbar() {
               className="text-white flex items-center gap-1 hover:text-yellow-400"
             >
               <Home size={16} /> Home
+            </Button>
+          </Link>
+          <Link href="/notice">
+            <Button
+              variant="ghost"
+              className="text-white flex items-center gap-1 hover:text-yellow-400"
+            >
+              <Calendar size={16} /> Notice
             </Button>
           </Link>
 

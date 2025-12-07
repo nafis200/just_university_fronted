@@ -155,3 +155,65 @@ export const deleteFileFromDrive = async (fileId: string) => {
     return Error(error);
   }
 };
+
+
+
+
+export const createOthersAnnouncement = async (data: { title: string; date: string }) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/others-notice`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    revalidateTag("OthersAnnouncement");
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+
+export const getAllOthersAnnouncements = async (): Promise<any[]> => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/others-notice`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP Error! Status: ${res.status}`);
+    }
+
+    const result = await res.json();
+
+    if (result && Array.isArray(result.data)) {
+      return result.data;
+    } else {
+      console.warn("API did not return data array", result);
+      return [];
+    }
+  } catch (error: any) {
+    console.error("Failed to fetch Others Announcements:", error);
+    return [];
+  }
+};
+
+
+export const deleteOthersAnnouncement = async (id: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/others-notice/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const result = await res.json();
+    revalidateTag("OthersAnnouncement");
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};

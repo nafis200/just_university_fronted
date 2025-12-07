@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "./services/AuthServices";
 
-const publicRoutes = ["/login", "/contract"];
+const publicRoutes = ["/login", "/contract","/notice"];
 
 const roleBasedPrivateRoutes = {
   student: [/^\/student/, /^\/profile/, /^\/$/],
@@ -31,7 +31,7 @@ export const middleware = async (request: NextRequest) => {
   const user = await getCurrentUser();
 
   if (!user) {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL("/notice", request.url));
   }
 
   const role = roleMap[user.role];
