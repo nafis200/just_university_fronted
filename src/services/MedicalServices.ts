@@ -22,7 +22,7 @@ export const MedicalfetchApplicants = async ({
     const queryParams = new URLSearchParams();
 
     queryParams.append("role", "STUDENTS");
-
+    queryParams.append("notDepartment", "not-null");
     if (medicalApproved !== undefined)
       queryParams.append("medicalApproved", String(medicalApproved));
 

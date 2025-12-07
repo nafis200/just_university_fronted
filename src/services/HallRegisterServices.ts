@@ -22,6 +22,7 @@ export const HallRegisterfetchApplicants = async ({
     const queryParams = new URLSearchParams();
 
     queryParams.append("role", "STUDENTS");
+    queryParams.append("notDepartment", "not-null");
 
     if (hallRegisterApproved !== undefined)
       queryParams.append("hallRegisterApproved", String(hallRegisterApproved));

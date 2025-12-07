@@ -35,6 +35,7 @@ export const fetchApplicants = async ({
     const queryParams = new URLSearchParams();
 
     queryParams.append("role", "STUDENTS");
+    queryParams.append("notDepartment", "not-null");
 
     if (facultyApproved !== undefined)
       queryParams.append("facultyApproved", String(facultyApproved));

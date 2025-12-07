@@ -42,7 +42,7 @@ const data = {
       url: "#",
       icon: Users,
       items: [
-        { title: "All Application", url: "/admin/dashboard/allApplicant" },
+        { title: "Subject Pendings", url: "/admin/dashboard/allApplicant" },
         { title: "Pending Application", url: "/admin/dashboard/pending" },
         { title: "Approved Application", url: "/admin/dashboard/success" },
       ],
@@ -144,7 +144,7 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "All Applications",
+          title: "Subject Pendings",
           url: "/faculty/dashboard/AllApplications",
         },
       ],
@@ -202,7 +202,7 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "All Applications",
+          title: "Subject Pendings",
           url: "/dean/dashboard/AllApplications",
         },
       ],
@@ -260,7 +260,7 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "All Applications",
+          title: "Subject Pendings",
           url: "/register/dashboard/AllApplications",
         },
       ],
@@ -318,7 +318,7 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "All Applications",
+          title: "Subject Pendings",
           url: "/hall_register/dashboard/AllApplications",
         },
       ],
@@ -376,7 +376,7 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "All Applications",
+          title: "Subject Pendings",
           url: "/medical/dashboard/AllApplications",
         },
       ],

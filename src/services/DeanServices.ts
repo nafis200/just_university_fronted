@@ -35,6 +35,7 @@ export const DeanfetchApplicants = async ({
     const queryParams = new URLSearchParams();
 
     queryParams.append("role", "STUDENTS");
+    queryParams.append("notDepartment", "not-null");
 
     if (deanApproved !== undefined)
       queryParams.append("deanApproved", String(deanApproved));

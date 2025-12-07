@@ -93,7 +93,7 @@ export const fetchApplicants = async ({
   try {
     const queryParams = new URLSearchParams();
     queryParams.append("role", "STUDENTS");
-    // queryParams.append("notDepartment","null");
+    queryParams.append("notDepartment","null");
     if (subject) queryParams.append("department", subject);
     if (unit) queryParams.append("unit", unit);
     if (search) {

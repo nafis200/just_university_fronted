@@ -32,6 +32,7 @@ export const fetchDepartmentStatus = async ({
     const queryParams = new URLSearchParams();
 
     queryParams.append("role", "STUDENTS");
+    queryParams.append("notDepartment", "not-null");
 
     if (adminApproved !== undefined)
       queryParams.append("adminApproved", String(adminApproved));
