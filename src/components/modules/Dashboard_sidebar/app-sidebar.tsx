@@ -194,6 +194,64 @@ const data = {
       ],
     },
   ],
+  navMainDean: [
+    {
+      title: "Applicant List",
+      url: "#",
+      icon: Users,
+      isActive: true,
+      items: [
+        {
+          title: "All Applications",
+          url: "/dean/dashboard/AllApplications",
+        },
+      ],
+    },
+
+    {
+      title: "Approved Applicants",
+      url: "#",
+      icon: CheckCircle,
+      isActive: true,
+      items: [
+        {
+          title: "Complete Applications",
+          url: "/dean/dashboard/clearanceComplete",
+        },
+        {
+          title: "Pending Applications",
+          url: "/dean/dashboard/pendingApplications",
+        },
+      ],
+    },
+
+     {
+      title: "Upload Documents",
+      url: "#",
+      icon: Upload,
+      isActive: true,
+      items: [
+        {
+          title: "Upload Required Documents",
+          url: "/dean/dashboard/uploaddrive",
+        },
+        { title: "Delete Documents", url: "/dean/dashboard/readDrive" },
+      ],
+    },
+
+    {
+      title: "Department Seats Status",
+      url: "#",
+      icon: Database,
+      isActive: true,
+      items: [
+        {
+          title: "Seats Status",
+          url: "/dean/dashboard/departmentSeats",
+        },
+      ],
+    },
+  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -201,13 +259,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const navMap: Record<string, typeof data.navMain> = {
     admin: data.navMain,
-    dean: data.navMain,
+    dean: data.navMainDean,
     faculty: data.navMainFaculty,
     hall: data.navMain,
     student: data.navMainuser,
   };
 
-  console.log(user, "user");
+  
 
   if (!user) {
     return (
