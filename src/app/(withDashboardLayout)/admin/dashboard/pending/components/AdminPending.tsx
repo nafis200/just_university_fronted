@@ -78,7 +78,7 @@ const AdminPending: React.FC<AdminPendingProps> = ({ applications, meta }) => {
     <div className="mt-5">
       <NewResuableSearchOption
         applications={applications}
-        currentUnit="A"
+        currentUnit="all"
         fileName="AdminData.xlsx"
       />
 

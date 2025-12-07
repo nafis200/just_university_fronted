@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Cselect } from "@/components/reusable_form/form/Cselect";
 import { Ctextarea } from "@/components/reusable_form/form/Ctextarea";
 import { othersInfoSchema } from "../ZodSchema";
-import { departmentOptions, hallOptions, programOptions } from "../ProfileData";
+import { departmentOption, hallOptions, programOptions } from "../ProfileData";
 import { useUser } from "@/context/UserContext";
 import {
   createOthersInfo,
@@ -52,7 +52,7 @@ export const OthersInfoForm = ({ onNext, onPrev }: Props) => {
   const { user } = useUser();
   const [loading, setLoading] = useState(true);
 
-  const subjectAchieve = departmentOptions.filter((x)=> x.unit == user.unit)
+  const subjectAchieve = departmentOption.filter((x)=> x.unit == user.unit)
 
   useEffect(() => {
     const loadPersonalInfo = async () => {
