@@ -20,6 +20,8 @@ interface AdminPendingProps {
 
 const AdminPending: React.FC<AdminPendingProps> = ({ applications, meta }) => {
 
+  console.log(applications,"pendings")
+
 
   const handleAdminApprove = async (gstApplicationId: string) => {
     const confirmed = await showDynamicAlert({
@@ -75,8 +77,9 @@ const AdminPending: React.FC<AdminPendingProps> = ({ applications, meta }) => {
   return (
     <div className="mt-5">
       <NewResuableSearchOption
-        currentUnit="all"
-        fileName="FilteredApplications.xlsx"
+        applications={applications}
+        currentUnit="A"
+        fileName="AdminData.xlsx"
       />
 
       <NMTable data={applications} columns={columns} />

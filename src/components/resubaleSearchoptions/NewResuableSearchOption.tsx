@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -9,9 +10,8 @@ import { FiSearch } from "react-icons/fi";
 import { CHselect } from "../reusable_form/form/CHselect";
 import { departmentOptions } from "@/app/(withCommonLayout)/profile/_components/ProfileData";
 
-
 interface Props {
-  applications?:any
+  applications: any[]; 
   currentUnit: string;
   fileName: string;
   onFilterChange?: (unit: string, department: string, search: string) => void;
@@ -45,22 +45,30 @@ const NewResuableSearchOption: React.FC<Props> = ({
     ];
   }, []);
 
- 
   const filteredDepartments = useMemo(() => {
     if (unit === "all") return departmentOptions;
     return departmentOptions.filter((dept) => dept.unit === unit);
   }, [unit]);
 
- 
+  const filteredApplications = useMemo(() => {
+    return applications.filter((app) => {
+      const matchesUnit = unit === "all" || app.unit === unit;
+      const matchesDept =
+        department === "all" ||
+        app.OthersInfo?.Department === department;
+      const matchesSearch =
+        search === "" ||
+        JSON.stringify(app).toLowerCase().includes(search.toLowerCase());
+      return matchesUnit && matchesDept && matchesSearch;
+    });
+  }, [applications, unit, department, search]);
+
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-
     params.set("unit", unit);
     params.set("department", department);
     params.set("search", search);
-
     params.set("page", "1");
-
     router.replace(`${window.location.pathname}?${params.toString()}`);
 
     if (onFilterChange) onFilterChange(unit, department, search);
@@ -77,19 +85,22 @@ const NewResuableSearchOption: React.FC<Props> = ({
             value={unit}
             onChange={(value) => {
               setUnit(value);
-              setDepartment("all");
+              setDepartment("all"); 
             }}
           />
         </div>
       )}
 
+
       <div className="w-full xl:w-60">
         <CHselect
           name="department"
           placeholder="Select Department"
-          options={filteredDepartments}
+          options={[{ value: "all", label: "All" }, ...filteredDepartments]}
           value={department}
-          onChange={setDepartment}
+          onChange={(value) => {
+            setDepartment(value);
+          }}
         />
       </div>
 
@@ -107,11 +118,10 @@ const NewResuableSearchOption: React.FC<Props> = ({
       </div>
 
       <div>
-        <ReusableExcel data={[]} fileName={fileName} />
+        <ReusableExcel data={filteredApplications} fileName={fileName} />
       </div>
     </div>
   );
 };
 
 export default NewResuableSearchOption;
-
