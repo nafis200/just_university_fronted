@@ -33,8 +33,8 @@ export const fetchUsersExcludingStudents = async (): Promise<any> => {
       `${process.env.NEXT_PUBLIC_BASE_API}/api/info/fetch?excludeRole=STUDENTS`,
       {
         method: "GET",
-        cache: "force-cache",
-        next: { tags: ["students"] }
+        cache: "no-store",
+        next: { tags: ["Users"] }
       }
     );
 

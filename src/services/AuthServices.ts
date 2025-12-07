@@ -18,11 +18,6 @@ export const registerUser = async (userData: FieldValues) => {
       body: JSON.stringify(userData),
     });
     const result = await res.json();
-
-    if (result.success) {
-      (await cookies()).set("accessToken", result.data.accessToken);
-      (await cookies()).set("refreshToken", result?.data?.refreshToken);
-    }
     revalidateTag("Users");
     return result;
   } catch (error: any) {

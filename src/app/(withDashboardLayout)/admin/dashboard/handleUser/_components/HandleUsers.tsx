@@ -6,6 +6,8 @@ const HandleUsers = async () => {
   const res = await fetchUsersExcludingStudents();
   const users = res.data || [];
 
+
+
   return (
     <div>
       <HandleUserTable users={users} />

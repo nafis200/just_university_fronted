@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, FieldValues } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { showToast } from "@/components/resuble_toast/toast";
+import { registerUser } from "@/services/AuthServices";
 
 type CredentialsFormInputs = {
-  email: string;
+  gstApplicationId: string;
   password: string;
   role: string;
   unit?: string;
@@ -14,15 +17,24 @@ type CredentialsFormInputs = {
 
 const CreateCredentialsPage = () => {
   const { control, handleSubmit, watch, formState: { errors }, reset } = useForm<CredentialsFormInputs>({
-    defaultValues: { email: "", password: "", role: "", unit: "" }
+    defaultValues: { gstApplicationId: "", password: "", role: "", unit: "" }
   });
 
   const selectedRole = watch("role");
 
-  const onSubmit = (data: CredentialsFormInputs) => {
-    console.log("Created Credentials:", data);
-    // Form submit করার পরে reset
-    reset();
+  const onSubmit = async (data: CredentialsFormInputs) => {
+    try {
+      const result = await registerUser(data as FieldValues);
+      
+      if (result && result?.message) {
+        showToast("User created successfully!", "success");
+        reset();
+      } else {
+        showToast(result.message || "Failed to create user", "error");
+      }
+    } catch (err: any) {
+      showToast(err.message || "Something went wrong", "error");
+    }
   };
 
   return (
@@ -37,9 +49,9 @@ const CreateCredentialsPage = () => {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          {/* Email */}
+  
           <Controller
-            name="email"
+            name="gstApplicationId"
             control={control}
             rules={{
               required: "Email is required",
@@ -50,13 +62,13 @@ const CreateCredentialsPage = () => {
                 <label className="block mb-2 text-gray-700 font-medium">
                   Email / ইমেইল
                 </label>
-                <Input {...field} placeholder="Enter email / ইমেইল লিখুন" className={errors.email ? "border-red-500" : ""} />
-                {errors.email && <p className="text-red-500 mt-1 text-sm">{errors.email.message}</p>}
+                <Input {...field} placeholder="Enter email / ইমেইল লিখুন" className={errors.gstApplicationId ? "border-red-500" : ""} />
+                {errors.gstApplicationId && <p className="text-red-500 mt-1 text-sm">{errors.gstApplicationId.message}</p>}
               </div>
             )}
           />
 
-          {/* Password */}
+     
           <Controller
             name="password"
             control={control}
@@ -72,7 +84,7 @@ const CreateCredentialsPage = () => {
             )}
           />
 
-          {/* Role */}
+    
           <Controller
             name="role"
             control={control}
@@ -82,32 +94,30 @@ const CreateCredentialsPage = () => {
                 <label className="block mb-2 text-gray-700 font-medium">
                   Role / ভূমিকা
                 </label>
-                <Select
-                  value={field.value}
-                  onValueChange={field.onChange}
-                >
+                <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select role / ভূমিকা নির্বাচন করুন" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="admin">Admin / প্রশাসক</SelectItem>
-                    <SelectItem value="dean">Dean / ডীন</SelectItem>
-                    <SelectItem value="faculty">Faculty / শিক্ষক</SelectItem>
-                    <SelectItem value="hall">Hall / হল</SelectItem>
-                    <SelectItem value="administration">Administration / প্রশাসন</SelectItem>
-                  </SelectContent>
+  <SelectItem value="ADMIN">Admin / প্রশাসক</SelectItem>
+  <SelectItem value="DEAN">Dean / ডীন</SelectItem>
+  <SelectItem value="FACULTY">Faculty / শিক্ষক</SelectItem>
+  <SelectItem value="REGISTER">Register / রেজিস্টার</SelectItem>
+  <SelectItem value="HALL_REGISTER">Hall Register / হল রেজিস্টার</SelectItem>
+</SelectContent>
+
                 </Select>
                 {errors.role && <p className="text-red-500 mt-1 text-sm">{errors.role.message}</p>}
               </div>
             )}
           />
 
-          {/* Unit */}
-          {(selectedRole === "faculty" || selectedRole === "dean") && (
+    
+          {(selectedRole === "FACULTY" || selectedRole === "DEAN") && (
             <Controller
               name="unit"
               control={control}
-              rules={{ required: "Unit is required for Faculty" }}
+              rules={{ required: "Unit is required for Faculty/Dean" }}
               render={({ field }) => (
                 <div>
                   <label className="block mb-2 text-gray-700 font-medium">
