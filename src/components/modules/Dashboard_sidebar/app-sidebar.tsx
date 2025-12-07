@@ -11,7 +11,7 @@ import {
   CheckCircle,
   Database,
   FileWarning,
-  PlusCircle
+  PlusCircle,
 } from "lucide-react";
 
 import {
@@ -40,8 +40,12 @@ const data = {
     {
       title: "Applicant Page",
       url: "#",
-       icon: Users,
-      items: [{ title: "All Application", url: "/admin/dashboard/allApplicant" }],
+      icon: Users,
+      items: [
+        { title: "All Application", url: "/admin/dashboard/allApplicant" },
+        { title: "Pending Application", url: "/admin/dashboard/pending" },
+        { title: "Approved Application", url: "/admin/dashboard/success" },
+      ],
       isActive: true,
     },
     {
@@ -49,10 +53,16 @@ const data = {
       url: "#",
       icon: Upload,
       isActive: true,
-      items: [{ title: "Upload Students Information Excel File", url: "/admin/dashboard/Pdfupload" },
-        { title: "Upload Required Documents", url: "/admin/dashboard/uploaddrive"},
-        { title: "Delete Documents", url: "/admin/dashboard/readDrive"},
-      
+      items: [
+        {
+          title: "Upload Students Information Excel File",
+          url: "/admin/dashboard/Pdfupload",
+        },
+        {
+          title: "Upload Required Documents",
+          url: "/admin/dashboard/uploaddrive",
+        },
+        { title: "Delete Documents", url: "/admin/dashboard/readDrive" },
       ],
     },
 
@@ -74,10 +84,9 @@ const data = {
       title: "Notice Information",
       url: "#",
       icon: PlusCircle,
-      items: [{ title: "Upload Notice", url: "/admin/dashboard/examnotice" },
-        { title: "Delete Notice", url: "/admin/dashboard/examnoticeread" }
-
-
+      items: [
+        { title: "Upload Notice", url: "/admin/dashboard/examnotice" },
+        { title: "Delete Notice", url: "/admin/dashboard/examnoticeread" },
       ],
     },
     {
@@ -197,7 +206,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     student: data.navMainuser,
   };
 
-  console.log(user,"user")
+  console.log(user, "user");
 
   if (!user) {
     return (

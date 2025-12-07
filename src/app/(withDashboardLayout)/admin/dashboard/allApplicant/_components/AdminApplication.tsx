@@ -59,6 +59,13 @@ const AdminApplication: React.FC<AdminApplicationProps> = ({ applications, meta 
       ),
     },
     {
+      header: "Medical Approved",
+      accessorFn: (row) => row.Approved?.medicalApproved,
+      cell: ({ row }) => (
+        <StatusBadge status={row.original?.Approved?.medicalApproved} />
+      ),
+    },
+    {
       header: "Dean Approved",
       accessorFn: (row) => row.Approved?.deanApproved,
       cell: ({ row }) => (

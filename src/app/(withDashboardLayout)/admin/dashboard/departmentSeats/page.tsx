@@ -1,6 +1,8 @@
 
 import { fetchDepartmentStatus } from "@/services/StudentsServices";
-import AdminUnitProgress from "./_components/AdminUnitProgess";
+import Adminunit from "./_components/Adminunit";
+
+
 
 
 const AdminDepartmentStatus = async () => {
@@ -11,7 +13,8 @@ const AdminDepartmentStatus = async () => {
   return (
     <div className="mt-5">
     
-      <AdminUnitProgress applications={applications} selectedUnit={"B"}/>
+      {/* <AdminUnitProgress applications={applications} selectedUnit={"B"}/> */}
+      <Adminunit applications={applications}/>
     </div>
   );
 };
