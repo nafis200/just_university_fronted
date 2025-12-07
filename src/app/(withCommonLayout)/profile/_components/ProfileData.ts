@@ -53,6 +53,53 @@ export const departmentOptions = [
 ]
 
 
+export const departmentSeats = [
+  { value: "Computer Science and Engineering", unit: "A", seats: 120 },
+  { value: "Industrial and Production Engineering", unit: "A", seats: 80 },
+  { value: "Petroleum and Mining Engineering", unit: "A", seats: 60 },
+  { value: "Chemical Engineering", unit: "A", seats: 70 },
+  { value: "Electrical and Electronic Engineering", unit: "A", seats: 100 },
+  { value: "Biomedical Engineering", unit: "A", seats: 50 },
+  { value: "Textile Engineering", unit: "A", seats: 60 },
+
+  { value: "Microbiology", unit: "A", seats: 40 },
+  { value: "Fisheries and Marine Bioscience", unit: "A", seats: 35 },
+  { value: "Genetic Engineering and Biotechnology", unit: "A", seats: 45 },
+  { value: "Pharmacy", unit: "A", seats: 50 },
+  { value: "Biochemistry and Molecular Biology", unit: "A", seats: 40 },
+
+  { value: "Environmental Science and Technology", unit: "A", seats: 30 },
+  { value: "Nutrition and Food Technology", unit: "A", seats: 35 },
+  { value: "Food Engineering (Former Agro Product Processing Technology)", unit: "A", seats: 25 },
+  { value: "Climate and Disaster Management", unit: "A", seats: 20 },
+
+  { value: "Physical Education and Sports Science", unit: "A", seats: 30 },
+  { value: "Physiotherapy and Rehabilitation", unit: "A", seats: 25 },
+  { value: "Nursing and Health Science", unit: "A", seats: 40 },
+
+  { value: "English", unit: "C", seats: 50 },
+
+  { value: "Physics", unit: "A", seats: 35 },
+  { value: "Chemistry", unit: "A", seats: 40 },
+  { value: "Mathematics", unit: "A", seats: 50 },
+  { value: "Applied Statistics and Data Science", unit: "A", seats: 30 },
+
+  { value: "Accounting and Information Systems", unit: "B", seats: 60 },
+  { value: "Management", unit: "B", seats: 80 },
+  { value: "Finance and Banking", unit: "B", seats: 70 },
+  { value: "Marketing", unit: "B", seats: 50 },
+
+  { value: "Medicine, Surgery and Theriogenology", unit: "A", seats: 40 },
+  { value: "Microbiology and Hygiene", unit: "A", seats: 30 },
+  { value: "Anatomy and Histology", unit: "A", seats: 35 },
+  { value: "Pharmacology", unit: "A", seats: 30 },
+  { value: "Physiology and Biochemistry", unit: "A", seats: 30 },
+  { value: "Animal Breeding and Genetics", unit: "A", seats: 25 },
+  { value: "Dairy and Poultry Science", unit: "A", seats: 20 },
+  { value: "Pathology and Parasitology", unit: "A", seats: 25 },
+  { value: "Animal Science and Nutrition", unit: "A", seats: 20 },
+  { value: "Agricultural Economics", unit: "A", seats: 30 },
+];
 
 
 

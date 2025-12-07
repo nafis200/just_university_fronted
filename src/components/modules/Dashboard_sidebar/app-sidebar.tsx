@@ -71,13 +71,25 @@ const data = {
       items: [{ title: "Manage All user", url: "/admin/dashboard/handleUser" }],
     },
     {
-      title: "Exam Notice Information",
+      title: "Notice Information",
       url: "#",
       icon: PlusCircle,
-      items: [{ title: "Upload application and examDate", url: "/admin/dashboard/examnotice" },
-        { title: "Delete application and examDate", url: "/admin/dashboard/examnoticeread" }
+      items: [{ title: "Upload Notice", url: "/admin/dashboard/examnotice" },
+        { title: "Delete Notice", url: "/admin/dashboard/examnoticeread" }
 
 
+      ],
+    },
+    {
+      title: "Department Seats Status",
+      url: "#",
+      icon: Database,
+      isActive: true,
+      items: [
+        {
+          title: "Seats Status",
+          url: "/admin/dashboard/departmentSeats",
+        },
       ],
     },
   ],

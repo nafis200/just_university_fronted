@@ -55,6 +55,7 @@ export const fetchPersonalInfo = async (searchTerm: string) => {
 
 
 
+
 export const createGuardianInfo = async (userData: FieldValues) => {
   try {
     const res = await fetch(
@@ -176,5 +177,34 @@ export const generatePdf = async (pdfData: FieldValues) => {
     return { success: true, blob };
   } catch (error:any) {
     return { success: false, message: error.message };
+  }
+};
+
+
+
+export const fetchDepartmentStatus = async () => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/api/department-status`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+        next: { tags: ["departmentStatus"] },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch department status");
+    }
+
+    const result = await res.json();
+    return result.data; 
+
+  } catch (error: any) {
+    console.error("Error fetching department status:", error);
+    return Error(error);
   }
 };
