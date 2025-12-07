@@ -1,0 +1,86 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const flattenApplication = (app: any) => {
+  return {
+    "Application ID": app.gstApplicationId,
+    "Role": app.role,
+    "Status": app.status,
+    "Unit": app.unit,
+    "Faculty": app.faculty || "",
+    "Created At": app.createdAt,
+    "Updated At": app.updatedAt,
+
+    
+    "Name": app.personalInfo?.Name || "",
+    "Name BN": app.personalInfo?.NAME_BN || "",
+    "Father": app.personalInfo?.Father || "",
+    "Mother": app.personalInfo?.Mother || "",
+    "DOB": app.personalInfo?.Dob || "",
+    "Gender": app.personalInfo?.Gender || "",
+    "Blood Group": app.personalInfo?.BloodGroup || "",
+    "Marital Status": app.personalInfo?.MaritalStatus || "",
+    "Religion": app.personalInfo?.Religion || "",
+    "Nationality": app.personalInfo?.Nationality || "",
+    "Phone Number": app.personalInfo?.PhoneNumber || "",
+    "Email": app.personalInfo?.Email || "",
+
+ 
+    "SSC Board": app.EducationalInfo?.SSCBoard || "",
+    "SSC Institution": app.EducationalInfo?.SSCInstitution || "",
+    "SSC Year": app.EducationalInfo?.SSCYear || "",
+    "SSC Roll": app.EducationalInfo?.SSCRoll || "",
+    "SSC GPA": app.EducationalInfo?.SSCGpa || "",
+    "SSC Subject": app.EducationalInfo?.SSCSubject || "",
+    "HSC Board": app.EducationalInfo?.HSCBoard || "",
+    "HSC Institution": app.EducationalInfo?.HSCInstitution || "",
+    "HSC Year": app.EducationalInfo?.HSCYear || "",
+    "HSC Roll": app.EducationalInfo?.HSCRoll || "",
+    "HSC GPA": app.EducationalInfo?.HSCGpa || "",
+    "HSC Subject": app.EducationalInfo?.HSCSubject || "",
+
+ 
+    "Bangla LG": app.HscMarks?.BanglaLG || "",
+    "Bangla GP": app.HscMarks?.BanglaGP || "",
+    "Bangla Marks": app.HscMarks?.BanglaMarks || "",
+    "English LG": app.HscMarks?.EnglishLG || "",
+    "English GP": app.HscMarks?.EnglishGP || "",
+    "English Marks": app.HscMarks?.EnglishMarks || "",
+    "Physics LG": app.HscMarks?.PhysicsLG || "",
+    "Physics GP": app.HscMarks?.PhysicsGP || "",
+    "Physics Marks": app.HscMarks?.PhysicsMarks || "",
+    "Chemistry LG": app.HscMarks?.ChemistryLG || "",
+    "Chemistry GP": app.HscMarks?.ChemistryGP || "",
+    "Chemistry Marks": app.HscMarks?.ChemistryMarks || "",
+    "Math LG": app.HscMarks?.MathLG || "",
+    "Math GP": app.HscMarks?.MathGP || "",
+    "Math Marks": app.HscMarks?.MathMarks || "",
+    "Biology LG": app.HscMarks?.BiologyLG || "",
+    "Biology GP": app.HscMarks?.BiologyGP || "",
+    "Biology Marks": app.HscMarks?.BiologyMarks || "",
+
+   
+    "HSC Exam Name": app.HscSummary?.HscExamName || "",
+    "HSC Study Group": app.HscSummary?.HscStudyGroup || "",
+    "HSC Study Type": app.HscSummary?.HscStudyType || "",
+    "HSC Total Obtained": app.HscSummary?.HscTotalObtained || "",
+    "HSC Full Marks": app.HscSummary?.HscFullMarks || "",
+    "HSC Converted 1000": app.HscSummary?.HscConverted1000 || "",
+
+   
+    "OMR Physics": app.OmrResult?.OmrPhysics || "",
+    "OMR Chemistry": app.OmrResult?.OmrChemistry || "",
+    "OMR Math": app.OmrResult?.OmrMath || "",
+    "OMR Biology": app.OmrResult?.OmrBiology || "",
+    "OMR Bangla": app.OmrResult?.OmrBangla || "",
+    "OMR English": app.OmrResult?.OmrEnglish || "",
+    "OMR Total": app.OmrResult?.OmrTotal || "",
+    "OMR Status": app.OmrResult?.OmrStatus || "",
+    "Position": app.OmrResult?.Position || "",
+
+    "Admin Approved": app.Approved?.adminApproved ? "Yes" : "No",
+    "Faculty Approved": app.Approved?.facultyApproved ? "Yes" : "No",
+    "Dean Approved": app.Approved?.deanApproved ? "Yes" : "No",
+    "Register Approved": app.Approved?.registerApproved ? "Yes" : "No",
+    "Medical Approved": app.Approved?.medicalApproved ? "Yes" : "No",
+    "Hall Register Approved": app.Approved?.hallRegisterApproved ? "Yes" : "No",
+  };
+};

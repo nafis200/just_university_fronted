@@ -9,9 +9,10 @@ import ReusableExcel from "../ResuableExcel/ResubaleExcel";
 import { FiSearch } from "react-icons/fi";
 import { CHselect } from "../reusable_form/form/CHselect";
 import { departmentOptions } from "@/app/(withCommonLayout)/profile/_components/ProfileData";
+import { flattenApplication } from "./flattenApplication";
 
 interface Props {
-  applications: any[]; 
+  applications: any[];
   currentUnit: string;
   fileName: string;
   onFilterChange?: (unit: string, department: string, search: string) => void;
@@ -54,8 +55,7 @@ const NewResuableSearchOption: React.FC<Props> = ({
     return applications.filter((app) => {
       const matchesUnit = unit === "all" || app.unit === unit;
       const matchesDept =
-        department === "all" ||
-        app.OthersInfo?.Department === department;
+        department === "all" || app.OthersInfo?.Department === department;
       const matchesSearch =
         search === "" ||
         JSON.stringify(app).toLowerCase().includes(search.toLowerCase());
@@ -85,12 +85,11 @@ const NewResuableSearchOption: React.FC<Props> = ({
             value={unit}
             onChange={(value) => {
               setUnit(value);
-              setDepartment("all"); 
+              setDepartment("all");
             }}
           />
         </div>
       )}
-
 
       <div className="w-full xl:w-60">
         <CHselect
@@ -118,7 +117,10 @@ const NewResuableSearchOption: React.FC<Props> = ({
       </div>
 
       <div>
-        <ReusableExcel data={filteredApplications} fileName={fileName} />
+        <ReusableExcel
+          data={filteredApplications.map(flattenApplication)}
+          fileName={fileName}
+        />
       </div>
     </div>
   );
