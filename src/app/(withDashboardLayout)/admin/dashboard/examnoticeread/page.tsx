@@ -1,6 +1,7 @@
 // app/exam-dashboard/page.tsx
 import { getAllExamApplications, getAllExamAnnouncements, getAllOthersAnnouncements } from "@/services/ExamNoticesServices";
 import ExamDashboardClient from "./_components/ExamDashboard";
+export const dynamic = "force-dynamic";
 
 export default async function ExamDashboardTestPage() {
 

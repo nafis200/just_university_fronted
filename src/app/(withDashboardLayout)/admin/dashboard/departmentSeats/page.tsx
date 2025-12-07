@@ -1,6 +1,7 @@
 
 import { fetchDepartmentStatus } from "@/services/StudentsServices";
 import Adminunit from "./_components/Adminunit";
+export const dynamic = "force-dynamic";
 
 
 

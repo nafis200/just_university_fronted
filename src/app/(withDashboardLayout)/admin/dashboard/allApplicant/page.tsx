@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React from "react";
+export const dynamic = "force-dynamic";
 import AdminApplication from "./_components/AdminApplication";
 import { fetchApplicants } from "@/services/AdminServices";
 

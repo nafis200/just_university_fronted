@@ -3,7 +3,7 @@
 import React from "react";
 import FacultyPending from "../pendingApplications/_components/FacultyPending";
 import { fetchApplicants } from "@/services/FacultServices";
-
+export const dynamic = "force-dynamic";
 export default async function ClearanceCompletePage({ searchParams }: any) {
   const subject = searchParams?.department;
   const search = searchParams?.search;

@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import AllApplications from "../AllApplications/_components/AllApplication";
-import { applicantsData } from "../AllApplications/_components/AllApplicantsdata";
+
 import { fetchApplicants } from "@/services/FacultServices";
 import FacultyPending from "./_components/FacultyPending";
-
+export const dynamic = "force-dynamic";
 export default async function PendingApplicationPage({ searchParams }: any) {
   const subject = searchParams?.department;
   const search = searchParams?.search;

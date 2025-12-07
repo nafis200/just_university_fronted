@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
-
+import { FieldValues } from "react-hook-form";
 export const fetchDepartmentStatus = async ({
   adminApproved,
   facultyApproved,
@@ -72,12 +72,12 @@ export const fetchDepartmentStatus = async ({
 
   } catch (error: any) {
     console.error("Error fetching department status:", error);
-    return Error(error);
+    return [];
   }
 };
 
 
-import { FieldValues } from "react-hook-form";
+
 
 export const createApproved = async (approvedData: FieldValues) => {
   try {
@@ -101,6 +101,6 @@ export const createApproved = async (approvedData: FieldValues) => {
 
   } catch (error: any) {
     console.error("Error creating approved info:", error);
-    return Error(error);
+    return [];
   }
 };

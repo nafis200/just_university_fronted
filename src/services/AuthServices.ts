@@ -21,7 +21,7 @@ export const registerUser = async (userData: FieldValues) => {
     revalidateTag("Users");
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -47,7 +47,7 @@ export const loginUser = async (userData: FieldValues) => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -91,7 +91,7 @@ export const getNewToken = async () => {
 
     return res.json();
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -105,7 +105,7 @@ export const getAllUsers = async (email:string) => {
     const data = await res.json();
     return data;
   } catch (error: any) {
-    return Error(error.message);
+    return [];
   }
 };
 export const UpdateUser = async (brandData: FieldValues, id: string) => {

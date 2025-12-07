@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import AllApplications from "./_components/AllApplication";
-import { applicantsData } from "./_components/AllApplicantsdata";
 import { AllfetchApplicants } from "@/services/FacultServices";
 import FacultyApplication from "./_components/AllApplication";
-
+export const dynamic = "force-dynamic";
 export default async function AllApplicationPage({ searchParams }: any) {
   const subject = searchParams?.department;
   const search = searchParams?.search;

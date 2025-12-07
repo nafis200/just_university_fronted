@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
@@ -16,7 +17,7 @@ export const createExamApplication = async (data: { applyStartDate: string; appl
     revalidateTag("ExamApplication");
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -60,7 +61,7 @@ export const deleteExamApplication = async (id: string) => {
     revalidateTag("ExamApplication");
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -76,7 +77,7 @@ export const createExamAnnouncement = async (data: { title: string; unit: string
     revalidateTag("ExamAnnouncement");
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -91,7 +92,7 @@ export const getAllExamAnnouncements = async () => {
     const result = await res.json();
     return result.data;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -105,7 +106,7 @@ export const deleteExamAnnouncement = async (id: string) => {
     revalidateTag("ExamAnnouncement");
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -124,7 +125,7 @@ export const uploadFileToDrive = async (file: File, title: string) => {
     revalidateTag("GoogleFiles");
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -138,7 +139,7 @@ export const getAllFilesFromDrive = async () => {
     const result = await res.json();
     return result.data;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -171,7 +172,7 @@ export const createOthersAnnouncement = async (data: { title: string; date: stri
     revalidateTag("OthersAnnouncement");
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -213,7 +214,7 @@ export const deleteOthersAnnouncement = async (id: string) => {
     const result = await res.json();
     revalidateTag("OthersAnnouncement");
     return result;
-  } catch (error: any) {
-    return Error(error);
+  } catch (error) {
+    return [];
   }
 };

@@ -2,7 +2,7 @@
 import { fetchDepartmentStatus } from "@/services/ApprovedServices";
 import React from "react";
 import AdminPending from "../pending/components/AdminPending";
-
+export const dynamic = "force-dynamic";
 
 const AdminPendings = async ({ searchParams }: any) => {
   const unit = searchParams?.unit;

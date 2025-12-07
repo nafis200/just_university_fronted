@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
@@ -24,7 +25,7 @@ export const createPersonalInfo:any = async (userData: FieldValues) => {
     return result;
 
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -48,7 +49,7 @@ export const fetchPersonalInfo = async (searchTerm: string) => {
 
   } catch (error: any) {
     console.error("Error fetching personal info:", error);
-    return Error(error);
+    return [];
   }
 };
 
@@ -77,7 +78,7 @@ export const createGuardianInfo = async (userData: FieldValues) => {
     return result;
 
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -102,7 +103,7 @@ export const createEducationalInfo = async (userData: FieldValues) => {
     return result;
 
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -127,7 +128,7 @@ export const createAddressInfo = async (userData: FieldValues) => {
     return result;
 
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -151,8 +152,8 @@ export const createOthersInfo = async (userData: FieldValues) => {
 
     return result;
 
-  } catch (error: any) {
-    return Error(error);
+  } catch (error) {
+    return [];
   }
 };
 
@@ -192,7 +193,6 @@ export const fetchDepartmentStatus = async () => {
           "Content-Type": "application/json",
         },
         cache: "no-store",
-        next: { tags: ["departmentStatus"] },
       }
     );
 
@@ -204,7 +204,6 @@ export const fetchDepartmentStatus = async () => {
     return result.data; 
 
   } catch (error: any) {
-    console.error("Error fetching department status:", error);
-    return Error(error);
+    return [];
   }
 };

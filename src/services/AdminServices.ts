@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
@@ -22,7 +23,7 @@ export const uploadExcel = async (file: File): Promise<any> => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return [];
   }
 };
 
@@ -43,7 +44,7 @@ export const fetchUsersExcludingStudents = async (): Promise<any> => {
     return result.data;
   } catch (error: any) {
     console.error("Error fetching users:", error);
-    return Error(error);
+    return [];
   }
 };
 
