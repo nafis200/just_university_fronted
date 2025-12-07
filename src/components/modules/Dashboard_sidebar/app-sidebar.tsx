@@ -10,7 +10,7 @@ import {
   Users,
   CheckCircle,
   Database,
-  FileWarning,
+  FileText,
   PlusCircle,
 } from "lucide-react";
 
@@ -399,6 +399,19 @@ const data = {
       ],
     },
 
+     {
+      title: "Recived Documents",
+      url: "#",
+      icon: FileText,
+      isActive: true,
+      items: [
+        {
+          title: "Students Documents",
+          url: "/medical/dashboard/documents",
+        },
+
+      ],
+    },
      {
       title: "Upload Documents",
       url: "#",

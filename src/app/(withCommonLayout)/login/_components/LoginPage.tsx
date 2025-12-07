@@ -24,8 +24,9 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { setIsLoading, user, setUser } = useUser();
-  
 
+  const currentYear = new Date().getFullYear();
+  const academicYear = `${currentYear}-${currentYear + 1}`;
   const onSubmit = async (data: LoginFormInputs) => {
     console.log("Login Data:", data);
     setIsLoading(true);
@@ -38,8 +39,7 @@ const LoginPage = () => {
         setUser(res1);
         setIsLoading(false);
 
-      
-        router.push("/"); 
+        router.push("/");
       } else {
         showToast(res.message || "Login failed!", "error");
         setIsLoading(false);
@@ -53,8 +53,9 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
+       
       <div className="bg-gray-100 p-10 rounded-2xl shadow-xl w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
+        <h2 className="text-3xl font-bold mt-10 text-center mb-6 text-gray-800">
           Login / লগইন
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -99,7 +100,9 @@ const LoginPage = () => {
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
             {errors.password && (
-              <p className="text-red-500 mt-1 text-sm">{errors.password.message}</p>
+              <p className="text-red-500 mt-1 text-sm">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
