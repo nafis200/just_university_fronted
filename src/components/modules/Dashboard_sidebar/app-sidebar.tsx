@@ -252,6 +252,64 @@ const data = {
       ],
     },
   ],
+   navMainRegister: [
+    {
+      title: "Applicant List",
+      url: "#",
+      icon: Users,
+      isActive: true,
+      items: [
+        {
+          title: "All Applications",
+          url: "/register/dashboard/AllApplications",
+        },
+      ],
+    },
+
+    {
+      title: "Approved Applicants",
+      url: "#",
+      icon: CheckCircle,
+      isActive: true,
+      items: [
+        {
+          title: "Complete Applications",
+          url: "/register/dashboard/clearanceComplete",
+        },
+        {
+          title: "Pending Applications",
+          url: "/register/dashboard/pendingApplications",
+        },
+      ],
+    },
+
+     {
+      title: "Upload Documents",
+      url: "#",
+      icon: Upload,
+      isActive: true,
+      items: [
+        {
+          title: "Upload Required Documents",
+          url: "/register/dashboard/uploaddrive",
+        },
+        { title: "Delete Documents", url: "/register/dashboard/readDrive" },
+      ],
+    },
+
+    {
+      title: "Department Seats Status",
+      url: "#",
+      icon: Database,
+      isActive: true,
+      items: [
+        {
+          title: "Seats Status",
+          url: "/register/dashboard/departmentSeats",
+        },
+      ],
+    },
+  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -261,8 +319,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     admin: data.navMain,
     dean: data.navMainDean,
     faculty: data.navMainFaculty,
+    register:data.navMainRegister,
     hall: data.navMain,
     student: data.navMainuser,
+    hall_register:data.navMain,
   };
 
   
