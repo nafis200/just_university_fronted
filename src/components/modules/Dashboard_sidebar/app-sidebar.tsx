@@ -157,13 +157,27 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "Clearance Complete",
+          title: "Complete Applications",
           url: "/faculty/dashboard/clearanceComplete",
         },
         {
           title: "Pending Applications",
           url: "/faculty/dashboard/pendingApplications",
         },
+      ],
+    },
+
+     {
+      title: "Upload Documents",
+      url: "#",
+      icon: Upload,
+      isActive: true,
+      items: [
+        {
+          title: "Upload Required Documents",
+          url: "/faculty/dashboard/uploaddrive",
+        },
+        { title: "Delete Documents", url: "/faculty/dashboard/readDrive" },
       ],
     },
 
@@ -176,19 +190,6 @@ const data = {
         {
           title: "Seats Status",
           url: "/faculty/dashboard/departmentSeats",
-        },
-      ],
-    },
-
-    {
-      title: "Pending Documents Status",
-      url: "#",
-      icon: FileWarning,
-      isActive: true,
-      items: [
-        {
-          title: "Documents Status",
-          url: "/faculty/dashboard/pending-documents",
         },
       ],
     },

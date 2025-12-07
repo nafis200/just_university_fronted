@@ -11,27 +11,24 @@ const AdminApplicationpage = async ({ searchParams }: any) => {
   const page = parseInt(searchParams?.page) || 1;
   const limit = parseInt(searchParams?.limit) || 10;
 
-  
-
   const applicantsDatas = await fetchApplicants({
     subject,
     unit,
     page,
     limit,
-    search
+    search,
   });
 
   return (
     <div className="p-4 max-w-6xl">
-  <h1 className="text-2xl font-bold mb-4 text-center">All Applicants</h1>
-  <div className="">
-    <AdminApplication
-      applications={applicantsDatas.data}
-      meta={applicantsDatas.meta}
-    />
-  </div>
-</div>
-
+      <h1 className="text-2xl font-bold mb-4 text-center">All Applicants</h1>
+      <div className="">
+        <AdminApplication
+          applications={applicantsDatas.data}
+          meta={applicantsDatas.meta}
+        />
+      </div>
+    </div>
   );
 };
 

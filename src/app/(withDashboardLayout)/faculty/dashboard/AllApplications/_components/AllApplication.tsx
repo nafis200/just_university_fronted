@@ -1,47 +1,112 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
 
 import TablePagination from "@/components/Resuable_Table/core/NMTable/TablePagination";
 import { NMTable } from "@/components/Resuable_Table/core/NMTable";
-import ReusableSearchOptions from "@/components/resubaleSearchoptions/ReusableSeachOptions";
+import NewResuableSearchOption from "@/components/resubaleSearchoptions/NewResuableSearchOption";
+import { useUser } from "@/context/UserContext";
 
-interface Applicant {
-  gstApplicationId: string;
-  subject: string;
-  unit: string;
-  email: string;
+interface FacultyApplicationProps {
+  applications: any[];
+  meta?: any;
 }
 
-interface Props {
-  applications: Applicant[];
-  units?: string;
-}
+const StatusBadge = ({ status }: { status: boolean | null | undefined }) => {
+  const finalStatus = status ? "Accepted" : "Pending";
+  const color = status ? "bg-green-500" : "bg-yellow-500";
 
-const AllApplications: React.FC<Props> = ({ applications }) => {
-  const [filteredData, setFilteredData] = useState<Applicant[]>(applications);
+  return (
+    <span className={`px-2 py-1 rounded-full ${status ? "text-green-500" : "text-red-500"} `}>
+      {finalStatus}
+    </span>
+  );
+};
 
-  const columns: ColumnDef<Applicant>[] = [
+const FacultyApplication: React.FC<FacultyApplicationProps> = ({ applications, meta }) => {
+
+  const {user} = useUser()
+  const columns: ColumnDef<any>[] = [
     { accessorKey: "gstApplicationId", header: "GST Application ID" },
-    { accessorKey: "subject", header: "Subject" },
     { accessorKey: "unit", header: "Unit" },
-    { accessorKey: "email", header: "Email" },
+    { accessorFn: (row) => row.personalInfo?.Name, header: "Name" },
+    { accessorFn: (row) => row.OthersInfo?.Department || "N/A", header: "Department" },
+    { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
+    { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
+    { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
+
+       { accessorFn: (row) => row.OmrResult?.OmrPhysics || "N/A", header: "OMR Physics" },
+    { accessorFn: (row) => row.OmrResult?.OmrChemistry ?? "N/A", header: "OMR Chemistry" },
+    { accessorFn: (row) => row.OmrResult?.OmrMath ?? "N/A", header: "OMR Math" },
+    { accessorFn: (row) => row.OmrResult?.OmrBiology ?? "N/A", header: "OMR Biology" },
+    { accessorFn: (row) => row.OmrResult?.OmrBangla || "N/A", header: "OMR Bangla" },
+    { accessorFn: (row) => row.OmrResult?.OmrEnglish ?? "N/A", header: "OMR English" },
+    { accessorFn: (row) => row.OmrResult?.OmrTotal, header: "OMR Total" },
+    { accessorFn: (row) => row.OmrResult?.OmrStatus, header: "OMR Status" },
+    { accessorFn: (row) => row.OmrResult?.Position, header: "Position" },
+
+    {
+      header: "Admin Approved",
+      accessorFn: (row) => row.Approved?.adminApproved,
+      cell: ({ row }) => (
+        <StatusBadge status={row.original?.Approved?.adminApproved} />
+      ),
+    },
+    {
+      header: "Faculty Approved",
+      accessorFn: (row) => row.Approved?.facultyApproved,
+      cell: ({ row }) => (
+        <StatusBadge status={row.original?.Approved?.facultyApproved} />
+      ),
+    },
+    {
+      header: "Medical Approved",
+      accessorFn: (row) => row.Approved?.medicalApproved,
+      cell: ({ row }) => (
+        <StatusBadge status={row.original?.Approved?.medicalApproved} />
+      ),
+    },
+    {
+      header: "Dean Approved",
+      accessorFn: (row) => row.Approved?.deanApproved,
+      cell: ({ row }) => (
+        <StatusBadge status={row.original?.Approved?.deanApproved} />
+      ),
+    },
+    {
+      header: "Register Approved",
+      accessorFn: (row) => row.Approved?.registerApproved,
+      cell: ({ row }) => (
+        <StatusBadge status={row.original?.Approved?.registerApproved} />
+      ),
+    },
+    {
+      header: "Hall Register Approved",
+      accessorFn: (row) => row.Approved?.hallRegisterApproved,
+      cell: ({ row }) => (
+        <StatusBadge status={row.original?.Approved?.hallRegisterApproved} />
+      ),
+    },
+
+
+ 
   ];
 
   return (
     <div className="mt-5">
-      <ReusableSearchOptions
+      <NewResuableSearchOption
         applications={applications}
-        units="all"
-        onFilterChange={setFilteredData}
+        currentUnit={user?.unit}
         fileName="FilteredApplications.xlsx"
       />
 
-      <NMTable data={filteredData} columns={columns} />
-      <TablePagination totalPage={2} />
+      <NMTable data={applications} columns={columns} />
+
+      <TablePagination totalPage={meta?.total} />
     </div>
   );
 };
 
-export default AllApplications;
+export default FacultyApplication;

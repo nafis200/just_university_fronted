@@ -2,14 +2,30 @@
 import React from "react";
 import AllApplications from "../AllApplications/_components/AllApplication";
 import { applicantsData } from "../AllApplications/_components/AllApplicantsdata";
+import { fetchApplicants } from "@/services/FacultServices";
+import FacultyPending from "./_components/FacultyPending";
 
-export default function PendingApplicationPage({searchParams}:any) {
-  const searchTerm = searchParams?.searchTerm || "";
+export default async function PendingApplicationPage({ searchParams }: any) {
+  const subject = searchParams?.department;
+  const search = searchParams?.search;
+  const page = parseInt(searchParams?.page) || 1;
+  const limit = parseInt(searchParams?.limit) || 100;
+
+  const applicantsDatas = await fetchApplicants({
+    facultyApproved: false,
+    subject,
+    search,
+    page,
+    limit,
+  });
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Pending Status</h1>
-      <AllApplications applications={applicantsData} />
+  
+     <div>
+      <FacultyPending
+        applications={applicantsDatas.data}
+        meta={applicantsDatas.meta}
+      />
     </div>
   );
 }

@@ -1,16 +1,14 @@
-import React from "react";
-import UnitProgress from "./_components/UnitProgrss/UnitProgress";
-import { applicantsData } from "../AllApplications/_components/AllApplicantsdata";
+import Adminunit from "@/app/(withDashboardLayout)/admin/dashboard/departmentSeats/_components/Adminunit";
+import { fetchDepartmentStatus } from "@/services/StudentsServices";
 
-const DepartmentSeatStatus = () => {
+const FacultyDepartmentStatus = async () => {
+  const applications = await fetchDepartmentStatus();
+
   return (
     <div className="mt-5">
-      <UnitProgress
-        applications={applicantsData}
-        selectedUnit={"B"}
-      />
+      <Adminunit applications={applications} />
     </div>
   );
 };
 
-export default DepartmentSeatStatus;
+export default FacultyDepartmentStatus;

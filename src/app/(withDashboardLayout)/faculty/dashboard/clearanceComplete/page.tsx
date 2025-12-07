@@ -1,20 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
-import AllApplications from "../AllApplications/_components/AllApplication";
-import { applicantsData } from "../AllApplications/_components/AllApplicantsdata";
+import FacultyPending from "../pendingApplications/_components/FacultyPending";
+import { fetchApplicants } from "@/services/FacultServices";
 
-export default function ClearanceCompletePage({searchParams}:any) {
-  const searchTerm = searchParams?.searchTerm || "";
-  const units = "A";
+export default async function ClearanceCompletePage({ searchParams }: any) {
+  const subject = searchParams?.department;
+  const search = searchParams?.search;
+  const page = parseInt(searchParams?.page) || 1;
+  const limit = parseInt(searchParams?.limit) || 100;
 
-  const filteredApplications = applicantsData.filter(
-    (applicant) => applicant.unit === units
-  );
+  const applicantsDatas = await fetchApplicants({
+    facultyApproved: true,
+    subject,
+    search,
+    page,
+    limit,
+  });
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">All Applicants</h1>
-      <AllApplications applications={filteredApplications} />
+    <div>
+      <FacultyPending
+        applications={applicantsDatas.data}
+        meta={applicantsDatas.meta}
+      />
     </div>
   );
 }

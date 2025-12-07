@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { useRouter } from "next/navigation";
+
 
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
@@ -9,23 +11,28 @@ import NewResuableSearchOption from "@/components/resubaleSearchoptions/NewResua
 import { showDynamicAlert } from "@/components/resuble_toast/showDeleteAlert";
 import { createApproved } from "@/services/ApprovedServices";
 import { showToast } from "@/components/resuble_toast/toast";
-import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 
-interface AdminPendingProps {
+interface FacultyPendingProps {
   applications: any[];
   meta?: any;
 }
 
-const AdminPending: React.FC<AdminPendingProps> = ({ applications, meta }) => {
+const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) => {
 
+  const {user} = useUser()
   const router = useRouter();
-
+  if (!user) {
+  return <div>Loading...</div>;
+ }
 
   const handleAdminApprove = async (gstApplicationId: string) => {
+
+    
     const confirmed = await showDynamicAlert({
       confirmTitle: "Approve Application?",
-      confirmText: "Do you want to approve this application as Admin?",
+      confirmText: "Do you want to approve this application as Faculty?",
       confirmButtonText: "Yes, approve it!",
       cancelButtonText: "Cancel",
       successTitle: "Approved!",
@@ -36,7 +43,7 @@ const AdminPending: React.FC<AdminPendingProps> = ({ applications, meta }) => {
 
     if (confirmed) {
       try {
-        await createApproved({ gstApplicationId, adminApproved: true });
+        await createApproved({ gstApplicationId, facultyApproved: true });
         router.refresh();
         showToast(`Application ${gstApplicationId} approved successfully`, "success");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -55,10 +62,10 @@ const AdminPending: React.FC<AdminPendingProps> = ({ applications, meta }) => {
     { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
     { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
     {
-      header: "Admin Approved",
-      accessorFn: (row) => row.Approved?.adminApproved,
+      header: "Faculty Approved",
+      accessorFn: (row) => row.Approved?.facultyApproved,
       cell: ({ row }) => {
-        const approved = row.original?.Approved?.adminApproved;
+        const approved = row.original?.Approved?.facultyApproved;
 
         return (
           <button
@@ -78,7 +85,7 @@ const AdminPending: React.FC<AdminPendingProps> = ({ applications, meta }) => {
     <div className="mt-5">
       <NewResuableSearchOption
         applications={applications}
-        currentUnit="all"
+        currentUnit={user.unit}
         fileName="AdminData.xlsx"
       />
 
@@ -89,4 +96,4 @@ const AdminPending: React.FC<AdminPendingProps> = ({ applications, meta }) => {
   );
 };
 
-export default AdminPending;
+export default FacultyPending;
