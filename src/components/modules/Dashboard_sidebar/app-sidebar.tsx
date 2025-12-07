@@ -310,6 +310,122 @@ const data = {
       ],
     },
   ],
+   navMainHallRegister: [
+    {
+      title: "Applicant List",
+      url: "#",
+      icon: Users,
+      isActive: true,
+      items: [
+        {
+          title: "All Applications",
+          url: "/hall_register/dashboard/AllApplications",
+        },
+      ],
+    },
+
+    {
+      title: "Approved Applicants",
+      url: "#",
+      icon: CheckCircle,
+      isActive: true,
+      items: [
+        {
+          title: "Complete Applications",
+          url: "/hall_register/dashboard/clearanceComplete",
+        },
+        {
+          title: "Pending Applications",
+          url: "/hall_register/dashboard/pendingApplications",
+        },
+      ],
+    },
+
+     {
+      title: "Upload Documents",
+      url: "#",
+      icon: Upload,
+      isActive: true,
+      items: [
+        {
+          title: "Upload Required Documents",
+          url: "/hall_register/dashboard/uploaddrive",
+        },
+        { title: "Delete Documents", url: "/hall_register/dashboard/readDrive" },
+      ],
+    },
+
+    {
+      title: "Department Seats Status",
+      url: "#",
+      icon: Database,
+      isActive: true,
+      items: [
+        {
+          title: "Seats Status",
+          url: "/hall_register/dashboard/departmentSeats",
+        },
+      ],
+    },
+  ],
+   navMainMedical: [
+    {
+      title: "Applicant List",
+      url: "#",
+      icon: Users,
+      isActive: true,
+      items: [
+        {
+          title: "All Applications",
+          url: "/medical/dashboard/AllApplications",
+        },
+      ],
+    },
+
+    {
+      title: "Approved Applicants",
+      url: "#",
+      icon: CheckCircle,
+      isActive: true,
+      items: [
+        {
+          title: "Complete Applications",
+          url: "/medical/dashboard/clearanceComplete",
+        },
+        {
+          title: "Pending Applications",
+          url: "/medical/dashboard/pendingApplications",
+        },
+      ],
+    },
+
+     {
+      title: "Upload Documents",
+      url: "#",
+      icon: Upload,
+      isActive: true,
+      items: [
+        {
+          title: "Upload Required Documents",
+          url: "/medical/dashboard/uploaddrive",
+        },
+        { title: "Delete Documents", url: "/medical/dashboard/readDrive" },
+      ],
+    },
+
+    {
+      title: "Department Seats Status",
+      url: "#",
+      icon: Database,
+      isActive: true,
+      items: [
+        {
+          title: "Seats Status",
+          url: "/medical/dashboard/departmentSeats",
+        },
+      ],
+    },
+  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -320,9 +436,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     dean: data.navMainDean,
     faculty: data.navMainFaculty,
     register:data.navMainRegister,
-    hall: data.navMain,
     student: data.navMainuser,
-    hall_register:data.navMain,
+    hall_register:data.navMainHallRegister,
+    medical:data.navMainMedical
   };
 
   

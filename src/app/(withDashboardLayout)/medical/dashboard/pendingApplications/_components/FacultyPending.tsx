@@ -32,18 +32,18 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     
     const confirmed = await showDynamicAlert({
       confirmTitle: "Approve Application?",
-      confirmText: "Do you want to approve this application as Faculty?",
+      confirmText: "Do you want to approve this application as Register?",
       confirmButtonText: "Yes, approve it!",
       cancelButtonText: "Cancel",
       successTitle: "Approved!",
-      successText: "Application has been approved as Admin.",
+      successText: "Application has been approved as Medical Officer.",
       icon: "warning",
       itemName: `GST Application ID: ${gstApplicationId}`,
     });
 
     if (confirmed) {
       try {
-        await createApproved({ gstApplicationId, deanApproved: true });
+        await createApproved({ gstApplicationId, medicalApproved: true });
         router.refresh();
         showToast(`Application ${gstApplicationId} approved successfully`, "success");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -62,10 +62,10 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
     { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
     {
-      header: "Dean Approved",
-      accessorFn: (row) => row.Approved?.deanApproved,
+      header: "Medical Officer Approved",
+      accessorFn: (row) => row.Approved?.medicalApproved,
       cell: ({ row }) => {
-        const approved = row.original?.Approved?.deanApproved;
+        const approved = row.original?.Approved?.medicalApproved;
 
         return (
           <button
@@ -85,8 +85,8 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     <div className="mt-5">
       <NewResuableSearchOption
         applications={applications}
-        currentUnit={user.unit}
-        fileName="DeanData.xlsx"
+        currentUnit="all"
+        fileName="MedicalData.xlsx"
       />
 
       <NMTable data={applications} columns={columns} />

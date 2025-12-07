@@ -86,7 +86,7 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
       <NewResuableSearchOption
         applications={applications}
         currentUnit="all"
-        fileName="AdminData.xlsx"
+        fileName="RegisterData.xlsx"
       />
 
       <NMTable data={applications} columns={columns} />

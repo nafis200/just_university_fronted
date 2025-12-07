@@ -32,18 +32,18 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     
     const confirmed = await showDynamicAlert({
       confirmTitle: "Approve Application?",
-      confirmText: "Do you want to approve this application as Faculty?",
+      confirmText: "Do you want to approve this application as Register?",
       confirmButtonText: "Yes, approve it!",
       cancelButtonText: "Cancel",
       successTitle: "Approved!",
-      successText: "Application has been approved as Admin.",
+      successText: "Application has been approved as Hall Register.",
       icon: "warning",
       itemName: `GST Application ID: ${gstApplicationId}`,
     });
 
     if (confirmed) {
       try {
-        await createApproved({ gstApplicationId, deanApproved: true });
+        await createApproved({ gstApplicationId, hallRegisterApproved: true });
         router.refresh();
         showToast(`Application ${gstApplicationId} approved successfully`, "success");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -58,14 +58,15 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     { accessorKey: "unit", header: "Unit" },
     { accessorFn: (row) => row.personalInfo?.Name, header: "Name" },
     { accessorFn: (row) => row.OthersInfo?.Department || "N/A", header: "Department" },
+    { accessorFn: (row) => row.OthersInfo?.HallName || "N/A", header: "Applied Hall Name" },
     { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
     { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
     { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
     {
-      header: "Dean Approved",
-      accessorFn: (row) => row.Approved?.deanApproved,
+      header: "Hall Register Approved",
+      accessorFn: (row) => row.Approved?.hallRegisterApproved,
       cell: ({ row }) => {
-        const approved = row.original?.Approved?.deanApproved;
+        const approved = row.original?.Approved?.hallRegisterApproved;
 
         return (
           <button
@@ -85,8 +86,8 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     <div className="mt-5">
       <NewResuableSearchOption
         applications={applications}
-        currentUnit={user.unit}
-        fileName="DeanData.xlsx"
+        currentUnit="all"
+        fileName="HallRegisterData.xlsx"
       />
 
       <NMTable data={applications} columns={columns} />

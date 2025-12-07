@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "./services/AuthServices";
 
-const publicRoutes = ["/login", "/contract","/notice"];
+
+const publicRoutes = ["/login", "/contract", "/notice"];
 
 const roleBasedPrivateRoutes = {
   student: [/^\/student/, /^\/profile/, /^\/$/],
@@ -10,7 +11,9 @@ const roleBasedPrivateRoutes = {
   dean: [/^\/dean/, /^\/$/],
   register: [/^\/register/, /^\/$/],
   hall_register: [/^\/hall_register/, /^\/$/],
+  medical: [/^\/medical/, /^\/$/], 
 };
+
 
 const roleMap: Record<string, keyof typeof roleBasedPrivateRoutes> = {
   STUDENTS: "student",
@@ -19,6 +22,7 @@ const roleMap: Record<string, keyof typeof roleBasedPrivateRoutes> = {
   DEAN: "dean",
   REGISTER: "register",
   HALL_REGISTER: "hall_register",
+  MEDICAL: "medical",
 };
 
 export const middleware = async (request: NextRequest) => {
@@ -31,9 +35,8 @@ export const middleware = async (request: NextRequest) => {
   const user = await getCurrentUser();
 
   if (!user) {
-      return NextResponse.redirect(new URL("/notice", request.url));
+    return NextResponse.redirect(new URL("/notice", request.url));
   }
-
   const role = roleMap[user.role];
 
   if (role && roleBasedPrivateRoutes[role]) {
@@ -50,6 +53,7 @@ export const middleware = async (request: NextRequest) => {
   return NextResponse.redirect(new URL("/", request.url));
 };
 
+
 export const config = {
   matcher: [
     "/",
@@ -58,6 +62,7 @@ export const config = {
     "/faculty/:path*",
     "/dean/:path*",
     "/register/:path*",
-    "/hall_register/:path*",
+    "/hall_register/:path*", 
+    "/medical/:path*",       
   ],
 };
