@@ -55,11 +55,11 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "Upload Students Information Excel File",
+          title: "Upload Excel File",
           url: "/admin/dashboard/Pdfupload",
         },
         {
-          title: "Upload Required Documents",
+          title: "Upload Documents",
           url: "/admin/dashboard/uploaddrive",
         },
         { title: "Delete Documents", url: "/admin/dashboard/readDrive" },

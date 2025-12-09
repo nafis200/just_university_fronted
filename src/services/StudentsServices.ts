@@ -3,9 +3,9 @@
 "use server";
 
 import type { FieldValues } from "react-hook-form";
-import { revalidateTag } from "next/cache";
 
-export const createPersonalInfo:any = async (userData: FieldValues) => {
+// ---------------- Personal Info ----------------
+export const createPersonalInfo: any = async (userData: FieldValues) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/api/info/personalInfo`,
@@ -19,16 +19,12 @@ export const createPersonalInfo:any = async (userData: FieldValues) => {
     );
 
     const result = await res.json();
-
-    revalidateTag("students");
-
     return result;
 
   } catch (error: any) {
     return [];
   }
 };
-
 
 export const fetchPersonalInfo = async (searchTerm: string) => {
   try {
@@ -39,8 +35,6 @@ export const fetchPersonalInfo = async (searchTerm: string) => {
         headers: {
           "Content-Type": "application/json",
         },
-        cache: "force-cache",
-        next: { tags: ["students"] }
       }
     );
 
@@ -53,10 +47,7 @@ export const fetchPersonalInfo = async (searchTerm: string) => {
   }
 };
 
-
-
-
-
+// ---------------- Guardian Info ----------------
 export const createGuardianInfo = async (userData: FieldValues) => {
   try {
     const res = await fetch(
@@ -71,10 +62,6 @@ export const createGuardianInfo = async (userData: FieldValues) => {
     );
 
     const result = await res.json();
-
-    // Only revalidate students tag
-    revalidateTag("students");
-
     return result;
 
   } catch (error: any) {
@@ -82,7 +69,7 @@ export const createGuardianInfo = async (userData: FieldValues) => {
   }
 };
 
-
+// ---------------- Educational Info ----------------
 export const createEducationalInfo = async (userData: FieldValues) => {
   try {
     const res = await fetch(
@@ -97,9 +84,6 @@ export const createEducationalInfo = async (userData: FieldValues) => {
     );
 
     const result = await res.json();
-
-    revalidateTag("students");
-
     return result;
 
   } catch (error: any) {
@@ -107,7 +91,7 @@ export const createEducationalInfo = async (userData: FieldValues) => {
   }
 };
 
-
+// ---------------- Address Info ----------------
 export const createAddressInfo = async (userData: FieldValues) => {
   try {
     const res = await fetch(
@@ -122,9 +106,6 @@ export const createAddressInfo = async (userData: FieldValues) => {
     );
 
     const result = await res.json();
-
-    revalidateTag("students");
-
     return result;
 
   } catch (error: any) {
@@ -132,7 +113,7 @@ export const createAddressInfo = async (userData: FieldValues) => {
   }
 };
 
-
+// ---------------- Others Info ----------------
 export const createOthersInfo = async (userData: FieldValues) => {
   try {
     const res = await fetch(
@@ -147,9 +128,6 @@ export const createOthersInfo = async (userData: FieldValues) => {
     );
 
     const result = await res.json();
-
-    revalidateTag("students");
-
     return result;
 
   } catch (error) {
@@ -157,6 +135,7 @@ export const createOthersInfo = async (userData: FieldValues) => {
   }
 };
 
+// ---------------- Generate PDF ----------------
 export const generatePdf = async (pdfData: FieldValues) => {
   try {
     const res = await fetch(
@@ -172,38 +151,51 @@ export const generatePdf = async (pdfData: FieldValues) => {
       return { success: false, message: "Server Error!" };
     }
 
-   
     const blob = await res.blob();
-
     return { success: true, blob };
-  } catch (error:any) {
+
+  } catch (error: any) {
     return { success: false, message: error.message };
   }
 };
 
-
-
+// ---------------- Department Status ----------------
 export const fetchDepartmentStatus = async () => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/api/department-status`,
       {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
       }
     );
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch department status");
-    }
+    if (!res.ok) throw new Error("Failed to fetch department status");
 
     const result = await res.json();
-    return result.data; 
+    return result.data;
 
   } catch (error: any) {
+    return [];
+  }
+};
+
+// ---------------- Others Info Role ----------------
+export const createOthersInfoRole = async (userData: FieldValues) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/api/info/role`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      }
+    );
+
+    const result = await res.json();
+    return result;
+
+  } catch (error) {
     return [];
   }
 };

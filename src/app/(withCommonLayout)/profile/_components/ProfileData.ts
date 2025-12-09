@@ -96,6 +96,52 @@ export const departmentOption = [
 
 
 
+export const SerachDeprtment = [
+  { value: "Computer Science and Engineering", label: "Computer Science and Engineering" },
+  { value: "Industrial and Production Engineering", label: "Industrial and Production Engineering" },
+  { value: "Petroleum and Mining Engineering", label: "Petroleum and Mining Engineering" },
+  { value: "Chemical Engineering", label: "Chemical Engineering" },
+  { value: "Electrical and Electronic Engineering", label: "Electrical and Electronic Engineering" },
+  { value: "Biomedical Engineering", label: "Biomedical Engineering" },
+  { value: "Textile Engineering", label: "Textile Engineering" },
+  { value: "Microbiology", label: "Microbiology" },
+  { value: "Fisheries and Marine Bioscience", label: "Fisheries and Marine Bioscience" },
+  { value: "Genetic Engineering and Biotechnology", label: "Genetic Engineering and Biotechnology" },
+  { value: "Pharmacy", label: "Pharmacy" },
+  { value: "Biochemistry and Molecular Biology", label: "Biochemistry and Molecular Biology" },
+  { value: "Environmental Science and Technology", label: "Environmental Science and Technology" },
+  { value: "Nutrition and Food Technology", label: "Nutrition and Food Technology" },
+  { value: "Food Engineering (Former Agro Product Processing Technology)", label: "Food Engineering (Former Agro Product Processing Technology)" },
+  { value: "Climate and Disaster Management", label: "Climate and Disaster Management" },
+  { value: "Physical Education and Sports Science", label: "Physical Education and Sports Science" },
+  { value: "Physiotherapy and Rehabilitation", label: "Physiotherapy and Rehabilitation" },
+  { value: "Nursing and Health Science", label: "Nursing and Health Science" },
+  { value: "English", label: "English" },
+  { value: "Physics", label: "Physics" },
+  { value: "Chemistry", label: "Chemistry" },
+  { value: "Mathematics", label: "Mathematics" },
+  { value: "Applied Statistics and Data Science", label: "Applied Statistics and Data Science" },
+  { value: "Accounting and Information Systems", label: "Accounting and Information Systems" },
+  { value: "Management", label: "Management" },
+  { value: "Finance and Banking", label: "Finance and Banking" },
+  { value: "Marketing", label: "Marketing" },
+  { value: "Medicine, Surgery and Theriogenology", label: "Medicine, Surgery and Theriogenology" },
+  { value: "Microbiology and Hygiene", label: "Microbiology and Hygiene" },
+  { value: "Anatomy and Histology", label: "Anatomy and Histology" },
+  { value: "Pharmacology", label: "Pharmacology" },
+  { value: "Physiology and Biochemistry", label: "Physiology and Biochemistry" },
+  { value: "Animal Breeding and Genetics", label: "Animal Breeding and Genetics" },
+  { value: "Dairy and Poultry Science", label: "Dairy and Poultry Science" },
+  { value: "Pathology and Parasitology", label: "Pathology and Parasitology" },
+  { value: "Animal Science and Nutrition", label: "Animal Science and Nutrition" },
+  { value: "Agricultural Economics", label: "Agricultural Economics" },
+];
+
+
+
+
+
+
 export const departmentSeats = [
   { value: "Computer Science and Engineering", unit: "A", seats: 120 },
   { value: "Industrial and Production Engineering", unit: "A", seats: 80 },

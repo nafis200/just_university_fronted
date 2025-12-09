@@ -37,6 +37,8 @@ const CreateCredentialsPage = () => {
   const onSubmit = async (data: CredentialsFormInputs) => {
     try {
       const result = await registerUser(data as FieldValues);
+      console.log(data,"data")
+      console.log(result,"result")
 
       if (result && result?.message) {
         showToast("User created successfully!", "success");

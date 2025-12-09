@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+
 import { FieldValues } from "react-hook-form";
+
 export const fetchDepartmentStatus = async ({
   adminApproved,
   facultyApproved,
@@ -49,7 +51,6 @@ export const fetchDepartmentStatus = async ({
 
     if (unit) queryParams.append("unit", unit);
     if (department) queryParams.append("department", department);
-
     if (searchTerm) queryParams.append("searchTerm", searchTerm);
 
     if (page) queryParams.append("page", String(page));
@@ -59,9 +60,7 @@ export const fetchDepartmentStatus = async ({
 
     const res = await fetch(fullUrl, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
-      cache: "no-store",
-      next: { tags: ["departmentStatus"] }
+      headers: { "Content-Type": "application/json" }
     });
 
     if (!res.ok) {
@@ -76,7 +75,6 @@ export const fetchDepartmentStatus = async ({
     return [];
   }
 };
-
 
 
 

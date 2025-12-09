@@ -4,24 +4,30 @@
 
 import { getValidToken } from "@/lib/verifyToken";
 import { jwtDecode } from "jwt-decode";
-import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
-export const registerUser = async (userData: FieldValues) => {
+
+
+export const registerUser = async (userData: any) => {
   try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("accessToken")?.value; // server-side cookie
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}), 
       },
       body: JSON.stringify(userData),
     });
+
     const result = await res.json();
-    revalidateTag("Users");
     return result;
   } catch (error: any) {
-    return [];
+    console.error(error);
+    return { success: false, message: error.message };
   }
 };
 
@@ -32,13 +38,11 @@ export const loginUser = async (userData: FieldValues) => {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", 
+      credentials: "include",
       body: JSON.stringify(userData),
     });
 
     const result = await res.json();
-
-  
 
     if (result.success) {
       (await cookies()).set("accessToken", result?.data?.accessToken);
@@ -46,6 +50,7 @@ export const loginUser = async (userData: FieldValues) => {
     }
 
     return result;
+
   } catch (error: any) {
     return [];
   }
@@ -53,24 +58,23 @@ export const loginUser = async (userData: FieldValues) => {
 
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get("accessToken")?.value;
-  let decodedData = null;
 
   if (accessToken) {
-    decodedData = await jwtDecode(accessToken);
+    const decodedData = await jwtDecode(accessToken);
     return decodedData;
-  } else {
-    return null;
   }
-};
 
+  return null;
+};
 
 export const logout = async () => {
   try {
     const cookieStore = await cookies();
     cookieStore.delete("accessToken");
     cookieStore.delete("refreshToken");
-    
+
     return true;
+
   } catch (error) {
     return false;
   }
@@ -90,24 +94,23 @@ export const getNewToken = async () => {
     );
 
     return res.json();
+
   } catch (error: any) {
     return [];
   }
 };
 
-export const getAllUsers = async (email:string) => {
+export const getAllUsers = async (email: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/${email}`, {
-      next: {
-        tags: ["Users"],
-      },
-    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/${email}`);
     const data = await res.json();
     return data;
+
   } catch (error: any) {
     return [];
   }
 };
+
 export const UpdateUser = async (brandData: FieldValues, id: string) => {
   const token = await getValidToken();
 
@@ -125,12 +128,9 @@ export const UpdateUser = async (brandData: FieldValues, id: string) => {
       throw new Error(`Error: ${res.statusText}`);
     }
 
-    revalidateTag("Users");
-
     return res.json();
+
   } catch (error: any) {
     throw new Error(error.message || "Something went wrong");
   }
 };
-
-

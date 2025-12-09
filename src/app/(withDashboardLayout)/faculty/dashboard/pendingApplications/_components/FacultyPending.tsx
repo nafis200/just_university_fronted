@@ -2,7 +2,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import TablePagination from "@/components/Resuable_Table/core/NMTable/TablePagination";
@@ -12,24 +11,26 @@ import { showDynamicAlert } from "@/components/resuble_toast/showDeleteAlert";
 import { createApproved } from "@/services/ApprovedServices";
 import { showToast } from "@/components/resuble_toast/toast";
 import { useUser } from "@/context/UserContext";
-
+import { CHselect } from "@/components/reusable_form/form/CHselect";
+import { SerachDeprtment } from "@/app/(withCommonLayout)/profile/_components/ProfileData";
+import { createOthersInfoRole } from "@/services/StudentsServices";
 
 interface FacultyPendingProps {
   applications: any[];
   meta?: any;
 }
 
-const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) => {
-
-  const {user} = useUser()
+const FacultyPending: React.FC<FacultyPendingProps> = ({
+  applications,
+  meta,
+}) => {
+  const { user } = useUser();
   const router = useRouter();
   if (!user) {
-  return <div>Loading...</div>;
- }
+    return <div>Loading...</div>;
+  }
 
   const handleAdminApprove = async (gstApplicationId: string) => {
-
-    
     const confirmed = await showDynamicAlert({
       confirmTitle: "Approve Application?",
       confirmText: "Do you want to approve this application as Faculty?",
@@ -45,8 +46,11 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
       try {
         await createApproved({ gstApplicationId, facultyApproved: true });
         router.refresh();
-        showToast(`Application ${gstApplicationId} approved successfully`, "success");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        showToast(
+          `Application ${gstApplicationId} approved successfully`,
+          "success"
+        );
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         showToast(`Failed to approve application ${gstApplicationId}`, "error");
       }
@@ -57,10 +61,44 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     { accessorKey: "gstApplicationId", header: "GST Application ID" },
     { accessorKey: "unit", header: "Unit" },
     { accessorFn: (row) => row.personalInfo?.Name, header: "Name" },
-    { accessorFn: (row) => row.OthersInfo?.Department || "N/A", header: "Department" },
+    {
+      accessorFn: (row) => row.OthersInfo?.Department || "N/A",
+      header: "Department",
+    },
     { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
     { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
     { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
+    {
+      header: "Change Department",
+      cell: ({ row }) => {
+        const item = row.original;
+
+        return (
+          <div className="">
+            <CHselect
+              name="department"
+              options={SerachDeprtment}
+              placeholder="Select Department"
+              value={item?.OthersInfo?.Department || ""}
+              onChange={async (value) => {
+                try {
+                  await createOthersInfoRole({
+                    gstApplicationId: item.gstApplicationId,
+                    Department: value,
+                  });
+
+                  showToast("Department updated", "success");
+                  router.refresh();
+                } catch (err) {
+                  showToast("Failed to update", "error");
+                }
+              }}
+            />
+          </div>
+        );
+      },
+    },
+
     {
       header: "Faculty Approved",
       accessorFn: (row) => row.Approved?.facultyApproved,
@@ -72,7 +110,9 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
             className={`px-3 py-1 rounded ${
               approved ? "bg-green-500 text-white" : "bg-red-600 text-white"
             }`}
-            onClick={() => !approved && handleAdminApprove(row.original.gstApplicationId)}
+            onClick={() =>
+              !approved && handleAdminApprove(row.original.gstApplicationId)
+            }
           >
             {approved ? "Approved" : "Pending"}
           </button>
