@@ -102,7 +102,7 @@ export const getNewToken = async () => {
 
 export const getAllUsers = async (email: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/${email}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/auth/${email}`);
     const data = await res.json();
     return data;
 
@@ -115,7 +115,7 @@ export const UpdateUser = async (brandData: FieldValues, id: string) => {
   const token = await getValidToken();
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/auth/${id}`, {
       method: "PUT",
       body: JSON.stringify(brandData),
       headers: {
@@ -132,5 +132,29 @@ export const UpdateUser = async (brandData: FieldValues, id: string) => {
 
   } catch (error: any) {
     throw new Error(error.message || "Something went wrong");
+  }
+};
+
+
+// ................Delete Role...............
+
+export const deleteUserByGstApplicationId = async (
+  gstApplicationId: string
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/api/info/delete/${gstApplicationId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    return null;
   }
 };

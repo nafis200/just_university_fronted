@@ -19,7 +19,7 @@ export default async function ClearanceCompletePage({ searchParams }: any) {
   });
 
   return (
-    <div>
+    <div className="p-4 max-w-6xl">
       <FacultyPending
         applications={applicantsDatas.data}
         meta={applicantsDatas.meta}

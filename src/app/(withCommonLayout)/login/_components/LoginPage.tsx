@@ -28,10 +28,11 @@ const LoginPage = () => {
   const currentYear = new Date().getFullYear();
   const academicYear = `${currentYear}-${currentYear + 1}`;
   const onSubmit = async (data: LoginFormInputs) => {
-    console.log("Login Data:", data);
+   
     setIsLoading(true);
     try {
       const res = await loginUser(data);
+      console.log(res)
       const res1 = await getCurrentUser();
 
       if (res.success) {

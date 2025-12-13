@@ -42,7 +42,7 @@ export default function GoogleDriveUploadPage() {
     setUploading(true);
     const result = await uploadFileToDrive(file, title);
     setUploading(false);
-
+    console.log(result)
   
 
     if (result.success) {

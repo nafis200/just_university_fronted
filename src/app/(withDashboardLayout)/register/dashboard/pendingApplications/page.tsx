@@ -24,7 +24,7 @@ export default async function PendingApplicationPage({ searchParams }: any) {
 
   return (
   
-     <div>
+     <div className="p-4 max-w-6xl">
       <FacultyPending
         applications={applicantsDatas.data}
         meta={applicantsDatas.meta}

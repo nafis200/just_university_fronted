@@ -15,6 +15,8 @@ import { useUser } from "@/context/UserContext";
 import { CHselect } from "@/components/reusable_form/form/CHselect";
 import { SerachDeprtment } from "@/app/(withCommonLayout)/profile/_components/ProfileData";
 import { createOthersInfoRole } from "@/services/StudentsServices";
+import { X, Trash2 } from "lucide-react";
+import { deleteUserByGstApplicationId } from "@/services/AuthServices";
 
 interface FacultyPendingProps {
   applications: any[];
@@ -30,6 +32,30 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
   if (!user) {
     return <div>Loading...</div>;
   }
+
+  const handleDelete = async (gstApplicationId: string) => {
+    const confirmed = await showDynamicAlert({
+      confirmTitle: "Delete User?",
+      confirmText:
+        "Do you really want to delete this user and all related data?",
+      confirmButtonText: "Yes, delete!",
+      cancelButtonText: "Cancel",
+      successTitle: "Deleted!",
+      successText: `User ${gstApplicationId} deleted successfully`,
+      icon: "warning",
+      itemName: `GST Application ID: ${gstApplicationId}`,
+    });
+
+    if (!confirmed) return;
+
+    const result = await deleteUserByGstApplicationId(gstApplicationId);
+    if (result) {
+      showToast(`User ${gstApplicationId} deleted successfully`, "success");
+      router.refresh();
+    } else {
+      showToast(`Failed to delete user ${gstApplicationId}`, "error");
+    }
+  };
 
   const handleAdminApprove = async (gstApplicationId: string) => {
     const confirmed = await showDynamicAlert({
@@ -69,33 +95,76 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
     { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
     { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
     { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
+
     {
       header: "Change Department",
       cell: ({ row }) => {
         const item = row.original;
 
         return (
-          <div className="">
-            <CHselect
-              name="department"
-              options={SerachDeprtment}
-              placeholder="Select Department"
-              value={item?.OthersInfo?.Department || ""}
-              onChange={async (value) => {
-                try {
-                  await createOthersInfoRole({
-                    gstApplicationId: item.gstApplicationId,
-                    Department: value,
-                  });
+          <CHselect
+            name="department"
+            options={SerachDeprtment}
+            placeholder="Select Department"
+            value={item?.OthersInfo?.Department || ""}
+            onChange={async (value) => {
+              try {
+                await createOthersInfoRole({
+                  gstApplicationId: item.gstApplicationId,
+                  Department: value,
+                });
+                showToast("Department updated", "success");
+                router.refresh();
+              } catch {
+                showToast("Failed to update", "error");
+              }
+            }}
+          />
+        );
+      },
+    },
 
-                  showToast("Department updated", "success");
-                  router.refresh();
-                } catch (err) {
-                  showToast("Failed to update", "error");
-                }
-              }}
-            />
-          </div>
+    {
+      header: "Register",
+      accessorFn: (row) => row.Approved?.registerApproved,
+      cell: ({ row }) => {
+        const ok = row.original?.Approved?.registerApproved;
+        return ok ? (
+          <span className="flex items-center justify-center gap-1 text-green-600">
+            Approved
+          </span>
+        ) : (
+          <X className="text-red-600 mx-auto" />
+        );
+      },
+    },
+
+    {
+      header: "Medical",
+      accessorFn: (row) => row.Approved?.medicalApproved,
+      cell: ({ row }) => {
+        const ok = row.original?.Approved?.medicalApproved;
+        return ok ? (
+          <span className="flex items-center justify-center gap-1 text-green-600">
+            Approved
+          </span>
+        ) : (
+          <X className="text-red-600 mx-auto" />
+        );
+      },
+    },
+
+    {
+      header: "Hall",
+      accessorFn: (row) => row.Approved?.hallRegisterApproved,
+      cell: ({ row }) => {
+        const ok = row.original?.Approved?.hallRegisterApproved;
+        return ok ? (
+          <span className="flex items-center justify-center gap-1 text-green-600">
+            Approved
+          </span>
+        ) : (
+          <X className="text-red-600 mx-auto" />
         );
       },
     },
@@ -104,18 +173,45 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
       header: "Dean Approved",
       accessorFn: (row) => row.Approved?.deanApproved,
       cell: ({ row }) => {
-        const approved = row.original?.Approved?.deanApproved;
+        const deanApproved = row.original?.Approved?.deanApproved;
+        const registerApproved = row.original?.Approved?.registerApproved;
+        const medicalApproved = row.original?.Approved?.medicalApproved;
+        const hallApproved = row.original?.Approved?.hallRegisterApproved;
+
+        const disabled = !registerApproved || !medicalApproved || !hallApproved;
 
         return (
           <button
+            disabled={disabled}
             className={`px-3 py-1 rounded ${
-              approved ? "bg-green-500 text-white" : "bg-red-600 text-white"
+              deanApproved
+                ? "bg-green-500 text-white"
+                : disabled
+                ? "bg-gray-400 cursor-not-allowed text-white"
+                : "bg-red-600 text-white"
             }`}
             onClick={() =>
-              !approved && handleAdminApprove(row.original.gstApplicationId)
+              !disabled &&
+              !deanApproved &&
+              handleAdminApprove(row.original.gstApplicationId)
             }
           >
-            {approved ? "Approved" : "Pending"}
+            {deanApproved ? "Approved" : "Pending"}
+          </button>
+        );
+      },
+    },
+    {
+      header: "Delete",
+      cell: ({ row }) => {
+        const gstApplicationId = row.original.gstApplicationId;
+        return (
+          <button
+            onClick={() => handleDelete(gstApplicationId)}
+            className="px-2 py-1 bg-red-600 text-white rounded flex items-center gap-1 hover:bg-red-700"
+          >
+            <Trash2 size={16} />
+            Delete
           </button>
         );
       },

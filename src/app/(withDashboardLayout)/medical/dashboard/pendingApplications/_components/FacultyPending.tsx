@@ -12,7 +12,7 @@ import { showDynamicAlert } from "@/components/resuble_toast/showDeleteAlert";
 import { createApproved } from "@/services/ApprovedServices";
 import { showToast } from "@/components/resuble_toast/toast";
 import { useUser } from "@/context/UserContext";
-
+import { X } from "lucide-react";
 
 interface FacultyPendingProps {
   applications: any[];
@@ -53,33 +53,64 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     }
   };
 
-  const columns: ColumnDef<any>[] = [
-    { accessorKey: "gstApplicationId", header: "GST Application ID" },
-    { accessorKey: "unit", header: "Unit" },
-    { accessorFn: (row) => row.personalInfo?.Name, header: "Name" },
-    { accessorFn: (row) => row.OthersInfo?.Department || "N/A", header: "Department" },
-    { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
-    { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
-    { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
-    {
-      header: "Medical Officer Approved",
-      accessorFn: (row) => row.Approved?.medicalApproved,
-      cell: ({ row }) => {
-        const approved = row.original?.Approved?.medicalApproved;
 
-        return (
-          <button
-            className={`px-3 py-1 rounded ${
-              approved ? "bg-green-500 text-white" : "bg-red-600 text-white"
-            }`}
-            onClick={() => !approved && handleAdminApprove(row.original.gstApplicationId)}
-          >
-            {approved ? "Approved" : "Pending"}
-          </button>
-        );
-      },
+
+const columns: ColumnDef<any>[] = [
+  { accessorKey: "gstApplicationId", header: "GST Application ID" },
+  { accessorKey: "unit", header: "Unit" },
+  { accessorFn: (row) => row.personalInfo?.Name, header: "Name" },
+  {
+    accessorFn: (row) => row.OthersInfo?.Department || "N/A",
+    header: "Department",
+  },
+  { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
+  { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
+  { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
+
+  {
+    header: "Register Approved",
+    accessorFn: (row) => row.Approved?.registerApproved,
+    cell: ({ row }) => {
+      const registerApproved = row.original?.Approved?.registerApproved;
+
+      return registerApproved ? (
+        <span className="text-green-600 font-semibold">Approved</span>
+      ) : (
+        <X className="text-red-600 mx-auto" />
+      );
     },
-  ];
+  },
+
+  {
+    header: "Medical Officer Approved",
+    accessorFn: (row) => row.Approved?.medicalApproved,
+    cell: ({ row }) => {
+      const medicalApproved = row.original?.Approved?.medicalApproved;
+      const registerApproved = row.original?.Approved?.registerApproved;
+
+      const disabled = !registerApproved;
+
+      return (
+        <button
+          disabled={disabled}
+          className={`px-3 py-1 rounded ${
+            medicalApproved
+              ? "bg-green-500 text-white"
+              : disabled
+              ? "bg-gray-400 cursor-not-allowed text-white"
+              : "bg-red-600 text-white"
+          }`}
+          onClick={() =>
+            !disabled && handleAdminApprove(row.original.gstApplicationId)
+          }
+        >
+          {medicalApproved ? "Approved" : "Pending"}
+        </button>
+      );
+    },
+  },
+];
+
 
   return (
     <div className="mt-5">

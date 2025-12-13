@@ -12,6 +12,7 @@ import { showDynamicAlert } from "@/components/resuble_toast/showDeleteAlert";
 import { createApproved } from "@/services/ApprovedServices";
 import { showToast } from "@/components/resuble_toast/toast";
 import { useUser } from "@/context/UserContext";
+import { X } from "lucide-react";
 
 
 interface FacultyPendingProps {
@@ -53,34 +54,85 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({ applications, meta }) =
     }
   };
 
-  const columns: ColumnDef<any>[] = [
-    { accessorKey: "gstApplicationId", header: "GST Application ID" },
-    { accessorKey: "unit", header: "Unit" },
-    { accessorFn: (row) => row.personalInfo?.Name, header: "Name" },
-    { accessorFn: (row) => row.OthersInfo?.Department || "N/A", header: "Department" },
-    { accessorFn: (row) => row.OthersInfo?.HallName || "N/A", header: "Applied Hall Name" },
-    { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
-    { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
-    { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
-    {
-      header: "Hall Register Approved",
-      accessorFn: (row) => row.Approved?.hallRegisterApproved,
-      cell: ({ row }) => {
-        const approved = row.original?.Approved?.hallRegisterApproved;
+ 
 
-        return (
-          <button
-            className={`px-3 py-1 rounded ${
-              approved ? "bg-green-500 text-white" : "bg-red-600 text-white"
-            }`}
-            onClick={() => !approved && handleAdminApprove(row.original.gstApplicationId)}
-          >
-            {approved ? "Approved" : "Pending"}
-          </button>
-        );
-      },
+const columns: ColumnDef<any>[] = [
+  { accessorKey: "gstApplicationId", header: "GST Application ID" },
+  { accessorKey: "unit", header: "Unit" },
+  { accessorFn: (row) => row.personalInfo?.Name, header: "Name" },
+  { accessorFn: (row) => row.OthersInfo?.Department || "N/A", header: "Department" },
+  { accessorFn: (row) => row.OthersInfo?.HallName || "N/A", header: "Applied Hall Name" },
+  { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
+  { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
+  { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
+
+
+  {
+    header: "Register Status",
+    accessorFn: (row) => row.Approved?.registerApproved,
+    cell: ({ row }) => {
+      const registerApproved = row.original?.Approved?.registerApproved;
+
+      return registerApproved ? (
+        <span className="flex items-center justify-center gap-1 text-green-600">
+           Accepted
+        </span>
+      ) : (
+        <X className="text-red-600 mx-auto" />
+      );
     },
-  ];
+  },
+
+  
+  {
+    header: "Medical Status",
+    accessorFn: (row) => row.Approved?.medicalApproved,
+    cell: ({ row }) => {
+      const medicalApproved = row.original?.Approved?.medicalApproved;
+
+      return medicalApproved ? (
+        <span className="flex items-center justify-center gap-1 text-green-600">
+           Accepted
+        </span>
+      ) : (
+        <X className="text-red-600 mx-auto" />
+      );
+    },
+  },
+
+  {
+    header: "Hall Register Approved",
+    accessorFn: (row) => row.Approved?.hallRegisterApproved,
+    cell: ({ row }) => {
+      const hallApproved = row.original?.Approved?.hallRegisterApproved;
+      const registerApproved = row.original?.Approved?.registerApproved;
+      const medicalApproved = row.original?.Approved?.medicalApproved;
+
+      const disabled = !registerApproved || !medicalApproved;
+
+      return (
+        <button
+          disabled={disabled}
+          className={`px-3 py-1 rounded ${
+            hallApproved
+              ? "bg-green-500 text-white"
+              : disabled
+              ? "bg-gray-400 cursor-not-allowed text-white"
+              : "bg-red-600 text-white"
+          }`}
+          onClick={() =>
+            !disabled &&
+            !hallApproved &&
+            handleAdminApprove(row.original.gstApplicationId)
+          }
+        >
+          {hallApproved ? "Approved" : "Pending"}
+        </button>
+      );
+    },
+  },
+];
+
 
   return (
     <div className="mt-5">

@@ -6,6 +6,7 @@ import { showDynamicAlert } from "@/components/resuble_toast/showDeleteAlert";
 import { showToast } from "@/components/resuble_toast/toast";
 import { updateUserStatus } from "@/services/AdminServices";
 import { ColumnDef } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 
 interface User {
   gstApplicationId: string;
@@ -15,7 +16,10 @@ interface User {
 }
 
 const HandleUserTable = ({ users }: { users: User[] }) => {
+   const router = useRouter();
+ 
   const handleBlockUnblock = async (user: User) => {
+ 
     const action = user.status === "ACTIVE" ? "Block" : "Unblock";
 
     const confirmed = await showDynamicAlert({
@@ -39,6 +43,7 @@ const HandleUserTable = ({ users }: { users: User[] }) => {
         `${user.gstApplicationId} has been ${action.toLowerCase()}ed successfully!`,
         "success"
       );
+       router.refresh();
     } else {
       showToast(
         `Failed to ${action.toLowerCase()} user: ${user.gstApplicationId}`,
