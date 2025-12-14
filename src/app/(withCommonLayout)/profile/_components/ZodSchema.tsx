@@ -7,11 +7,18 @@ export const addressSchema = z.object({
     .string()
     .min(1, "Village / House number / Road number is required"),
   PostOffice: z.string().min(1, "Post office is required"),
-  PostCode: z.string().min(1, "Post code is required"),
+  PostCode: z
+  .string()
+  .regex(/^\d{4}$/, "Post code must be exactly 4 digits"),
   Thana: z.string().min(1, "Thana is required"),
   District: z.string().min(1, "District is required"),
   Country: z.string().min(1, "Country is required"),
-  NID: z.string().min(1, "NID / Birth reg. / Passport number is required"),
+  NID: z
+  .string()
+  .regex(
+    /^(?:\d{10}|\d{13}|\d{17}|[A-Z]{2}\d{7})$/,
+    "Enter a valid NID, Birth Registration, or Passport number"
+  ),
   PresentAddress: z.string().min(1, "Present address is required"),
 });
 
@@ -42,14 +49,24 @@ export const guardianSchema = z.object({
     .string()
     .min(1, "Village / House number / Road number is required"),
   GuardianPostOffice: z.string().min(1, "Post office is required"),
-  GuardianPostCode: z.string().min(1, "Post code is required"),
+  GuardianPostCode: z
+  .string()
+  .regex(/^\d{4}$/, "Post code must be exactly 4 digits"),
   GuardianThana: z.string().min(1, "Thana is required"),
   GuardianDistrict: z.string().min(1, "District is required"),
   GuardianCountry: z.string().min(1, "Country is required"),
   GuardianNID: z
-    .string()
-    .min(1, "Guardian's NID / Birth reg. / Passport number is required"),
-  GuardianPhone: z.string().min(1, "Guardian's mobile number is required"),
+  .string()
+  .regex(
+    /^(?:\d{10}|\d{13}|\d{17}|[A-Z]{2}\d{7})$/,
+    "Enter a valid NID, Birth Registration, or Passport number"
+  ),
+  GuardianPhone: z
+  .string()
+  .regex(
+    /^(?:\+8801|01)[3-9]\d{8}$/,
+    "Please enter a valid mobile number"
+  ),
 
   LegalGuardianName: z.string().min(1, "Legal Guardian's name is required"),
   LegalGuardianOccupation: z.string().min(1, "Occupation is required"),
@@ -59,15 +76,24 @@ export const guardianSchema = z.object({
     .string()
     .min(1, "Village / House number / Road number is required"),
   LegalGuardianPostOffice: z.string().min(1, "Post office is required"),
-  LegalGuardianPostCode: z.string().min(1, "Post code is required"),
+  LegalGuardianPostCode: z
+  .string()
+  .regex(/^\d{4}$/, "Post code must be exactly 4 digits"),
   LegalGuardianThana: z.string().min(1, "Thana is required"),
   LegalGuardianDistrict: z.string().min(1, "District is required"),
   LegalGuardianCountry: z.string().min(1, "Country is required"),
   LegalGuardianNID: z
-    .string()
-    .min(1, "NID / Birth reg. / Passport number is required"),
-  LegalGuardianPhone: z.string().min(1, "Mobile number is required"),
-
+  .string()
+  .regex(
+    /^(?:\d{10}|\d{13}|\d{17}|[A-Z]{2}\d{7})$/,
+    "Enter a valid NID, Birth Registration, or Passport number"
+  ),
+   LegalGuardianPhone:  z
+  .string()
+  .regex(
+    /^(?:\+8801|01)[3-9]\d{8}$/,
+    "Please enter a valid mobile number"
+  ),
   LocalGuardianName: z.string().optional(),
   LocalGuardianRelation: z.string().optional(),
   LocalGuardianVillage: z.string().optional(),
@@ -108,6 +134,11 @@ export const personalInfoSchema = z.object({
   Religion: z.string().min(1, "Religion is required"),
   Caste: z.string().nullable().optional(),
   Nationality: z.string().min(1, "Nationality is required"),
-  PhoneNumber: z.string().min(1, "Mobile number is required"),
+  PhoneNumber: z
+  .string()
+  .regex(
+    /^(?:\+8801|01)[3-9]\d{8}$/,
+    "Please enter a valid mobile number"
+  ),
   Email: z.string().email("Invalid email format"),
 });

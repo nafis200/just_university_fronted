@@ -217,6 +217,21 @@ export const maritalOptions = [
   { value: "UNMARRIED", label: "Unmarried / অবিবাহিত" },
 ];
 
+export const religon = [
+  { value: "ISLAM", label: "Islam / ইসলাম" },
+  { value: "HINDUISM", label: "Hindu / হিন্দু" },
+  { value: "BUDDHISM", label: "Buddhist / বৌদ্ধ" },
+  { value: "CHRISTIANITY", label: "Christian / খ্রিস্টান" },
+  { value: "OTHER", label: "Other / অন্যান্য" },
+]
+
+export const countries = [
+  { value: "BANGLADESH", label: "Bangladesh / বাংলাদেশ" },
+  { value: "OTHER", label: "Other / অন্যান্য" },
+];
+
+
+
 
 export const programOptions = [
   { value: "B.SC.", label: "B.SC." },

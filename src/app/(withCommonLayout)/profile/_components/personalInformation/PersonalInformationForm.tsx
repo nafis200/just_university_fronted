@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Cinput } from "@/components/reusable_form/form/Cinput";
 import { Cselect } from "@/components/reusable_form/form/Cselect";
 import { personalInfoSchema } from "../ZodSchema";
-import { bloodOptions, genderOptions, maritalOptions } from "../ProfileData";
+import { bloodOptions, countries, genderOptions, maritalOptions, religon } from "../ProfileData";
 import { useUser } from "@/context/UserContext";
 import { createPersonalInfo, fetchPersonalInfo } from "@/services/StudentsServices";
 import { showToast } from "@/components/resuble_toast/toast";
@@ -139,9 +139,10 @@ const PersonalInformationForm = ({ onNext }: Props) => {
             <Cselect name="Gender" label="লিঙ্গ / Gender*" placeholder="Select Gender" options={genderOptions} control={control} disabled={true} />
             <Cselect name="BloodGroup" label="রক্তের গ্রুপ / Blood Group*" placeholder="Select Blood Group" options={bloodOptions} control={control} />
             <Cselect name="MaritalStatus" label="বৈবাহিক অবস্থা / Marital Status*" placeholder="Select Marital Status" options={maritalOptions} control={control} />
-            <Cinput name="Religion" label="ধর্ম / Religion*" placeholder="Enter religion" control={control} />
+            <Cselect name="Religion" label="ধর্ম / Religion*" placeholder="Select Religon" options={religon} control={control} />
+        
             <Cinput name="Caste" label="সম্প্রদায় / Caste" placeholder="Enter caste" control={control} />
-            <Cinput name="Nationality" label="জাতীয়তা / Nationality*" placeholder="Nationality" control={control} />
+            <Cselect name="Nationality" label="জাতীয়তা / Nationality*" placeholder="Nationality" options={countries} control={control} />
             <Cinput name="PhoneNumber" label="শিক্ষার্থীর মোবাইল নম্বর / Student's Mobile Number*" placeholder="Enter mobile number" control={control} />
             <Cinput name="Email" label="শিক্ষার্থীর ইমেইল / Student's Email*" placeholder="Enter email address" control={control} />
           </div>
