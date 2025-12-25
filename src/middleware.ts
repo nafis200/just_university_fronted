@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "./services/AuthServices";
 
@@ -37,7 +38,7 @@ export const middleware = async (request: NextRequest) => {
   if (!user) {
     return NextResponse.redirect(new URL("/notice", request.url));
   }
-  const role = roleMap[user.role];
+  const role = roleMap[(user as any).role];
 
   if (role && roleBasedPrivateRoutes[role]) {
     const allowedRoutes = roleBasedPrivateRoutes[role];

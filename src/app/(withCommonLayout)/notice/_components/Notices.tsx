@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { Calendar } from "lucide-react";
 
 interface FileNotice {
   id: string;
@@ -125,19 +126,32 @@ export default function Notices({
               </div>
 
               <div className="space-y-3">
-                {files.map((file) => (
-                  <Link
-                    key={file.id}
-                    href={file.viewLink}
-                    target="_blank"
-                    className="group relative p-4 pl-6 border-l-4 border-blue-500 bg-blue-50 rounded-r-lg hover:bg-blue-100 hover:shadow-md transition-all duration-300 block"
-                  >
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-blue-500 rounded-full -ml-2 group-hover:scale-125 transition-transform"></div>
-                    <p className="text-gray-800 font-medium leading-relaxed">
-                      {file.title}
-                    </p>
-                  </Link>
-                ))}
+                {files.map((file) => {
+                  const dateOnly = new Date(file.createdAt)
+                    .toISOString()
+                    .split("T")[0];
+
+                  return (
+                    <div key={file.id} className="mb-4">
+                      <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
+                        <Calendar size={16} className="text-blue-500" />
+                        <span>{dateOnly}</span>
+                      </div>
+
+                      <Link
+                        href={file.viewLink}
+                        target="_blank"
+                        className="group relative p-4 pl-6 border-l-4 border-blue-500 bg-blue-50 rounded-r-lg hover:bg-blue-100 hover:shadow-md transition-all duration-300 block"
+                      >
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-blue-500 rounded-full -ml-2 group-hover:scale-125 transition-transform"></div>
+
+                        <p className="text-gray-800 font-medium leading-relaxed">
+                          {file.title}
+                        </p>
+                      </Link>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

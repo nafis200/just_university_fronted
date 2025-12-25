@@ -202,3 +202,68 @@ export const createOthersInfoRole = async (userData: FieldValues) => {
 
 
 
+export const getDateApplicationByGstApplicationId = async (gstApplicationId: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/excel/${gstApplicationId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch data");
+    const re = await res.json();
+    return re.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const updateDateApplicationByGstApplicationId = async (
+  gstApplicationId: string,
+  applyEndDate: string
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/api/excel/${gstApplicationId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ applyEndDate }),
+      }
+    );
+
+    if (!res.ok) throw new Error("Failed to update data");
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+
+export const updateStatusApplicationByGstApplicationId = async (
+  gstApplicationId: string,
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/api/excel/update/${gstApplicationId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!res.ok) throw new Error("Failed to update data");
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+

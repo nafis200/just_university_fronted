@@ -118,8 +118,8 @@ const GuardianForm = ({ onNext, onPrev }: Props) => {
       onNext(data);
 
       const res = await createGuardianInfo(personalInfoPayload);
-
-      if (res.success) {
+      console.log(res)
+            if (res.success) {
         showToast("Submitted successfully!", "success");
       } else {
         showToast(res.message || "Submission failed!", "error");
