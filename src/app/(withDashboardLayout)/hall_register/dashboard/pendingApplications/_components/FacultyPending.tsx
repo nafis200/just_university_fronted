@@ -64,33 +64,14 @@ const columns: ColumnDef<any>[] = [
   { accessorFn: (row) => row.OthersInfo?.HallName || "N/A", header: "Applied Hall Name" },
   { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
   { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
-  { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
-
-
+  { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },  
   {
-    header: "Register Status",
-    accessorFn: (row) => row.Approved?.registerApproved,
+    header: "Dean Status",
+    accessorFn: (row) => row.Approved?.deanApproved,
     cell: ({ row }) => {
-      const registerApproved = row.original?.Approved?.registerApproved;
+      const DeanApproved = row.original?.Approved?.deanApproved;
 
-      return registerApproved ? (
-        <span className="flex items-center justify-center gap-1 text-green-600">
-           Accepted
-        </span>
-      ) : (
-        <X className="text-red-600 mx-auto" />
-      );
-    },
-  },
-
-  
-  {
-    header: "Medical Status",
-    accessorFn: (row) => row.Approved?.medicalApproved,
-    cell: ({ row }) => {
-      const medicalApproved = row.original?.Approved?.medicalApproved;
-
-      return medicalApproved ? (
+      return DeanApproved ? (
         <span className="flex items-center justify-center gap-1 text-green-600">
            Accepted
         </span>
@@ -101,36 +82,33 @@ const columns: ColumnDef<any>[] = [
   },
 
   {
-    header: "Hall Register Approved",
-    accessorFn: (row) => row.Approved?.hallRegisterApproved,
-    cell: ({ row }) => {
-      const hallApproved = row.original?.Approved?.hallRegisterApproved;
-      const registerApproved = row.original?.Approved?.registerApproved;
-      const medicalApproved = row.original?.Approved?.medicalApproved;
+  header: "Hall Register Approved",
+  accessorFn: (row) => row.Approved?.hallRegisterApproved,
+  cell: ({ row }) => {
+    const hallApproved = !!row.original?.Approved?.hallRegisterApproved;
+    const deanApproved = !!row.original?.Approved?.deanApproved; 
 
-      const disabled = !registerApproved || !medicalApproved;
-
-      return (
-        <button
-          disabled={disabled}
-          className={`px-3 py-1 rounded ${
-            hallApproved
-              ? "bg-green-500 text-white"
-              : disabled
-              ? "bg-gray-400 cursor-not-allowed text-white"
-              : "bg-red-600 text-white"
-          }`}
-          onClick={() =>
-            !disabled &&
-            !hallApproved &&
-            handleAdminApprove(row.original.gstApplicationId)
-          }
-        >
-          {hallApproved ? "Approved" : "Pending"}
-        </button>
-      );
-    },
+    return (
+      <button
+        disabled={!deanApproved} 
+        className={`px-3 py-1 rounded ${
+          hallApproved
+            ? "bg-green-500 text-white"
+            : !deanApproved
+            ? "bg-gray-400 cursor-not-allowed text-white"
+            : "bg-red-600 text-white"
+        }`}
+        onClick={() =>
+          deanApproved && !hallApproved &&
+          handleAdminApprove(row.original.gstApplicationId)
+        }
+      >
+        {hallApproved ? "Approved" : "Pending"}
+      </button>
+    );
   },
+},
+
 ];
 
 

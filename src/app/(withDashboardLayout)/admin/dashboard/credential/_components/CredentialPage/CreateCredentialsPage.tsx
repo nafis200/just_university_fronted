@@ -139,6 +139,9 @@ const CreateCredentialsPage = () => {
                     <SelectItem value="HALL_REGISTER">
                       Hall Register / হল রেজিস্টার
                     </SelectItem>
+                    <SelectItem value="MEDICAL">
+                      Medical Register / মেডিকেল রেজিস্টার
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.role && (

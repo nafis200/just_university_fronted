@@ -140,7 +140,7 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
     },
 
     {
-      header: "Medical",
+      header: "Medical Status",
       accessorFn: (row) => row.Approved?.medicalApproved,
       cell: ({ row }) => {
         const ok = row.original?.Approved?.medicalApproved;
@@ -155,7 +155,7 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
     },
 
     {
-      header: "Hall",
+      header: "Hall Status",
       accessorFn: (row) => row.Approved?.hallRegisterApproved,
       cell: ({ row }) => {
         const ok = row.original?.Approved?.hallRegisterApproved;
@@ -170,7 +170,7 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
     },
 
     {
-      header: "Dean",
+      header: "Dean Status",
       accessorFn: (row) => row.Approved?.deanApproved,
       cell: ({ row }) => {
         const ok = row.original?.Approved?.deanApproved;

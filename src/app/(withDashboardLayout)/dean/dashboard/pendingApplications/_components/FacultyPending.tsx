@@ -125,84 +125,32 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
     },
 
     {
-      header: "Register",
-      accessorFn: (row) => row.Approved?.registerApproved,
-      cell: ({ row }) => {
-        const ok = row.original?.Approved?.registerApproved;
-        return ok ? (
-          <span className="flex items-center justify-center gap-1 text-green-600">
-            Approved
-          </span>
-        ) : (
-          <X className="text-red-600 mx-auto" />
-        );
-      },
-    },
+  header: "Dean Approved",
+  accessorFn: (row) => row.Approved?.deanApproved,
+  cell: ({ row }) => {
+    const deanApproved = row.original?.Approved?.deanApproved;
+
+    return (
+      <button
+        disabled={deanApproved}
+        className={`px-3 py-1 rounded ${
+          deanApproved
+            ? "bg-green-500 text-white"
+            : "bg-red-600 text-white"
+        }`}
+        onClick={() =>
+          !deanApproved &&
+          handleAdminApprove(row.original.gstApplicationId)
+        }
+      >
+        {deanApproved ? "Approved" : "Pending"}
+      </button>
+    );
+  },
+},
 
     {
-      header: "Medical",
-      accessorFn: (row) => row.Approved?.medicalApproved,
-      cell: ({ row }) => {
-        const ok = row.original?.Approved?.medicalApproved;
-        return ok ? (
-          <span className="flex items-center justify-center gap-1 text-green-600">
-            Approved
-          </span>
-        ) : (
-          <X className="text-red-600 mx-auto" />
-        );
-      },
-    },
-
-    {
-      header: "Hall",
-      accessorFn: (row) => row.Approved?.hallRegisterApproved,
-      cell: ({ row }) => {
-        const ok = row.original?.Approved?.hallRegisterApproved;
-        return ok ? (
-          <span className="flex items-center justify-center gap-1 text-green-600">
-            Approved
-          </span>
-        ) : (
-          <X className="text-red-600 mx-auto" />
-        );
-      },
-    },
-
-    {
-      header: "Dean Approved",
-      accessorFn: (row) => row.Approved?.deanApproved,
-      cell: ({ row }) => {
-        const deanApproved = row.original?.Approved?.deanApproved;
-        const registerApproved = row.original?.Approved?.registerApproved;
-        const medicalApproved = row.original?.Approved?.medicalApproved;
-        const hallApproved = row.original?.Approved?.hallRegisterApproved;
-
-        const disabled = !registerApproved || !medicalApproved || !hallApproved;
-
-        return (
-          <button
-            disabled={disabled}
-            className={`px-3 py-1 rounded ${
-              deanApproved
-                ? "bg-green-500 text-white"
-                : disabled
-                ? "bg-gray-400 cursor-not-allowed text-white"
-                : "bg-red-600 text-white"
-            }`}
-            onClick={() =>
-              !disabled &&
-              !deanApproved &&
-              handleAdminApprove(row.original.gstApplicationId)
-            }
-          >
-            {deanApproved ? "Approved" : "Pending"}
-          </button>
-        );
-      },
-    },
-    {
-      header: "Delete",
+      header: "Cancel Admision",
       cell: ({ row }) => {
         const gstApplicationId = row.original.gstApplicationId;
         return (
@@ -211,7 +159,7 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
             className="px-2 py-1 bg-red-600 text-white rounded flex items-center gap-1 hover:bg-red-700"
           >
             <Trash2 size={16} />
-            Delete
+            Cancel Admission
           </button>
         );
       },
