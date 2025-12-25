@@ -236,6 +236,18 @@ const data = {
       ],
     },
     {
+      title: "Recived Documents",
+      url: "#",
+      icon: FileText,
+      isActive: true,
+      items: [
+        {
+          title: "Students Documents",
+          url: "/dean/dashboard/documents",
+        },
+      ],
+    },
+    {
       title: "Upload Documents",
       url: "#",
       icon: Upload,
@@ -412,18 +424,6 @@ const data = {
       ],
     },
 
-    {
-      title: "Recived Documents",
-      url: "#",
-      icon: FileText,
-      isActive: true,
-      items: [
-        {
-          title: "Students Documents",
-          url: "/medical/dashboard/documents",
-        },
-      ],
-    },
     {
       title: "Upload Documents",
       url: "#",

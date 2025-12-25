@@ -1,39 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useRouter } from "next/navigation";
 
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import TablePagination from "@/components/Resuable_Table/core/NMTable/TablePagination";
 import { NMTable } from "@/components/Resuable_Table/core/NMTable";
 import NewResuableSearchOption from "@/components/resubaleSearchoptions/NewResuableSearchOption";
-import { showDynamicAlert } from "@/components/resuble_toast/showDeleteAlert";
-import { createApproved } from "@/services/ApprovedServices";
 import { showToast } from "@/components/resuble_toast/toast";
 import { useUser } from "@/context/UserContext";
-import { CHselect } from "@/components/reusable_form/form/CHselect";
-import { SerachDeprtment } from "@/app/(withCommonLayout)/profile/_components/ProfileData";
-import { createOthersInfoRole } from "@/services/StudentsServices";
-import { X, Trash2 } from "lucide-react";
-import { deleteUserByGstApplicationId } from "@/services/AuthServices";
-import { createDocuments } from "@/services/DocumentServices";
-import type { FieldValues } from "react-hook-form";
 
-interface FacultyPendingProps {
+import { FieldValues } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { createDocuments } from "@/services/DocumentServices";
+
+interface DocumentsProps {
   applications: any[];
   meta?: any;
 }
 
-const FacultyPending: React.FC<FacultyPendingProps> = ({
-  applications,
-  meta,
-}) => {
+const Documents: React.FC<DocumentsProps> = ({ applications, meta }) => {
   const { user } = useUser();
   const router = useRouter();
-  if (!user) {
-    return <div>Loading...</div>;
-  }
+  if (!user) return <div>Loading...</div>;
 
   const handleDocumentUpdate = async (
     gstApplicationId: string,
@@ -55,57 +44,6 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
     }
   };
 
-  const handleDelete = async (gstApplicationId: string) => {
-    const confirmed = await showDynamicAlert({
-      confirmTitle: "Cancel Admission?",
-      confirmText:
-        "Do you really want to Cancel Admission this user and all related data?",
-      confirmButtonText: "Yes, Cancel Admission!",
-      cancelButtonText: "Cancel",
-      successTitle: "Cancel Admission!",
-      successText: `User ${gstApplicationId} Cancel Admission successfully`,
-      icon: "warning",
-      itemName: `GST Application ID: ${gstApplicationId}`,
-    });
-
-    if (!confirmed) return;
-
-    const result = await deleteUserByGstApplicationId(gstApplicationId);
-    if (result) {
-      showToast(`User ${gstApplicationId} deleted successfully`, "success");
-      router.refresh();
-    } else {
-      showToast(`Failed to delete user ${gstApplicationId}`, "error");
-    }
-  };
-
-  const handleAdminApprove = async (gstApplicationId: string) => {
-    const confirmed = await showDynamicAlert({
-      confirmTitle: "Approve Application?",
-      confirmText: "Do you want to approve this application as Faculty?",
-      confirmButtonText: "Yes, approve it!",
-      cancelButtonText: "Cancel",
-      successTitle: "Approved!",
-      successText: "Application has been approved as Admin.",
-      icon: "warning",
-      itemName: `GST Application ID: ${gstApplicationId}`,
-    });
-
-    if (confirmed) {
-      try {
-        await createApproved({ gstApplicationId, deanApproved: true });
-        router.refresh();
-        showToast(
-          `Application ${gstApplicationId} approved successfully`,
-          "success"
-        );
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (error) {
-        showToast(`Failed to approve application ${gstApplicationId}`, "error");
-      }
-    }
-  };
-
   const columns: ColumnDef<any>[] = [
     { accessorKey: "gstApplicationId", header: "GST Application ID" },
     { accessorKey: "unit", header: "Unit" },
@@ -113,37 +51,6 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
     {
       accessorFn: (row) => row.OthersInfo?.Department || "N/A",
       header: "Department",
-    },
-    { accessorFn: (row) => row.EducationalInfo?.HSCBoard, header: "HSC Board" },
-    { accessorFn: (row) => row.EducationalInfo?.HSCRoll, header: "HSC Roll" },
-    { accessorFn: (row) => row.EducationalInfo?.HSCYear, header: "HSC Year" },
-
-    {
-      header: "Change Department",
-      cell: ({ row }) => {
-        const item = row.original;
-
-        return (
-          <CHselect
-            name="department"
-            options={SerachDeprtment}
-            placeholder="Select Department"
-            value={item?.OthersInfo?.Department || ""}
-            onChange={async (value) => {
-              try {
-                await createOthersInfoRole({
-                  gstApplicationId: item.gstApplicationId,
-                  Department: value,
-                });
-                showToast("Department updated", "success");
-                router.refresh();
-              } catch {
-                showToast("Failed to update", "error");
-              }
-            }}
-          />
-        );
-      },
     },
     {
       header: "SSC Marksheet",
@@ -302,59 +209,19 @@ const FacultyPending: React.FC<FacultyPendingProps> = ({
         );
       },
     },
-
-    {
-      header: "Dean Approved",
-      accessorFn: (row) => row.Approved?.deanApproved,
-      cell: ({ row }) => {
-        const deanApproved = row.original?.Approved?.deanApproved;
-
-        return (
-          <button
-            disabled={deanApproved}
-            className={`px-3 py-1 rounded ${
-              deanApproved ? "bg-green-500 text-white" : "bg-red-600 text-white"
-            }`}
-            onClick={() =>
-              !deanApproved && handleAdminApprove(row.original.gstApplicationId)
-            }
-          >
-            {deanApproved ? "Approved" : "Pending"}
-          </button>
-        );
-      },
-    },
-
-    {
-      header: "Cancel Admision",
-      cell: ({ row }) => {
-        const gstApplicationId = row.original.gstApplicationId;
-        return (
-          <button
-            onClick={() => handleDelete(gstApplicationId)}
-            className="px-2 py-1 bg-red-600 text-white rounded flex items-center gap-1 hover:bg-red-700"
-          >
-            <Trash2 size={16} />
-            Cancel Admission
-          </button>
-        );
-      },
-    },
   ];
 
   return (
     <div className="mt-5">
       <NewResuableSearchOption
         applications={applications}
-        currentUnit={user.unit}
-        fileName="DeanData.xlsx"
+        currentUnit="all"
+        fileName="DocumentsData.xlsx"
       />
-
       <NMTable data={applications} columns={columns} />
-
       <TablePagination totalPage={meta?.total} />
     </div>
   );
 };
 
-export default FacultyPending;
+export default Documents;
