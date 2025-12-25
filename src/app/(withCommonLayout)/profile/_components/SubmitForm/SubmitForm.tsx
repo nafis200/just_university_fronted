@@ -14,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { createComplain } from "@/services/ComplainServices";
+import { showToast } from "@/components/resuble_toast/toast";
 
 const SubmitForm = ({ result, res2 }: any) => {
   const { user } = useUser();
@@ -140,13 +142,23 @@ const SubmitForm = ({ result, res2 }: any) => {
     }
   };
 
-  const handleComplainSubmit = () => {
-    console.log({
-      gstApplicationId: user.gstApplicationId,
-      complain,
-    });
-    setComplain("");
-  };
+  const handleComplainSubmit = async () => {
+  if (!complain) return alert("Complain field is empty!");
+
+  try {
+    const result = await createComplain(user.gstApplicationId, complain);
+
+    if (result) {
+      showToast("Submitted Complain SuccessFully!", "success");
+      setComplain(""); 
+    } else {
+      showToast("Dosent Submit please try again!", "error");
+    }
+  } catch (error) {
+    console.error("Error submitting complain:", error);
+    alert("Something went wrong!");
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">

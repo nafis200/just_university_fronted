@@ -65,7 +65,18 @@ const data = {
         { title: "Delete Documents", url: "/admin/dashboard/readDrive" },
       ],
     },
-
+    {
+      title: "Complain",
+      url: "#",
+      icon: CheckCircle,
+      isActive: true,
+      items: [
+        {
+          title: "Pending Complain",
+          url: "/admin/dashboard/complainpending",
+        },
+      ],
+    },
     {
       title: "Credentails",
       url: "#",
@@ -167,7 +178,7 @@ const data = {
       ],
     },
 
-     {
+    {
       title: "Upload Documents",
       url: "#",
       icon: Upload,
@@ -224,8 +235,7 @@ const data = {
         },
       ],
     },
-
-     {
+    {
       title: "Upload Documents",
       url: "#",
       icon: Upload,
@@ -252,7 +262,7 @@ const data = {
       ],
     },
   ],
-   navMainRegister: [
+  navMainRegister: [
     {
       title: "Applicant List",
       url: "#",
@@ -283,7 +293,7 @@ const data = {
       ],
     },
 
-     {
+    {
       title: "Upload Documents",
       url: "#",
       icon: Upload,
@@ -310,7 +320,7 @@ const data = {
       ],
     },
   ],
-   navMainHallRegister: [
+  navMainHallRegister: [
     {
       title: "Applicant List",
       url: "#",
@@ -341,7 +351,7 @@ const data = {
       ],
     },
 
-     {
+    {
       title: "Upload Documents",
       url: "#",
       icon: Upload,
@@ -351,7 +361,10 @@ const data = {
           title: "Upload Required Documents",
           url: "/hall_register/dashboard/uploaddrive",
         },
-        { title: "Delete Documents", url: "/hall_register/dashboard/readDrive" },
+        {
+          title: "Delete Documents",
+          url: "/hall_register/dashboard/readDrive",
+        },
       ],
     },
 
@@ -368,7 +381,7 @@ const data = {
       ],
     },
   ],
-   navMainMedical: [
+  navMainMedical: [
     {
       title: "Applicant List",
       url: "#",
@@ -399,7 +412,7 @@ const data = {
       ],
     },
 
-     {
+    {
       title: "Recived Documents",
       url: "#",
       icon: FileText,
@@ -409,10 +422,9 @@ const data = {
           title: "Students Documents",
           url: "/medical/dashboard/documents",
         },
-
       ],
     },
-     {
+    {
       title: "Upload Documents",
       url: "#",
       icon: Upload,
@@ -448,13 +460,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     admin: data.navMain,
     dean: data.navMainDean,
     faculty: data.navMainFaculty,
-    register:data.navMainRegister,
+    register: data.navMainRegister,
     student: data.navMainuser,
-    hall_register:data.navMainHallRegister,
-    medical:data.navMainMedical
+    hall_register: data.navMainHallRegister,
+    medical: data.navMainMedical,
   };
-
-  
 
   if (!user) {
     return (
