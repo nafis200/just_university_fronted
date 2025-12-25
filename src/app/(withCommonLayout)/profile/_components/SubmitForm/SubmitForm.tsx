@@ -115,7 +115,8 @@ const SubmitForm = ({ result, res2 }: any) => {
     Pogram: rawStudent.OthersInfo?.Program,
     HallName: rawStudent.OthersInfo?.HallName,
     Merit: rawStudent.OmrResult?.Position,
-    Unit: rawStudent.unit,
+    unit: rawStudent.unit,
+    Session: `${new Date().getFullYear() - 1}-${new Date().getFullYear()}`
   };
 
   const handleDownloadPdf = async () => {
